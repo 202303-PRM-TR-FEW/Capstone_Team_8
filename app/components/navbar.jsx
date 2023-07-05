@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
 
 	return (
 		<nav className=' w-full border-gray-200 bg-[#d4ee26]'>
@@ -77,10 +78,10 @@ const Navbar = () => {
 					{' '}
 					<button
 						className='lg:hidden text-gray-500  hover:scale-105  focus:outline-none focus:ring-4  rounded-lg text-sm p-2.5 mr-1'
-						onClick={() => setIsOpen(!isOpen)}
+						onClick={() => setIsSeachBarOpen(!isSearchBarOpen)}
 					>
 						<svg
-							className='w-5 h-5 text-gray-500'
+							className='w-6  h-6 sm:w-7 sm:h-7 text-gray-500'
 							aria-hidden='true'
 							fill='currentColor'
 							viewBox='0 0 20 20'
@@ -99,7 +100,7 @@ const Navbar = () => {
 					>
 						<span className='sr-only'>Open menu</span>
 						<svg
-							className='w-6 h-6'
+							className='w-6 h-6 sm:w-8 sm:h-8'
 							aria-hidden='true'
 							fill='currentColor'
 							viewBox='0 0 20 20'
@@ -115,25 +116,24 @@ const Navbar = () => {
 				</div>
 
 				{isOpen && (
-					<div className='items-center absolute lg:hidden top-0 left-0 bg-black   w-full h-[100dvh]   '>
+					<div className='justify-between sm:justify-end flex flex-col py-4 px-4 absolute lg:hidden top-0 left-0 bg-black   w-full h-[100dvh] transition duration-150 ease-in-out   '>
 						<button
 							onClick={() => {
 								setIsOpen(!isOpen);
 							}}
-							className='text-white absolute left-0 top-0 bg-transparent p-4 text-2xl'
+							className='text-white absolute left-0 top-0 bg-transparent p-4  text-3xl sm:text-5xl'
 						>
 							x
 						</button>
-						<p className='text-white absolute right-0 top-0 pt-4 pr-4 text-5xl'>
+						<p className='text-white absolute right-0 top-0 pt-4 pr-4  text-3xl sm:text-5xl'>
 							Givingly
 						</p>
 
-						<ul className='flex flex-col justify-center items-center content-start  gap-12  p-4 md:p-0 font-medium  bg-black h-[100dvh] w-full    '>
-							<li></li>
+						<ul className='flex flex-col justify-center  items-center   gap-12 sm:gap-16  p-4 md:p-0 font-medium  bg-black h-[80dvh] w-full    '>
 							<li className='border-white border-b-2 w-full  pb-4 '>
 								<a
 									href='#'
-									className='block py-2 pl-3 pr-4 text-5xl  text-white rounded     hover:drop-shadow-xl '
+									className='block py-2 pl-3 pr-4 text-3xl sm:text-8xl  text-white rounded     hover:drop-shadow-xl '
 									aria-current='page'
 								>
 									Home
@@ -142,28 +142,62 @@ const Navbar = () => {
 							<li className='border-white border-b-2 w-full  pb-4 '>
 								<a
 									href='#'
-									className='block py-2 pl-3 pr-4 text-white rounded text-5xl hover:drop-shadow-xl '
+									className='block py-2 pl-3 pr-4 text-white rounded text-3xl sm:text-8xl hover:drop-shadow-xl '
 								>
 									My projects
 								</a>
 							</li>
-							<li className='border-white border-b-2 w-full  pb-4  '>
+							<li className=' w-full  pb-4  mb-12 '>
 								<a
 									href='#'
-									className='block py-2 pl-3 pr-4 text-white rounded text-5xl hover:drop-shadow-xl '
+									className='block py-4  pl-3 pr-4 text-white rounded text-3xl sm:text-8xl hover:drop-shadow-xl '
 								>
 									Profile
 								</a>
 							</li>
-							<li className='w-full text-center '>
-								<a
-									href='#'
-									className='block py-2 pl-3 pr-4 w-full text-lg sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
-								>
-									New project
-								</a>
-							</li>
 						</ul>
+						<button
+							onClick={() => {
+								setIsOpen(!isOpen);
+							}}
+							className='w-full justify-self-end  '
+						>
+							<a
+								href='#'
+								className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
+							>
+								New project
+							</a>
+						</button>
+					</div>
+				)}
+				{isSearchBarOpen && (
+					<div className='justify-center gap-12 flex flex-col py-4 px-4 absolute lg:hidden top-0 left-0 bg-black   w-full h-[100dvh] transition duration-150 ease-in-out   '>
+						<button
+							onClick={() => setIsSeachBarOpen(!isSearchBarOpen)}
+							className='text-white absolute left-0 top-0 bg-transparent p-4  text-3xl sm:text-5xl'
+						>
+							x
+						</button>
+						<p className='text-white absolute right-0 top-0 pt-4 pr-4  text-3xl sm:text-5xl'>
+							Givingly
+						</p>
+						<input
+							placeholder='Search project'
+							className=' rounded p-2 sm:p-6 text-base sm:text-3xl'
+							type='text'
+						/>
+						<button
+							onClick={() => setIsSeachBarOpen(!isSearchBarOpen)}
+							className='w-full justify-self-end  '
+						>
+							<a
+								href='#'
+								className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
+							>
+								Search
+							</a>
+						</button>
 					</div>
 				)}
 			</div>
