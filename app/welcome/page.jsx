@@ -1,7 +1,7 @@
 const Welcome = () => {
 	return (
 		<>
-			<div className=' w-full h-[100dvh] bg-[#d4ee26] lg:px-28  lg:py-56 py-28 '>
+			<div className=' w-full h-[88dvh] sm:h-[92.9dvh] lg:h-[100dvh] bg-[#d4ee26] lg:px-28  lg:py-56 py-28 '>
 				<div className='welcome-desktop w-full  h-full hidden lg:flex justify-end lg:justify-start  items-end lg:items-center  '>
 					<div className='lg:w-1/3  flex gap-8 flex-col lg:ml-36 ml-6 mr-6'>
 						<h1 className='text-8xl font-bold'>Givingly</h1>
@@ -34,7 +34,7 @@ const Welcome = () => {
 					</div>
 				</div>
 
-				<div className='welcome-mobile w-full  h-full flex md:hidden justify-center      '>
+				<div className='welcome-mobile w-full  h-full flex md:hidden justify-center px-12     '>
 					<div className=' w-full flex  flex-col justify-between  '>
 						<h1 className='text-6xl font-bold px-4 text-center'>Givingly</h1>
 

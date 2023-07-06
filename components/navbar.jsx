@@ -7,7 +7,7 @@ const Navbar = () => {
 	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
 
 	return (
-		<nav className=' w-full border-gray-200 bg-[#d4ee26] fixed top-0 left-0'>
+		<nav className=' w-full border-gray-200 bg-[#d4ee26] '>
 			<div className=' flex flex-wrap items-center justify-between mx-auto p-4 relative'>
 				<a href='#' className='flex items-center'>
 					<span className='self-center text-2xl font-semibold whitespace-nowrap'>
@@ -116,7 +116,7 @@ const Navbar = () => {
 				</div>
 
 				{isOpen && (
-					<div className='justify-between sm:justify-end flex flex-col py-4 px-4 absolute lg:hidden top-0 left-0 bg-black   w-full h-[100dvh] transition duration-150 ease-in-out   '>
+					<div className='justify-between sm:justify-end flex flex-col py-4 px-4 absolute lg:hidden top-0 left-0 bg-black  w-full transition duration-150 ease-in-out h-[100dvh]     '>
 						<button
 							onClick={() => {
 								setIsOpen(!isOpen);
@@ -129,7 +129,7 @@ const Navbar = () => {
 							Givingly
 						</p>
 
-						<ul className='flex flex-col justify-center  items-center   gap-12 sm:gap-16  p-4 md:p-0 font-medium  bg-black h-[80dvh] w-full    '>
+						<ul className='flex flex-col justify-center  items-center   gap-12 sm:gap-16  p-4 md:p-0 font-medium  bg-black h-[100dvh] w-full    '>
 							<li className='border-white border-b-2 w-full  pb-4 '>
 								<a
 									href='#'
@@ -160,11 +160,11 @@ const Navbar = () => {
 							onClick={() => {
 								setIsOpen(!isOpen);
 							}}
-							className='w-full justify-self-end  '
+							className='w-full  '
 						>
 							<a
 								href='#'
-								className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
+								className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl   '
 							>
 								New project
 							</a>
