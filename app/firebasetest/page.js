@@ -68,7 +68,7 @@ function Page() {
   }, []);
 
   // Update data
-  const handleUpdate = async (data) => {
+  const createDoc = async (data) => {
     await addDoc(collection(db, "app"), {
       title: data.title,
       funded: data.funded,
@@ -114,35 +114,36 @@ function Page() {
         ))}
       </div>
       <div>
-        <form onSubmit={handleSubmit(handleUpdate)}>
+        <form onSubmit={handleSubmit(createDoc)}>
+          <p>Title</p>
           <input
             name="title"
             {...register("title")}
             className="border-2 border-black"
           />
           {errors.title && <p>{errors.title.message}</p>}
-
+          <p>Funded</p>
           <input
             name="funded"
             {...register("funded")}
             className="border-2 border-black"
           />
           {errors.funded && <p>{errors.funded.message}</p>}
-
+          <p>Goal</p>
           <input
             name="goal"
             {...register("goal")}
             className="border-2 border-black"
           />
           {errors.goal && <p>{errors.goal.message}</p>}
-
+          <p>Desc</p>
           <input
             name="desc"
             {...register("desc")}
             className="border-2 border-black"
           />
           {errors.desc && <p>{errors.desc.message}</p>}
-
+          <p>File</p>
           <input
             type="file"
             {...register("img")}
