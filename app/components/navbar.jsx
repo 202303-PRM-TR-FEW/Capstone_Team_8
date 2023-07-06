@@ -7,8 +7,8 @@ const Navbar = () => {
 	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
 
 	return (
-		<nav className=' w-full border-gray-200 bg-[#d4ee26]'>
-			<div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4 relative'>
+		<nav className=' w-full border-gray-200 bg-[#d4ee26] fixed top-0 left-0'>
+			<div className=' flex flex-wrap items-center justify-between mx-auto p-4 relative'>
 				<a href='#' className='flex items-center'>
 					<span className='self-center text-2xl font-semibold whitespace-nowrap'>
 						Givingly

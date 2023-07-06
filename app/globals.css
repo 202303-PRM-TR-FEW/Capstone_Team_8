@@ -9,4 +9,25 @@
 	background-repeat: no-repeat;
 	border-radius: 8px;
 	border: 0px;
+
+}
+
+.welcome-tablet{
+	background-image: url(../public/welcome_tablet.png);
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	border-radius: 8px;
+	border: 0px;
+
+}
+
+.welcome-mobile{
+	background-image: url(../public/welcome_mobile.png);
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	border-radius: 8px;
+	border: 0px;
+
 }
