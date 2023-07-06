@@ -22,6 +22,7 @@ function Page() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   const schema = yup.object().shape({
     title: yup
@@ -90,6 +91,13 @@ function Page() {
       goal: data.goal,
       desc: data.desc,
       img: imageUrl,
+
+      donations: [
+        {
+          userID: user.uid,
+          donations: data.funded,
+        },
+      ],
     });
     setImageUrl("");
     reset();
@@ -134,7 +142,8 @@ function Page() {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
+        displayName
       );
       setUser(user);
       setIsLoggedIn(true);
@@ -260,6 +269,16 @@ function Page() {
                   id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label htmlFor="displayName">First Name</label>
+                <input
+                  type="text"
+                  id="displayName"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   required
                 />
               </div>
