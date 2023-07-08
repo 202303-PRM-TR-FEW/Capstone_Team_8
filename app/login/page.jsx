@@ -2,7 +2,6 @@
 //import firebase.js correctly
 
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 // import { useDispatch } from 'react-redux';
 import { login } from "../../firebase/firebase";
 
@@ -111,7 +110,7 @@ export default function Login() {
         <div className="flex justify-center">
           <button
             className="text-center"
-            onClick={() => router.push("/resetPassword")}
+            // onClick={() => router.push("/resetPassword")}
           >
             Forgot Password
           </button>
@@ -120,9 +119,9 @@ export default function Login() {
           Dont have an account?{" "}
           <button
             className="text-[#D8605B] font-bold pl-2"
-            onClick={() => {
-              router.push("/register");
-            }}
+            // onClick={() => {
+            //   router.push("/register");
+            // }}
           >
             Register
           </button>
