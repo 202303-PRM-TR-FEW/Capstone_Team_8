@@ -41,8 +41,6 @@ export default function Login() {
 
     if (user) {
       router.push("/welcome");
-    } else {
-      router.push("/login");
     }
   };
 
