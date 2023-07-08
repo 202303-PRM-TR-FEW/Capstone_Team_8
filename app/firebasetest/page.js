@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -11,8 +10,8 @@ import {
 import { useForm } from "react-hook-form";
 import { query, collection, onSnapshot, addDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebase";
-import { db } from "../firebase";
+import { storage } from "../../firebase/firebase";
+import { db } from "../../firebase/firebase";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -38,18 +37,10 @@ function Page() {
       .string()
       .trim("No leading/trailing white spaces allowed")
       .required("Goal is required"),
-    startTime: yup
+    funded: yup
       .string()
       .trim("No leading/trailing white spaces allowed")
-      .required("Start time is required"),
-    endTime: yup
-      .string()
-      .trim("No leading/trailing white spaces allowed")
-      .required("End time is required"),
-    category: yup
-      .string()
-      .trim("No leading/trailing white spaces allowed")
-      .required("Category is required"),
+      .required("Funded amount is required"),
     img: yup.mixed().required("A file is required"),
   });
 
@@ -96,13 +87,17 @@ function Page() {
   const createDoc = async (data) => {
     await addDoc(collection(db, "app"), {
       title: data.title,
-      desc: data.desc,
+      funded: data.funded,
       goal: data.goal,
-      startTime: data.startTime,
-      endTime: data.endTime,
-      category: data.category,
+      desc: data.desc,
       img: imageUrl,
-      donations: [],
+
+      donations: [
+        {
+          userID: user.uid,
+          donations: data.funded,
+        },
+      ],
     });
     setImageUrl("");
     reset();
@@ -111,7 +106,6 @@ function Page() {
   const handleUpload = async (event) => {
     event.preventDefault();
     const file = event.target.files[0];
-
     try {
       const downloadURL = await uploadImage(file);
       setImageUrl(downloadURL);
@@ -120,7 +114,7 @@ function Page() {
     }
   };
 
-  const uploadImage = (imageFile) => {
+  const uploadImage = async (imageFile) => {
     const storageRef = ref(storage, "bucket/" + imageFile.name);
     return uploadBytes(storageRef, imageFile).then((snapshot) => {
       return getDownloadURL(snapshot.ref);
@@ -169,7 +163,7 @@ function Page() {
       console.error("Error signing out:", error);
     }
   };
-
+  console.log(user);
   return (
     <div>
       <div>
@@ -183,9 +177,6 @@ function Page() {
                   <p>Goal: {item.goal}</p>
                   <p>Description: {item.desc}</p>
                   <img className="w-36 h-36" src={item.img} alt="" />
-                  <p>Starting Time: {item.startTime} </p>
-                  <p>Ending Time: {item.endTime}</p>
-                  <p>Category : {item.category}</p>
                   <hr />
                 </div>
               ))}
@@ -199,13 +190,13 @@ function Page() {
                   className="border-2 border-black"
                 />
                 {errors.title && <p>{errors.title.message}</p>}
-                <p>Desc</p>
+                <p>Funded</p>
                 <input
-                  name="desc"
-                  {...register("desc")}
+                  name="funded"
+                  {...register("funded")}
                   className="border-2 border-black"
                 />
-                {errors.desc && <p>{errors.desc.message}</p>}
+                {errors.funded && <p>{errors.funded.message}</p>}
                 <p>Goal</p>
                 <input
                   name="goal"
@@ -213,35 +204,13 @@ function Page() {
                   className="border-2 border-black"
                 />
                 {errors.goal && <p>{errors.goal.message}</p>}
-                <p>Start Time</p>
+                <p>Desc</p>
                 <input
-                  name="startTime"
-                  type="date"
-                  {...register("startTime")}
+                  name="desc"
+                  {...register("desc")}
                   className="border-2 border-black"
                 />
-                {errors.startTime && <p>{errors.startTime.message}</p>}
-                <p>End Time</p>
-                <input
-                  name="endTime"
-                  type="date"
-                  {...register("endTime")}
-                  className="border-2 border-black"
-                />
-                {errors.timeframe && <p>{errors.timeframe.message}</p>}
-                <p>Category</p>
-                <select
-                  name="category"
-                  {...register("category")}
-                  className="border-2 border-black"
-                >
-                  <option value="">Select a category</option>
-                  <option value="Product-Based">Product-Based</option>
-                  <option value="Creative Projects">Creative Projects</option>
-                  <option value="Technology">Technology</option>
-                  <option value="Social Cause">Social Cause</option>
-                </select>
-                {errors.category && <p>{errors.category.message}</p>}
+                {errors.desc && <p>{errors.desc.message}</p>}
                 <p>File</p>
                 <input
                   type="file"
@@ -250,6 +219,7 @@ function Page() {
                   onChange={handleUpload}
                 />
                 {errors.img && <p>{errors.img.message}</p>}
+
                 <button type="submit">Update</button>
               </form>
             </div>
