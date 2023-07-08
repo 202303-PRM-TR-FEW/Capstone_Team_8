@@ -12,21 +12,21 @@ export const useAuthContext = () => React.useContext(AuthContext);
 export const AuthContextProvider = ({ children }) => {
   const auth = getAuth();
   const [user, setUser] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [redirected, setRedirected] = useState(false);
   const router = useRouter();
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         setUser(false);
         router.push("/login");
+        setRedirected(true);
       } else {
         setUser(true);
       }
-      setLoading(false);
     });
 
     return () => unsubscribe();
-  }, [auth, router]);
+  }, [auth, router, redirected]);
 
   return (
     <AuthContext.Provider value={{ user }}> {children}</AuthContext.Provider>
