@@ -1,5 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
+
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -37,10 +38,18 @@ function Page() {
       .string()
       .trim("No leading/trailing white spaces allowed")
       .required("Goal is required"),
-    funded: yup
+    startTime: yup
       .string()
       .trim("No leading/trailing white spaces allowed")
-      .required("Funded amount is required"),
+      .required("Start time is required"),
+    endTime: yup
+      .string()
+      .trim("No leading/trailing white spaces allowed")
+      .required("End time is required"),
+    category: yup
+      .string()
+      .trim("No leading/trailing white spaces allowed")
+      .required("Category is required"),
     img: yup.mixed().required("A file is required"),
   });
 
@@ -87,17 +96,13 @@ function Page() {
   const createDoc = async (data) => {
     await addDoc(collection(db, "app"), {
       title: data.title,
-      funded: data.funded,
-      goal: data.goal,
       desc: data.desc,
+      goal: data.goal,
+      startTime: data.startTime,
+      endTime: data.endTime,
+      category: data.category,
       img: imageUrl,
-
-      donations: [
-        {
-          userID: user.uid,
-          donations: data.funded,
-        },
-      ],
+      donations: [],
     });
     setImageUrl("");
     reset();
@@ -164,7 +169,7 @@ function Page() {
       console.error("Error signing out:", error);
     }
   };
-  console.log(user);
+
   return (
     <div>
       <div>
@@ -178,6 +183,9 @@ function Page() {
                   <p>Goal: {item.goal}</p>
                   <p>Description: {item.desc}</p>
                   <img className="w-36 h-36" src={item.img} alt="" />
+                  <p>Starting Time: {item.startTime} </p>
+                  <p>Ending Time: {item.endTime}</p>
+                  <p>Category : {item.category}</p>
                   <hr />
                 </div>
               ))}
@@ -191,20 +199,6 @@ function Page() {
                   className="border-2 border-black"
                 />
                 {errors.title && <p>{errors.title.message}</p>}
-                <p>Funded</p>
-                <input
-                  name="funded"
-                  {...register("funded")}
-                  className="border-2 border-black"
-                />
-                {errors.funded && <p>{errors.funded.message}</p>}
-                <p>Goal</p>
-                <input
-                  name="goal"
-                  {...register("goal")}
-                  className="border-2 border-black"
-                />
-                {errors.goal && <p>{errors.goal.message}</p>}
                 <p>Desc</p>
                 <input
                   name="desc"
@@ -212,6 +206,42 @@ function Page() {
                   className="border-2 border-black"
                 />
                 {errors.desc && <p>{errors.desc.message}</p>}
+                <p>Goal</p>
+                <input
+                  name="goal"
+                  {...register("goal")}
+                  className="border-2 border-black"
+                />
+                {errors.goal && <p>{errors.goal.message}</p>}
+                <p>Start Time</p>
+                <input
+                  name="startTime"
+                  type="date"
+                  {...register("startTime")}
+                  className="border-2 border-black"
+                />
+                {errors.startTime && <p>{errors.startTime.message}</p>}
+                <p>End Time</p>
+                <input
+                  name="endTime"
+                  type="date"
+                  {...register("endTime")}
+                  className="border-2 border-black"
+                />
+                {errors.timeframe && <p>{errors.timeframe.message}</p>}
+                <p>Category</p>
+                <select
+                  name="category"
+                  {...register("category")}
+                  className="border-2 border-black"
+                >
+                  <option value="">Select a category</option>
+                  <option value="Product-Based">Product-Based</option>
+                  <option value="Creative Projects">Creative Projects</option>
+                  <option value="Technology">Technology</option>
+                  <option value="Social Cause">Social Cause</option>
+                </select>
+                {errors.category && <p>{errors.category.message}</p>}
                 <p>File</p>
                 <input
                   type="file"
@@ -220,7 +250,6 @@ function Page() {
                   onChange={handleUpload}
                 />
                 {errors.img && <p>{errors.img.message}</p>}
-
                 <button type="submit">Update</button>
               </form>
             </div>
