@@ -1,15 +1,21 @@
+"use client";
+import React, { useState, useEffect } from "react";
 import { fetchDocById } from "../../../firebase/firebase";
 import PageLayout from "@/components/pageLayout";
-import Image from "next/image";
 import Link from "next/link";
+import FundProject from "@/components/FundProject";
 export default async function ProjectDetail({ params }) {
+  const [isOpen, setIsOpen] = useState(false);
   if (!params || !params.id) {
     return <div>Error: Missing user ID</div>;
   }
   const projectDetail = await fetchDocById(params.id);
-
+  const handleClick = () => {
+    setIsOpen(true);
+  };
   return (
     <PageLayout>
+      {isOpen && <FundProject setIsOpen={setIsOpen} />}
       <section className="flex  flex-col   justify-center   h-full    md:px-12 px-6 py-24  w-full ">
         <div className="grid grid-cols-12 gap-8  justify-center items-center w-full ">
           <div className=" relative  lg:h-[70vh] w-full h-full  lg:col-span-4 flex col-span-12 ">
@@ -54,12 +60,12 @@ export default async function ProjectDetail({ params }) {
               </div>
             </div>
             <div>
-              <Link
+              <button
                 className="block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  "
-                href="/"
+                onClick={handleClick}
               >
                 Fund This project
-              </Link>
+              </button>
             </div>
           </div>
         </div>

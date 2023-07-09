@@ -4,21 +4,21 @@ const initialState = {
   modalOpen: false,
 };
 
-const projectSlice = createSlice({
-  name: "isStartProjectOpen",
+const fundSlice = createSlice({
+  name: "isFundOpen",
   initialState, // Corrected this line
   reducers: {
     // Action for opening the project modal
-    openAddProject: (state, action) => {
+    openFund: (state, action) => {
       state.modalOpen = true;
     },
     // Action for closing the project modal
-    closeAddProject: (state, action) => {
+    closeFund: (state, action) => {
       state.modalOpen = false;
     },
   },
 });
 
-export const { openAddProject, closeAddProject } = projectSlice.actions;
+export const { openFund, closeFund } = fundSlice.actions;
 
-export default projectSlice.reducer;
+export default fundSlice.reducer;
