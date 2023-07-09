@@ -12,15 +12,25 @@ import {
 	handleUpload,
 	register,
 } from '../firebase/firebase';
+import { getAuth } from 'firebase/auth';
 // import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 
 function KickOffProject() {
 	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
 
 	const [imageUrl, setImageUrl] = useState('');
+
+	const auth = getAuth();
 	const categoryOptions = ['All', 'animal', 'education', 'sport', 'denem1'];
 	const schema = yup.object().shape({
 		title: yup.string().trim().required('Title is required'),
+		about: yup
+			.string()
+			.trim()
+			.required('About is required')
+			.min(20, 'About must be at least 50 characters')
+			.max(100, 'About cannot be more than 200 characters'),
+
 		desc: yup.string().trim().required('Description is required'),
 		goal: yup.string().trim().required('Goal is required'),
 		startTime: yup.date().required('Start time is required').nullable(),
@@ -60,9 +70,11 @@ function KickOffProject() {
 			title: data.title,
 			desc: data.desc,
 			goal: data.goal,
+			about: data.about,
 			startTime: data.startTime,
 			endTime: data.endTime,
 			category: data.category,
+			userId: auth.currentUser.uid,
 			img: imageUrl,
 			donations: [],
 		});
@@ -124,6 +136,25 @@ function KickOffProject() {
 								</label>
 								<Controller
 									name='desc'
+									control={control}
+									defaultValue=''
+									render={({ field }) => (
+										<div>
+											<input
+												{...field}
+												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+											/>
+											{getFormErrorMessage(field.name)}
+										</div>
+									)}
+								/>
+							</div>
+							<div className='mb-4'>
+								<label className='block text-gray-700 text-sm font-bold mb-2'>
+									About Project
+								</label>
+								<Controller
+									name='about'
 									control={control}
 									defaultValue=''
 									render={({ field }) => (
