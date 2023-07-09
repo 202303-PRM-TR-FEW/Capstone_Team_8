@@ -1,3 +1,5 @@
+import PageLayout from "@/components/pageLayout"
+
 const people = [
     {
       name: 'Leslie Alexander',
@@ -45,7 +47,7 @@ const people = [
 
 function MyProject() {
     return(
-
+      <PageLayout>
         <section className=" flex lg:flex-row sm:flex-col md:flex-col justify-evenly pt-32">
             
               <div className="">
@@ -117,7 +119,7 @@ function MyProject() {
             
   
         </section>
-
+        </PageLayout>
     )
     
 }
