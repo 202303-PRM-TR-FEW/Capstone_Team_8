@@ -66,6 +66,7 @@ function KickOffProject() {
 	const dispatch = useDispatch();
 
 	const onSubmit = (data) => {
+		console.log(auth.currentUser);
 		createProject({
 			title: data.title,
 			desc: data.desc,
