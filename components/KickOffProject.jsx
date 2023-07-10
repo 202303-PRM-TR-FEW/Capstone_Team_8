@@ -17,7 +17,9 @@ import { getAuth } from 'firebase/auth';
 
 function KickOffProject() {
 	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
-
+	const kickOffModalStatus = useSelector(
+		(state) => state.isStartProjectOpen.modalOpen
+	);
 	const [imageUrl, setImageUrl] = useState('');
 
 	const auth = getAuth();
