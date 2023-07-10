@@ -10,7 +10,6 @@ import { useRouter } from "next/navigation";
 const auth = getAuth(app);
 
 export function ReduxProvider({ children }) {
-  const auth = getAuth();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -18,7 +17,7 @@ export function ReduxProvider({ children }) {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (!user) {
         setUser(false);
-        router.push("/login");
+        router.replace("/login");
       } else {
         setUser(true);
       }
@@ -26,7 +25,7 @@ export function ReduxProvider({ children }) {
     });
 
     return () => unsubscribe();
-  }, [auth, router]);
+  }, [router]);
 
   if (user == null) {
     return <Loading />;
