@@ -1,127 +1,151 @@
-import PageLayout from "@/components/pageLayout"
-
-const people = [
-    {
-      name: 'Leslie Alexander',
-      donation: '$250',
-      imageUrl:
-        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-     
-    },
-    {
-      name: 'Michael Foster',
-      donation: '$250',
-      imageUrl:
-        'https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      
-    },
-    {
-      name: 'Dries Vincent',
-      donation: '$250',
-      imageUrl:
-        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      
-    },
-    /*{
-      name: 'Lindsay Walton',
-      donation: '$250',
-      imageUrl:
-        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      
-    },
-    {
-      name: 'Courtney Henry',
-      donation: '$250',
-      imageUrl:
-        'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      
-    },
-    {
-      name: 'Tom Cook',
-      donation: '$250',
-      imageUrl:
-        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
-      
-    },*/
-  ]
+"use client"
+import React, { useEffect, useState } from "react";
+import { query, collection, onSnapshot } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { getAuth } from "@firebase/auth";
+import PageLayout from "@/components/pageLayout";
 
 function MyProject() {
-    return(
-      <PageLayout>
-        <section className=" flex lg:flex-row sm:flex-col md:flex-col justify-evenly pt-32">
-            
-              <div className="">
-      <div>
-        <p className="text-8xl">My Project</p>
-      </div>
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [isOpen1, setIsOpen1] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
 
-      <div>
-        <img className="p-28" src="" alt="" />
-      </div>
-
-      <div className="pb-8">
-        <p className="text-5xl">Build a cat shelter with us!</p>
-      </div>
-
-      <div>
-        <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
-          <div className="bg-green-600 h-2.5 rounded-full dark:bg-blue-500" style={{ width: 450 }}></div>
-        </div>
-      </div>
-
-      <div className="flex justify-between">
-        <p>Raised:</p>
-        <p>Goal:</p>
-      </div>
-
-      <div className="flex justify-between text-5xl">
-        <p>$2,500</p>
-        <p>$3,500</p>
-      </div>
-              </div>
-
-              <div className="">
-      
-        <div> 
-          <button className="text-4xl hover:text-gray-800">Transaction History</button>
-        </div>
-
-        <div>
-          <p>All Projects</p>
-          <p>Sort</p>
-        </div>
-
-        <div>
-          <ul className="">
-            {people.map((person) => (
-              <li className="flex justify-between gap-x-6 py-5" key={person.name}>
-                <div className="flex gap-x-4">
-                  <img className="h-12 w-12 flex-none rounded-lg bg-gray-50" src={person.imageUrl} alt="" />
-                  <div className="min-w-0 flex-auto">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">{person.name}</p>
-                  </div>
-                </div>
-                <div className="flex gap-x-6">
-                  <p className="text-sm leading-6 text-gray-900">{person.donation}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-
-        <div>
-          <button className="hover:text-gray-800 border border-gray-400 rounded justify-stretch">View More</button>
-        </div>
-
-        <div> <button className="text-4xl hover:text-gray-800">Statistics</button>
-        </div>
-              </div>
-            
+  const toggleAccordion1 = () => {
+    setIsOpen1(!isOpen1);
+    }
   
-        </section>
-        </PageLayout>
-    )
-    
+  const toggleAccordion2 = () => {
+    setIsOpen2(!isOpen2);
+  };
+  const auth = getAuth();
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const q = query(collection(db, "app"));
+      const unsubscribe = onSnapshot(q, (querySnapshot) => {
+        let dataArr = [];
+        querySnapshot.forEach((doc) => {
+          const projectData = { ...doc.data(), id: doc.id };
+          const totalDonations = projectData.donations.reduce(
+            (total, donation) => total + parseInt(donation.donation),
+            0
+          );
+          dataArr.push({ ...projectData, totalDonations });
+        });
+        dataArr.sort((a, b) => b.totalDonations - a.totalDonations);
+
+        setData(dataArr);
+      });
+      return () => unsubscribe();
+    };
+
+    fetchProjects();
+  }, []);
+
+  useEffect(() => {
+    setUserId(auth.currentUser.uid);
+  }, [auth.currentUser]);
+
+  useEffect(() => {
+    if (userId) {
+      const filteredProjects = data.filter((item) => item.userId === userId);
+      setFilteredData(filteredProjects);
+    }
+  }, [data, userId]);
+
+
+console.log(filteredData)
+  return (
+    <PageLayout>
+      <section className="flex flex-col justify-center h-full md:px-12 px-6 py-24 w-full">
+        <div className="grid grid-cols-12 gap-8 justify-center items-center w-full">
+          <div className="w-full h-full lg:col-span-4 flex flex-col col-span-12">
+            <div><h1>{filteredData[0]?.title} </h1></div>
+            <div><img src={filteredData[0]?.img} /></div>
+            <div><p>{filteredData[0]?.desc} </p></div>
+            <div className="flex flex-col self-center justify-self-center">
+                    <div className="grid grid-cols-12">
+                      <span className="col-span-11">Raised</span>{" "}
+                      <span className="col-span-1">Goal:</span>
+                    </div>
+                    <div className="h-2 w-full bg-gray-200 rounded">
+                      <div
+                        style={{
+                          width: `${
+                            (filteredData[0]?.totalDonations / filteredData[0]?.goal) * 100
+                          }%`,
+                        }}
+                        className="h-2 bg-[#d4ee26] rounded"
+                      ></div>
+                    </div>
+                    <div className="grid grid-cols-12">
+                      <span className="col-span-11">${filteredData[0]?.totalDonations}</span>{" "}
+                      <span className="col-span-1">${filteredData[0]?.goal}</span>
+                    </div>
+                   
+                  </div>
+          </div>
+          <div className="flex flex-col content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-10">
+            <div className="border border-gray-300 rounded-lg mb-4">
+              <button
+                onClick={toggleAccordion1}
+                className="flex justify-between items-center bg-gray-200 px-4 py-2 w-full"
+              >
+                <span className="font-medium">Transaction History</span>
+                <svg
+                  className={`w-4 h-4 transition-transform transform ${
+                    isOpen1 ? "rotate-180" : ""
+                  }`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M6.707 7.293a1 1 0 010 1.414L3.414 12l3.293 3.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414zm6 0a1 1 0 010 1.414L9.414 12l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+              {isOpen1 && (
+                <div className="bg-white px-4 py-2">
+                  <p></p>
+                  <p>{filteredData.map((item)=> {return (<span>{item.donations.uid}</span>)})} </p>
+                </div>
+              )}
+            </div>
+            <div className="border border-gray-300 rounded-lg mb-4">
+              <button
+                onClick={toggleAccordion2}
+                className="flex justify-between items-center bg-gray-200 px-4 py-2 w-full"
+              >
+                <span className="font-medium">Accordion Item 2</span>
+                <svg
+                  className={`w-4 h-4 transition-transform transform ${
+                    isOpen2 ? "rotate-180" : ""
+                  }`}
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M6.707 7.293a1 1 0 010 1.414L3.414 12l3.293 3.293a1 1 0 11-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 111.414 1.414zm6 0a1 1 0 010 1.414L9.414 12l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </button>
+              {isOpen2 && (
+                <div className="bg-white px-4 py-2">
+                  <p>Content for Accordion Item 2</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+    </PageLayout>
+  );
 }
 
-export default MyProject
+export default MyProject;
