@@ -111,7 +111,7 @@ console.log(filteredData)
               {isOpen1 && (
                 <div className="bg-white px-4 py-2">
                   <p></p>
-                  <p>{filteredData.map((item)=> {return (<span>{item.donations.uid}</span>)})} </p>
+                  <p>{filteredData.map((item)=> {return (<span>{filteredData[0].donations[0].user.uid}</span>)})} </p>
                 </div>
               )}
             </div>
