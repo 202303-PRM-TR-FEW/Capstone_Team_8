@@ -130,7 +130,11 @@ export const handleEdit = async (project, data) => {
 	try {
 		const payload = {
 			donation: data.donation,
-			user: auth.currentUser.uid,
+			user: {
+				uid: auth.currentUser.uid,
+				displayName: auth.currentUser.displayName,
+				imageUrl: auth.currentUser.photoURL,
+			},
 		};
 		await updateDoc(doc(db, 'app', project), {
 			donations: arrayUnion(payload),
