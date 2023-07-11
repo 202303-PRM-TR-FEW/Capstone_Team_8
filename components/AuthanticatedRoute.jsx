@@ -1,10 +1,9 @@
-'use client';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
 const withAuth = (WrappedComponent) => {
-	return (props) => {
+	const WithAuthComponent = (props) => {
 		const Router = useRouter();
 		const auth = getAuth();
 
@@ -16,10 +15,20 @@ const withAuth = (WrappedComponent) => {
 			});
 
 			return () => unsubscribe();
-		}, []);
+		}, [auth, Router]);
 
 		return <WrappedComponent {...props} />;
 	};
+
+	WithAuthComponent.displayName = `WithAuth(${getDisplayName(
+		WrappedComponent
+	)})`;
+
+	return WithAuthComponent;
 };
+
+function getDisplayName(WrappedComponent) {
+	return WrappedComponent.displayName || WrappedComponent.name || 'Component';
+}
 
 export default withAuth;
