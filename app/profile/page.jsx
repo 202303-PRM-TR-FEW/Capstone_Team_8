@@ -13,6 +13,7 @@ import {
 	register,
 } from '../../firebase/firebase';
 import { getAuth } from 'firebase/auth';
+import Image from 'next/image'
 
 import PageLayout from '@/components/pageLayout';
 const Profile = () => {
@@ -25,34 +26,13 @@ const Profile = () => {
 	const auth = getAuth();
 	const categoryOptions = ['All', 'animal', 'education', 'sport', 'denem1'];
 	const schema = yup.object().shape({
-		title: yup.string().trim().required('Title is required'),
-		about: yup
+		password: yup.string().trim().required('Title is required'),
+		repeatpassword: yup
 			.string()
 			.trim()
 			.required('About is required')
 			.min(20, 'About must be at least 50 characters')
 			.max(100, 'About cannot be more than 200 characters'),
-
-		desc: yup.string().trim().required('Description is required'),
-		goal: yup.string().trim().required('Goal is required'),
-		startTime: yup.date().required('Start time is required').nullable(),
-		endTime: yup
-			.date()
-			.required('End time is required')
-			.nullable()
-			.when('startTime', (startTime, yup) =>
-				startTime
-					? yup.min(startTime, 'End time must be later than start time')
-					: yup
-			),
-		category: yup
-			.string()
-			.trim()
-			.required('Category is required')
-			.oneOf(
-				['All', 'animal', 'education', 'sport', 'denem1'],
-				'Invalid category'
-			),
 		img: yup.mixed().required('A file is required'),
 	});
 	const {
@@ -100,11 +80,21 @@ const Profile = () => {
 	return (
 		<PageLayout>
 			<div className='flex  flex-col   justify-center items-center   h-full overflow-auto   md:px-12 px-6 py-24  w-full'>
+                <div>
+                    Name: Nafie   
+                </div>
+                <div>
+                    email: abd@gmail.com
+                </div>
+                <div>
+                profile picutre:
+                <Image src="" width={50} height={50} alt="Picture of the author"/>
+                </div>
 				<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className='mb-4'>
 							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								Title
+								Password
 							</label>
 							<Controller
 								name='title'
@@ -123,7 +113,7 @@ const Profile = () => {
 						</div>
 						<div className='mb-4'>
 							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								Description
+								Repeat Password
 							</label>
 							<Controller
 								name='desc'
@@ -140,115 +130,7 @@ const Profile = () => {
 								)}
 							/>
 						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								About Project
-							</label>
-							<Controller
-								name='about'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
-						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								Goal
-							</label>
-							<Controller
-								name='goal'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
-						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								Start Time
-							</label>
-							<Controller
-								name='startTime'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											type='date'
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
-						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								End Time
-							</label>
-							<Controller
-								name='endTime'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											type='date'
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
-						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								Category
-							</label>
-							<Controller
-								name='category'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<select
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										>
-											{categoryOptions.map((item, index) => {
-												return (
-													<>
-														<option value={item} key={index}>
-															{item}
-														</option>
-													</>
-												);
-											})}
-										</select>
-
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
-						</div>
-						<div className='mb-4'>
+    						<div className='mb-4'>
 							<label className='block text-gray-700 text-sm font-bold mb-2'>
 								Upload Your Picture
 							</label>
