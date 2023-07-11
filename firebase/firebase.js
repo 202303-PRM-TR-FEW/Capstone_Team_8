@@ -40,7 +40,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-const auth = getAuth();
+export const auth = getAuth();
 
 export const fetchAllData = () => {
 	const q = query(collection(db, 'app'));

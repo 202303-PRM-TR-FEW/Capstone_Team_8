@@ -1,11 +1,12 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { fetchDocById } from '../../../firebase/firebase';
-import PageLayout from '@/components/pageLayout';
-import Link from 'next/link';
+import PageLayout from '@/components/PageLayout';
 import FundProject from '@/components/FundProject';
 import moment from 'moment';
-export default async function ProjectDetail({ params }) {
+import WithAuth from '@/components/AuthanticatedRoute';
+
+async function ProjectDetail({ params }) {
 	const [isOpen, setIsOpen] = useState(false);
 	if (!params || !params.id) {
 		return <div>Error: Missing user ID</div>;
@@ -101,3 +102,4 @@ export default async function ProjectDetail({ params }) {
 		</PageLayout>
 	);
 }
+export default WithAuth(ProjectDetail);

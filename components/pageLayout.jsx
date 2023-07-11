@@ -1,10 +1,10 @@
 'use client';
-import Navbar from './navbar';
-
+import Navbar from './Navbar';
+import { auth } from '@/firebase/firebase';
 const PageLayout = ({ children }) => {
 	return (
 		<>
-			<Navbar />
+			{auth?.currentUser && <Navbar />}
 			{children}
 		</>
 	);
