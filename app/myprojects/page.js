@@ -3,9 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { query, collection, onSnapshot } from 'firebase/firestore';
 import { db } from '../../firebase/firebase';
 import { getAuth } from '@firebase/auth';
-import PageLayout from '@/components/pageLayout';
+import PageLayout from '@/components/PageLayout';
 import { useSelector } from 'react-redux';
 import KickOffProject from '@/components/KickOffProject';
+import WithAuth from '@/components/AuthanticatedRoute';
 
 function MyProject() {
 	const [data, setData] = useState([]);
@@ -167,4 +168,4 @@ function MyProject() {
 	);
 }
 
-export default MyProject;
+export default WithAuth(MyProject);

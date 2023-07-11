@@ -3,8 +3,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import KickOffProject from '../../components/KickOffProject';
 import { useSelector, useDispatch } from 'react-redux';
-import PageLayout from '@/components/pageLayout';
+import PageLayout from '@/components/PageLayout';
 import { useRouter } from 'next/navigation';
+import WithAuth from '@/components/AuthanticatedRoute';
 import {
 	openAddProject,
 	closeAddProject,
@@ -71,4 +72,4 @@ const Navigation = () => {
 		</>
 	);
 };
-export default Navigation;
+export default WithAuth(Navigation);
