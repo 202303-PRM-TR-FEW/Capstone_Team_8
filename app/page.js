@@ -3,15 +3,26 @@ import Link from 'next/link';
 import PageLayout from '@/components/PageLayout';
 import Login from '@/components/Login';
 import { auth } from '@/firebase/firebase';
+import React, { useEffect, useState } from 'react';
 const Welcome = () => {
-	console.log(auth?.currentUser);
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			} else {
+				setUser(null);
+			}
+		});
+	}, [auth]);
 	return (
 		<>
 			<PageLayout>
 				<div className=' w-full  bg-[#d4ee26] h-[100vh] lg:px-28  lg:py-56 py-28 '>
 					<div className='welcome-desktop w-full  h-full hidden lg:flex justify-end lg:justify-start  items-end lg:items-center  '>
 						<div className='lg:justify-self-end'>
-							{!auth?.currentUser && <Login></Login>}
+							{!user && <Login></Login>}
 						</div>
 						<div className='lg:w-1/3  flex gap-8 flex-col lg:ml-36 ml-6 mr-6'>
 							<h1 className='text-8xl font-bold'>Givingly</h1>
@@ -48,7 +59,7 @@ const Welcome = () => {
 							</Link>
 						</div>
 
-						<div>{!auth?.currentUser && <Login></Login>}</div>
+						<div>{!user && <Login></Login>}</div>
 					</div>
 
 					<div className='welcome-mobile w-full  flex md:hidden justify-center  px-12 h-full     '>
@@ -71,7 +82,7 @@ const Welcome = () => {
 								</Link>
 							</div>
 						</div>
-						<div>{!auth?.currentUser && <Login></Login>}</div>
+						<div>{!user && <Login></Login>}</div>
 					</div>
 				</div>
 			</PageLayout>

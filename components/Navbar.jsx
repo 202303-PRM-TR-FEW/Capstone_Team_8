@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../firebase/firebase';
+import { logOut, auth } from '../firebase/firebase';
 import { useRouter } from 'next/navigation';
 import SearchBar from './SearchBar';
 
@@ -24,7 +24,7 @@ const Navbar = () => {
 	const logoutHandler = async () => {
 		await logOut();
 		router.push('/');
-		setIsOpen(!isOpen);
+		setIsOpen(false);
 	};
 
 	const dispatch = useDispatch();
