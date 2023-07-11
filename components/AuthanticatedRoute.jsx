@@ -15,7 +15,7 @@ const withAuth = (WrappedComponent) => {
 			});
 
 			return () => unsubscribe();
-		}, [auth, Router]);
+		}, [auth?.currentUser, Router]);
 
 		return <WrappedComponent {...props} />;
 	};
