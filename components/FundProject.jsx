@@ -4,10 +4,18 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { handleEdit } from '../firebase/firebase';
+import { useRouter } from 'next/navigation';
 
-function FundProject({ setIsOpen, projectDetail, projectId }) {
+function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
+	const remaining = parseFloat(
+		parseFloat(Number(projectDetail.goal)) - parseFloat(Number(totalAmount))
+	);
+	// Include remaining amount in the schema
 	const schema = yup.object().shape({
-		donation: yup.string().trim().required('Donation is required'),
+		donation: yup
+			.number()
+			.required('Donation is required')
+			.max(remaining, 'Donation must not exceed the goal'),
 	});
 	const {
 		control,
@@ -18,11 +26,13 @@ function FundProject({ setIsOpen, projectDetail, projectId }) {
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
-	console.log(projectDetail);
+
+	const router = useRouter();
 	const onSubmit = async (data) => {
 		await handleEdit(projectId, data);
 		setIsOpen(false);
 		reset();
+		router.push('/thankyou');
 	};
 
 	const getFormErrorMessage = (name) => {
@@ -46,12 +56,12 @@ function FundProject({ setIsOpen, projectDetail, projectId }) {
 				>
 					&#8203;
 				</span>
-				<div className='inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
+				<div className='inline-block  align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
 					<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
 						<form onSubmit={handleSubmit(onSubmit)}>
 							<div className='mb-4'>
 								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Title
+									Enter the Donation Amount:
 								</label>
 								<Controller
 									name='donation'
@@ -68,7 +78,10 @@ function FundProject({ setIsOpen, projectDetail, projectId }) {
 									)}
 								/>
 							</div>
-
+							<div className='mb-4'>
+								<span className='text-black'> Add 2% chartiy?</span>
+								<input {...register('checkbox')} type='checkbox' value='A' />
+							</div>
 							<div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
 								<button
 									type='submit'
