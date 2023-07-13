@@ -15,7 +15,7 @@ import {
 import { getAuth } from 'firebase/auth';
 import Image from 'next/image';
 import withAuth from '@/components/AuthanticatedRoute';
-
+import welcome from '@/public/welcome_mobile.png';
 import PageLayout from '@/components/PageLayout';
 const Profile = (props) => {
 	const auth = getAuth();
@@ -94,9 +94,9 @@ const Profile = (props) => {
 					<h1 className='border-b-2 w-full'>Profile Picture</h1>
 
 					<Image
-						src={auth?.currentUser?.photoURL}
-						width={50}
-						height={50}
+						src={auth?.currentUser?.photoURL || welcome}
+						width={75}
+						height={75}
 						className='rounded-full'
 						alt='Picture of the author'
 					/>
