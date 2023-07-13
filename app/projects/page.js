@@ -10,18 +10,19 @@ import { db } from '@/firebase/firebase';
 import Loading from '@/app/loading';
 import WithAuth from '@/components/AuthanticatedRoute';
 function Home(props) {
+	const [data, setData] = useState([]);
+	const [filteredData, setFilteredData] = useState([]);
+	const [selectedCategory, setSelectedCategory] = useState(null);
+	const kickOffModalStatus = useSelector(
+		(state) => state.isStartProjectOpen.modalOpen
+	);
+
 	if (props.loading || !props?.user)
 		return (
 			<div>
 				<Loading></Loading>
 			</div>
 		);
-	const kickOffModalStatus = useSelector(
-		(state) => state.isStartProjectOpen.modalOpen
-	);
-	const [data, setData] = useState([]);
-	const [filteredData, setFilteredData] = useState([]);
-	const [selectedCategory, setSelectedCategory] = useState(null);
 
 	useEffect(() => {
 		const q = query(collection(db, 'app'));

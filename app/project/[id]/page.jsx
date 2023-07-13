@@ -9,6 +9,7 @@ import Loading from '@/app/loading';
 import { auth } from '@/firebase/firebase';
 
 async function ProjectDetail({ params, query }) {
+	const [isOpen, setIsOpen] = useState(false);
 	if (!params || !params.id) {
 		return <div>Error: Missing user ID</div>;
 	}
@@ -19,7 +20,6 @@ async function ProjectDetail({ params, query }) {
 				<Loading></Loading>
 			</div>
 		);
-	const [isOpen, setIsOpen] = useState(false);
 
 	const projectDetail = await fetchDocById(params.id);
 
