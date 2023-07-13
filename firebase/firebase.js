@@ -20,6 +20,7 @@ import {
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
 	signOut,
+	updateProfile,
 } from 'firebase/auth';
 
 import store from '../app/store';
@@ -80,12 +81,13 @@ export const logOut = async () => {
 		console.log(e);
 	}
 };
-export const register = async (email, password, userName) => {
+export const register = async (email, password, userName, imageUrl) => {
 	try {
 		await createUserWithEmailAndPassword(auth, email, password).then(
 			async (res) => {
 				await updateProfile(auth.currentUser, {
 					displayName: userName,
+					photoURL: imageUrl,
 				});
 			}
 		);
@@ -105,19 +107,19 @@ export const uploadImage = async (imageFile) => {
 		return getDownloadURL(snapshot.ref);
 	});
 };
-export const handleUpload = async (event, callback) => {
-	event.preventDefault();
-	const file = event.target.files[0];
+export const handleUpload = async (e, callback) => {
+	e.preventDefault();
+	const file = e.target.files[0];
 
 	try {
 		const downloadURL = await uploadImage(file);
-
 		callback(downloadURL);
 	} catch (error) {
-		alert(e.message);
+		alert(error.message);
 		console.error('Error uploading file:', error);
 	}
 };
+
 export const fetchDocById = async (id) => {
 	const docRef = doc(db, 'app', id);
 	const docSnap = await getDoc(docRef);

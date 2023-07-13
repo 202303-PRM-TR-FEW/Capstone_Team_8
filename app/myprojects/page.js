@@ -7,8 +7,15 @@ import PageLayout from '@/components/PageLayout';
 import { useSelector } from 'react-redux';
 import KickOffProject from '@/components/KickOffProject';
 import WithAuth from '@/components/AuthanticatedRoute';
+import Loading from '@/app/loading';
 
-function MyProject() {
+function MyProject(props) {
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	const [data, setData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 	const [isOpen1, setIsOpen1] = useState(false);

@@ -7,8 +7,15 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { query, collection, onSnapshot, addDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
+import Loading from '@/app/loading';
 import WithAuth from '@/components/AuthanticatedRoute';
-function Home() {
+function Home(props) {
+	if (props.loading || !props?.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
@@ -167,7 +174,10 @@ function Home() {
 									<Link
 										key={project.id}
 										className='block py-2 px-3 '
-										href={`/project/${project?.id}`}
+										href={{
+											pathname: `/project/${project?.id}`,
+											query: { loading: props.loading, user: props.user },
+										}}
 									>
 										<div
 											key={project.id}
