@@ -12,12 +12,6 @@ import {
 	closeAddProject,
 } from '../features/startproject/kickoff';
 const Navigation = (props) => {
-	if (props.loading || !props.user)
-		return (
-			<div>
-				<Loading></Loading>
-			</div>
-		);
 	const router = useRouter();
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
@@ -28,6 +22,12 @@ const Navigation = (props) => {
 		router.push('/myprojects');
 	};
 	const dispatch = useDispatch();
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	return (
 		<>
 			{' '}

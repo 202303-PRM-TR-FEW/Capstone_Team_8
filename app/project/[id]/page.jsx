@@ -13,12 +13,6 @@ async function ProjectDetail({ params, query }) {
 		return <div>Error: Missing user ID</div>;
 	}
 
-	if (query?.loading || !auth.currentUser)
-		return (
-			<div>
-				<Loading></Loading>
-			</div>
-		);
 	const [isOpen, setIsOpen] = useState(false);
 
 	const projectDetail = await fetchDocById(params.id);
@@ -38,7 +32,12 @@ async function ProjectDetail({ params, query }) {
 	const handleClick = () => {
 		setIsOpen(true);
 	};
-
+	if (query?.loading || !auth.currentUser)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	return (
 		<PageLayout>
 			{isOpen && (

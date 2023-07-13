@@ -10,12 +10,6 @@ import { db } from '@/firebase/firebase';
 import Loading from '@/app/loading';
 import WithAuth from '@/components/AuthanticatedRoute';
 function Home(props) {
-	if (props.loading || !props?.user)
-		return (
-			<div>
-				<Loading></Loading>
-			</div>
-		);
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
@@ -102,6 +96,13 @@ function Home(props) {
 			</button>
 		</div>,
 	];
+
+	if (props.loading || !props?.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 
 	return (
 		<>

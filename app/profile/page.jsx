@@ -20,12 +20,6 @@ import PageLayout from '@/components/PageLayout';
 const Profile = (props) => {
 	const auth = getAuth();
 
-	if (props.loading || !props.user)
-		return (
-			<div>
-				<Loading></Loading>
-			</div>
-		);
 	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
@@ -85,6 +79,12 @@ const Profile = (props) => {
 			<small className='text-red-600'>&nbsp;</small>
 		);
 	};
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	return (
 		<PageLayout>
 			<div className='flex  flex-col   justify-center items-center   h-full overflow-auto   md:px-12 px-6 py-24  w-full'>
