@@ -31,7 +31,7 @@ const Welcome = (props) => {
 							</p>
 							<Link
 								className='bg-black w-full p-2 text-white rounded mt-4 hover:text-[#d4ee26] text-center '
-								href='/projects'
+								href='/navigation'
 							>
 								Start today
 							</Link>
@@ -49,7 +49,7 @@ const Welcome = (props) => {
 							</p>
 							<Link
 								className='bg-black w-full p-2 text-center text-white rounded mt-4 hover:text-[#d4ee26] '
-								href='/projects'
+								href='/navigation'
 							>
 								Start today
 							</Link>
