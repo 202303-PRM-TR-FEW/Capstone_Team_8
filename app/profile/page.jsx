@@ -16,7 +16,7 @@ import { getAuth } from 'firebase/auth';
 import Image from 'next/image';
 import withAuth from '@/components/AuthanticatedRoute';
 
-import PageLayout from '@/components/pageLayout';
+import PageLayout from '@/components/PageLayout';
 const Profile = (props) => {
 	const auth = getAuth();
 
