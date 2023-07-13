@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
-import { logOut } from '../firebase/firebase';
+import { logOut, auth } from '../firebase/firebase';
 import { useRouter } from 'next/navigation';
 import SearchBar from './SearchBar';
 
@@ -23,8 +23,8 @@ const Navbar = () => {
 
 	const logoutHandler = async () => {
 		await logOut();
-		router.push('/login');
-		setIsOpen(!isOpen);
+		router.push('/');
+		setIsOpen(false);
 	};
 
 	const dispatch = useDispatch();
@@ -34,13 +34,13 @@ const Navbar = () => {
 				<div className='flex flex-row justify-between '>
 					<Link
 						className='self-center text-2xl font-semibold whitespace-nowrap'
-						href='/'
+						href='/projects'
 					>
 						Givingly
 					</Link>
 				</div>
 				<div className='relative hidden lg:block'>
-					<SearchBar></SearchBar>
+					<SearchBar setIsSeachBarOpen={setIsSeachBarOpen}></SearchBar>
 				</div>
 
 				<div className='lg:flex items-center justify-between  lg:w-auto hidden'>
@@ -48,7 +48,7 @@ const Navbar = () => {
 						<li>
 							<Link
 								className='block py-2 pl-3 pr-4 text-black bg-blue-700 rounded md:bg-transparent hover:text-gray-700 hover:drop-shadow-xl  '
-								href='/'
+								href='/projects'
 							>
 								Home
 							</Link>
@@ -82,7 +82,7 @@ const Navbar = () => {
 						>
 							<Link
 								className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
-								href='/'
+								href='/projects'
 							>
 								New project
 							</Link>
@@ -151,7 +151,7 @@ const Navbar = () => {
 										setIsOpen(!isOpen);
 									}}
 									className='block py-2 pl-3 pr-4 text-3xl sm:text-8xl  text-white rounded     hover:drop-shadow-xl '
-									href='/'
+									href='/projects'
 								>
 									Home
 								</Link>
@@ -194,7 +194,7 @@ const Navbar = () => {
 						>
 							<Link
 								className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl   '
-								href='/'
+								href='/projects'
 							>
 								NewProject
 							</Link>

@@ -40,7 +40,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
-const auth = getAuth();
+export const auth = getAuth();
 
 export const fetchAllData = () => {
 	const q = query(collection(db, 'app'));
@@ -67,6 +67,7 @@ export const login = async (email, password) => {
 
 		return user;
 	} catch (e) {
+		alert(e.message);
 		console.log(e);
 	}
 };
@@ -75,6 +76,7 @@ export const logOut = async () => {
 	try {
 		await signOut(auth);
 	} catch (e) {
+		alert(e.message);
 		console.log(e);
 	}
 };
@@ -88,6 +90,7 @@ export const register = async (email, password, userName) => {
 			}
 		);
 	} catch (e) {
+		alert(e.message);
 		console.log(e);
 	}
 };
@@ -111,6 +114,7 @@ export const handleUpload = async (event, callback) => {
 
 		callback(downloadURL);
 	} catch (error) {
+		alert(e.message);
 		console.error('Error uploading file:', error);
 	}
 };
@@ -147,6 +151,7 @@ export const handleDelete = async (id) => {
 	try {
 		await deleteDoc(doc(db, 'app', id));
 	} catch (e) {
+		alert(e.message);
 		console.log(e);
 	}
 };

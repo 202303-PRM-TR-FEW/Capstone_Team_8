@@ -6,9 +6,8 @@ export default function SearchBar({ setIsSeachBarOpen }) {
 	const router = useRouter();
 	const searchText = (e) => {
 		e.preventDefault();
-		console.log(text);
 		setIsSeachBarOpen(false);
-		router.push('/');
+		router.push('/projects');
 		setText('');
 	};
 
