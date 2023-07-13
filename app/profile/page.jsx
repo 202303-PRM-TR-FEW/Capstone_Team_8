@@ -18,10 +18,6 @@ import withAuth from '@/components/AuthanticatedRoute';
 
 import PageLayout from '@/components/PageLayout';
 const Profile = (props) => {
-	const [imageUrl, setImageUrl] = useState('');
-	const kickOffModalStatus = useSelector(
-		(state) => state.isStartProjectOpen.modalOpen
-	);
 	const auth = getAuth();
 
 	if (props.loading || !props.user)
@@ -31,7 +27,10 @@ const Profile = (props) => {
 			</div>
 		);
 	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
-
+	const kickOffModalStatus = useSelector(
+		(state) => state.isStartProjectOpen.modalOpen
+	);
+	const [imageUrl, setImageUrl] = useState('');
 	console.log(auth?.currentUser);
 
 	const schema = yup.object().shape({

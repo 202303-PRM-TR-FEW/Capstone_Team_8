@@ -10,17 +10,16 @@ import WithAuth from '@/components/AuthanticatedRoute';
 import Loading from '@/app/loading';
 
 function MyProject(props) {
-	const [data, setData] = useState([]);
-	const [filteredData, setFilteredData] = useState([]);
-	const [isOpen1, setIsOpen1] = useState(false);
-	const [isOpen2, setIsOpen2] = useState(false);
-
 	if (props.loading || !props.user)
 		return (
 			<div>
 				<Loading></Loading>
 			</div>
 		);
+	const [data, setData] = useState([]);
+	const [filteredData, setFilteredData] = useState([]);
+	const [isOpen1, setIsOpen1] = useState(false);
+	const [isOpen2, setIsOpen2] = useState(false);
 
 	const toggleAccordion1 = () => {
 		setIsOpen1(!isOpen1);
