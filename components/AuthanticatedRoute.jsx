@@ -1,22 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
 
 const withAuth = (WrappedComponent) => {
 	const WithAuthComponent = (props) => {
+		const [loading, setLoading] = useState(true);
 		const Router = useRouter();
 		const auth = getAuth();
 
 		useEffect(() => {
 			const unsubscribe = onAuthStateChanged(auth, (user) => {
 				if (!user) {
-					Router.replace('/');
+					Router.replace('/login');
 				}
+				setLoading(false);
 			});
 
 			return () => unsubscribe();
 		}, [auth?.currentUser, Router]);
-
+		props.loading = loading;
+		props.user = auth?.currentUser;
 		return <WrappedComponent {...props} />;
 	};
 

@@ -16,6 +16,18 @@ const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
 
+	const [user, setUser] = useState(null);
+
+	useEffect(() => {
+		auth.onAuthStateChanged((user) => {
+			if (user) {
+				setUser(user);
+			} else {
+				setUser(null);
+			}
+		});
+	}, [auth]);
+
 	const router = useRouter();
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
@@ -23,7 +35,7 @@ const Navbar = () => {
 
 	const logoutHandler = async () => {
 		await logOut();
-		router.push('/');
+		router.push('/login');
 		setIsOpen(false);
 	};
 
@@ -39,9 +51,11 @@ const Navbar = () => {
 						Givingly
 					</Link>
 				</div>
-				<div className='relative hidden lg:block'>
-					<SearchBar setIsSeachBarOpen={setIsSeachBarOpen}></SearchBar>
-				</div>
+				{user && (
+					<div className='relative hidden lg:block'>
+						<SearchBar setIsSeachBarOpen={setIsSeachBarOpen}></SearchBar>
+					</div>
+				)}
 
 				<div className='lg:flex items-center justify-between  lg:w-auto hidden'>
 					<ul className='flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 '>
@@ -53,40 +67,44 @@ const Navbar = () => {
 								Home
 							</Link>
 						</li>
-						<li>
-							<Link
-								className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
-								href='/myprojects'
-							>
-								My projects
-							</Link>
-						</li>
-						<li>
-							<Link
-								className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
-								href='/profile'
-							>
-								Profile
-							</Link>
-						</li>
 
-						<li onClick={logoutHandler}>
-							<button className='block py-2 pl-3 pr-4 bg-red-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '>
-								Logout
-							</button>
-						</li>
-						<li
-							onClick={() => {
-								dispatch(openAddProject());
-							}}
-						>
-							<Link
-								className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
-								href='/projects'
-							>
-								New project
-							</Link>
-						</li>
+						{user && (
+							<>
+								<li>
+									<Link
+										className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
+										href='/myprojects'
+									>
+										My projects
+									</Link>
+								</li>
+								<li>
+									<Link
+										className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
+										href='/profile'
+									>
+										Profile
+									</Link>
+								</li>
+								<li onClick={logoutHandler}>
+									<button className='block py-2 pl-3 pr-4 bg-red-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '>
+										Logout
+									</button>
+								</li>
+								<li
+									onClick={() => {
+										dispatch(openAddProject());
+									}}
+								>
+									<Link
+										className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
+										href='/projects'
+									>
+										New project
+									</Link>
+								</li>
+							</>
+						)}
 					</ul>
 				</div>
 				<div className='lg:hidden'>

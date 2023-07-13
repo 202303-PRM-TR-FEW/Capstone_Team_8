@@ -3,27 +3,23 @@ import Link from 'next/link';
 import PageLayout from '@/components/PageLayout';
 import Login from '@/components/Login';
 import { auth } from '@/firebase/firebase';
-import React, { useEffect, useState } from 'react';
-const Welcome = () => {
-	const [user, setUser] = useState(null);
+import React from 'react';
+import withAuth from '@/components/AuthanticatedRoute';
+import Loading from './loading';
+const Welcome = (props) => {
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 
-	useEffect(() => {
-		auth.onAuthStateChanged((user) => {
-			if (user) {
-				setUser(user);
-			} else {
-				setUser(null);
-			}
-		});
-	}, [auth]);
 	return (
 		<>
 			<PageLayout>
 				<div className=' w-full  bg-[#d4ee26] h-[100vh] lg:px-28  lg:py-56 py-28 '>
 					<div className='welcome-desktop w-full  h-full hidden lg:flex justify-end lg:justify-start  items-end lg:items-center  '>
-						<div className='lg:justify-self-end'>
-							{!user && <Login></Login>}
-						</div>
+						<div className='lg:justify-self-end'></div>
 						<div className='lg:w-1/3  flex gap-8 flex-col lg:ml-36 ml-6 mr-6'>
 							<h1 className='text-8xl font-bold'>Givingly</h1>
 							<h2 className='text-3xl'>Supporting great causes made easy</h2>
@@ -35,7 +31,7 @@ const Welcome = () => {
 							</p>
 							<Link
 								className='bg-black w-full p-2 text-white rounded mt-4 hover:text-[#d4ee26] text-center '
-								href='/navigation'
+								href='/projects'
 							>
 								Start today
 							</Link>
@@ -53,13 +49,11 @@ const Welcome = () => {
 							</p>
 							<Link
 								className='bg-black w-full p-2 text-center text-white rounded mt-4 hover:text-[#d4ee26] '
-								href='/navigation'
+								href='/projects'
 							>
 								Start today
 							</Link>
 						</div>
-
-						<div>{!user && <Login></Login>}</div>
 					</div>
 
 					<div className='welcome-mobile w-full  flex md:hidden justify-center  px-12 h-full     '>
@@ -82,7 +76,6 @@ const Welcome = () => {
 								</Link>
 							</div>
 						</div>
-						<div>{!user && <Login></Login>}</div>
 					</div>
 				</div>
 			</PageLayout>
@@ -90,4 +83,4 @@ const Welcome = () => {
 	);
 };
 
-export default Welcome;
+export default withAuth(Welcome);

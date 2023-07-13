@@ -20,6 +20,7 @@ import {
 	createUserWithEmailAndPassword,
 	onAuthStateChanged,
 	signOut,
+	updateProfile,
 } from 'firebase/auth';
 
 import store from '../app/store';
@@ -28,12 +29,12 @@ import store from '../app/store';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: 'AIzaSyB8UTCbWS3P2FHDpLXFG07yTQmalAa8EHw',
-	authDomain: 'crowdfundingcapstone.firebaseapp.com',
-	projectId: 'crowdfundingcapstone',
-	storageBucket: 'crowdfundingcapstone.appspot.com',
-	messagingSenderId: '312824414413',
-	appId: '1:312824414413:web:ad1d445759277801dc6984',
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
 // Initialize Firebase
@@ -80,12 +81,13 @@ export const logOut = async () => {
 		console.log(e);
 	}
 };
-export const register = async (email, password, userName) => {
+export const register = async (email, password, userName, imageUrl) => {
 	try {
 		await createUserWithEmailAndPassword(auth, email, password).then(
 			async (res) => {
 				await updateProfile(auth.currentUser, {
 					displayName: userName,
+					photoURL: imageUrl,
 				});
 			}
 		);
@@ -105,19 +107,19 @@ export const uploadImage = async (imageFile) => {
 		return getDownloadURL(snapshot.ref);
 	});
 };
-export const handleUpload = async (event, callback) => {
-	event.preventDefault();
-	const file = event.target.files[0];
+export const handleUpload = async (e, callback) => {
+	e.preventDefault();
+	const file = e.target.files[0];
 
 	try {
 		const downloadURL = await uploadImage(file);
-
 		callback(downloadURL);
 	} catch (error) {
-		alert(e.message);
+		alert(error.message);
 		console.error('Error uploading file:', error);
 	}
 };
+
 export const fetchDocById = async (id) => {
 	const docRef = doc(db, 'app', id);
 	const docSnap = await getDoc(docRef);

@@ -6,11 +6,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import PageLayout from '@/components/PageLayout';
 import { useRouter } from 'next/navigation';
 import WithAuth from '@/components/AuthanticatedRoute';
+import Loading from '../loading';
 import {
 	openAddProject,
 	closeAddProject,
 } from '../features/startproject/kickoff';
-const Navigation = () => {
+const Navigation = (props) => {
 	const router = useRouter();
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
@@ -21,6 +22,12 @@ const Navigation = () => {
 		router.push('/myprojects');
 	};
 	const dispatch = useDispatch();
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	return (
 		<>
 			{' '}
@@ -30,7 +37,7 @@ const Navigation = () => {
 						<div className='w-full flex justify-between flex-col gap-24'>
 							<h1 className='text-center text-xl'>I want to :</h1>
 							<div className='border-b-2 w-full text-center pb-4 cursor-pointer hover:text-[#d4ee26] hover:drop-shadow-sm'>
-								<Link href='/'>
+								<Link href='/projects'>
 									<span className='text-3xl font-bold'> Support</span> <br />{' '}
 									Other Projects
 								</Link>

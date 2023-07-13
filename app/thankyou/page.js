@@ -4,9 +4,17 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import PageLayout from '@/components/PageLayout';
 import WithAuth from '@/components/AuthanticatedRoute';
+import Loading from '@/app/loading';
 
-function Thankyou() {
+function Thankyou(props) {
 	const router = useRouter;
+
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 
 	return (
 		<PageLayout>

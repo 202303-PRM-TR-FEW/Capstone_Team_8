@@ -17,7 +17,7 @@ const PageLayout = ({ children }) => {
 
 	return (
 		<>
-			{user ? <Navbar /> : ''}
+			<Navbar />
 			{children}
 		</>
 	);
