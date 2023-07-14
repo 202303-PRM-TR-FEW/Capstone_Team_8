@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeAddProject } from '../../app/features/startproject/kickoff';
-
+import Loading from '@/app/loading';
 import {
 	createProject,
 	uploadImage,
@@ -13,18 +13,20 @@ import {
 	register,
 } from '../../firebase/firebase';
 import { getAuth } from 'firebase/auth';
-import Image from 'next/image'
+import Image from 'next/image';
+import withAuth from '@/components/AuthanticatedRoute';
+import welcome from '@/public/welcome_mobile.png';
+import PageLayout from '@/components/PageLayout';
+const Profile = (props) => {
+	const auth = getAuth();
 
-import PageLayout from '@/components/pageLayout';
-const Profile = () => {
 	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
 	const [imageUrl, setImageUrl] = useState('');
+	console.log(auth?.currentUser);
 
-	const auth = getAuth();
-	const categoryOptions = ['All', 'animal', 'education', 'sport', 'denem1'];
 	const schema = yup.object().shape({
 		password: yup.string().trim().required('Title is required'),
 		repeatpassword: yup
@@ -77,19 +79,28 @@ const Profile = () => {
 			<small className='text-red-600'>&nbsp;</small>
 		);
 	};
+	if (props.loading || !props.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	return (
 		<PageLayout>
 			<div className='flex  flex-col   justify-center items-center   h-full overflow-auto   md:px-12 px-6 py-24  w-full'>
-                <div>
-                    Name: Nafie   
-                </div>
-                <div>
-                    email: abd@gmail.com
-                </div>
-                <div>
-                profile picutre:
-                <Image src="" width={50} height={50} alt="Picture of the author"/>
-                </div>
+				<div>
+					<div>Name: {auth?.currentUser?.displayName}</div>
+					<div>Email:{auth?.currentUser?.email}</div>
+					<h1 className='border-b-2 w-full'>Profile Picture</h1>
+
+					<Image
+						src={auth?.currentUser?.photoURL || welcome}
+						width={75}
+						height={75}
+						className='rounded-full'
+						alt='Picture of the author'
+					/>
+				</div>
 				<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
 					<form onSubmit={handleSubmit(onSubmit)}>
 						<div className='mb-4'>
@@ -130,7 +141,7 @@ const Profile = () => {
 								)}
 							/>
 						</div>
-    						<div className='mb-4'>
+						<div className='mb-4'>
 							<label className='block text-gray-700 text-sm font-bold mb-2'>
 								Upload Your Picture
 							</label>
@@ -157,7 +168,7 @@ const Profile = () => {
 								type='submit'
 								className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm'
 							>
-								Upload Porject
+								Update Profile
 							</button>
 							<button
 								type='button'
@@ -176,4 +187,4 @@ const Profile = () => {
 	);
 };
 
-export default Profile;
+export default withAuth(Profile);

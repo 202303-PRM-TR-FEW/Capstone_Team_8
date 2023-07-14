@@ -5,12 +5,12 @@ import PageLayout from '@/components/PageLayout';
 import FundProject from '@/components/FundProject';
 import moment from 'moment';
 import WithAuth from '@/components/AuthanticatedRoute';
+import Loading from '@/app/loading';
+import { auth } from '@/firebase/firebase';
 
-async function ProjectDetail({ params }) {
+async function ProjectDetail({ params, query }) {
 	const [isOpen, setIsOpen] = useState(false);
-	if (!params || !params.id) {
-		return <div>Error: Missing user ID</div>;
-	}
+
 	const projectDetail = await fetchDocById(params.id);
 
 	const totalAmount = projectDetail.donations.reduce((total, donation) => {
@@ -28,7 +28,12 @@ async function ProjectDetail({ params }) {
 	const handleClick = () => {
 		setIsOpen(true);
 	};
-
+	if (query?.loading || !auth.currentUser)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 	return (
 		<PageLayout>
 			{isOpen && (

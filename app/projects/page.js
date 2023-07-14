@@ -7,8 +7,10 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { query, collection, onSnapshot, addDoc } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
+import Loading from '@/app/loading';
 import WithAuth from '@/components/AuthanticatedRoute';
-function Home() {
+import ProjectCard from '@/components/ProjectCard';
+function Home(props) {
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
@@ -34,6 +36,7 @@ function Home() {
 		});
 		return () => unsubscribe();
 	}, []);
+	console.log(data);
 
 	const filterHandle = (category) => {
 		setSelectedCategory(category);
@@ -95,6 +98,13 @@ function Home() {
 			</button>
 		</div>,
 	];
+
+	if (props.loading || !props?.user)
+		return (
+			<div>
+				<Loading></Loading>
+			</div>
+		);
 
 	return (
 		<>
@@ -164,52 +174,11 @@ function Home() {
 						<div className='flex flex-wrap w-full gap-8 '>
 							{filteredData.map((project) => {
 								return (
-									<Link
+									<ProjectCard
+										project={project}
 										key={project.id}
-										className='block py-2 px-3 '
-										href={`/project/${project?.id}`}
-									>
-										<div
-											key={project.id}
-											className='flex flex-col shadow-lg gap-4 p-4 w-96'
-										>
-											<div className='relative w-96 h-64 '>
-												{' '}
-												<Image
-													className='rounded'
-													src={project?.img}
-													layout='fill'
-													alt='Picture of the author'
-												/>
-											</div>
-											<h1>{project.title}</h1>
-											<div className=' w-full flex flex-col gap-2 text-sm'>
-												<div className='h-2 w-full bg-gray-200 rounded'>
-													<div
-														style={{
-															maxWidth: '100%',
-															width: `${
-																(project.totalDonations / project.goal) * 100
-															}%`,
-														}}
-														className='h-2  bg-[#d4ee26] rounded'
-													></div>
-												</div>
-
-												<div className='grid grid-cols-12'>
-													<span className='col-span-11'>Raised</span>{' '}
-													<span className='col-span-1'>Goal</span>
-												</div>
-
-												<div className='grid grid-cols-12'>
-													<span className='col-span-11'>
-														${project.totalDonations}
-													</span>{' '}
-													<span className='col-span-1'>${project.goal}</span>
-												</div>
-											</div>
-										</div>
-									</Link>
+										props={props}
+									></ProjectCard>
 								);
 							})}
 						</div>
