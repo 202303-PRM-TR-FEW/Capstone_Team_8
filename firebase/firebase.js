@@ -135,6 +135,7 @@ export const fetchDocById = async (id) => {
 export const handleEdit = async (project, data) => {
   try {
     const payload = {
+      time: Date.now(),
       donation: data.donation,
       user: {
         uid: auth.currentUser.uid,
