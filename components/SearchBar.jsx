@@ -1,16 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { query, onSnapshot, collection } from 'firebase/firestore';
+import { db } from '@/firebase/firebase';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSearchResults } from '@/app/features/searchproject/searchproject';
+
 export default function SearchBar({ setIsSeachBarOpen }) {
 	const [text, setText] = useState('');
+	// const [searchResults, setSearchResults] = useState([]);
+	const [data, setData] = useState([]);
 
 	const router = useRouter();
+	const dispatch = useDispatch();
 	const searchText = (e) => {
 		e.preventDefault();
 		setIsSeachBarOpen(false);
-		router.push('/projects');
+		filterDataBySearchQuery();
+		router.push('/search');
+		// router.push(pathnaem);
 		setText('');
 	};
-
+	useEffect(() => {
+		const q = query(collection(db, 'app'));
+		onSnapshot(q, (querySnapshot) => {
+			let dataArr = [];
+			querySnapshot.forEach((doc) => {
+				const projectData = { ...doc.data(), id: doc.id };
+				const totalDonations = projectData.donations.reduce(
+					(total, donation) => total + parseInt(donation.donation),
+					0
+				);
+				dataArr.push({ ...projectData, totalDonations });
+			});
+			dataArr.sort((a, b) => b.totalDonations - a.totalDonations);
+			setData(dataArr);
+			return dataArr;
+		});
+	}, []);
+	const filterDataBySearchQuery = () => {
+		const filteredResults = data.filter((item) =>
+			item.title.toLowerCase().includes(text.toLowerCase())
+		);
+		setSearchResults(filteredResults);
+		dispatch(setSearchResults(filteredResults));
+		console.log(filteredResults);
+	};
 	const handleText = (e) => {
 		setText(e.target.value);
 	};
