@@ -21,6 +21,7 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile,
+  updatePassword,
 } from "firebase/auth";
 
 import store from "../app/store";
@@ -158,5 +159,16 @@ export const handleDelete = async (id) => {
     console.log(e);
   }
 };
+
+export const updateUserPassword = (newPassword) => {
+  const user = auth.currentUser;
+  
+
+updatePassword(user, newPassword).then(() => {
+  // Update successful.
+  alert("Successfully changed!")
+}).catch((error) => {
+  alert('Failed')
+});}
 
 export default app;
