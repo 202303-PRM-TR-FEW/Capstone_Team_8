@@ -72,71 +72,55 @@ function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
 				</span>
 
 				<div className='inline-block  align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
-					<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
-						{!user && (
-							<div>
-								<h1>In order to fund this project please login or sign up</h1>
-								<div className='flex justify-center items-center gap-6 w-full text-white'>
-									<Link
-										className='m-2 p-2 text-center w-full bg-blue-400'
-										href='/login'
+					<div className='bg-white px-12 pt-2 pb-16  flex flex-col w-full'>
+						<div className='flex justify-end items-end'>
+							{' '}
+							<button
+								type='button'
+								onClick={() => {
+									setIsOpen(false);
+								}}
+								className='mt-3  inline-flex justify-center rounded-md    px-4 py-2  text-lg font-bold text-gray-700  focus:outline-none   '
+							>
+								X
+							</button>
+						</div>
+
+						<form
+							className='flex flex-col gap-20'
+							onSubmit={handleSubmit(onSubmit)}
+						>
+							<div className='mb-4'>
+								<label className='block text-black text-2xl font-bold mb-8'>
+									Enter the Donation <br /> Amount:
+								</label>
+
+								<div>
+									<input
+										type='number'
+										placeholder='Enter the amount'
+										{...register('donation')}
+										className='appearance-none border-b-2 border-black w-full py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline'
+									/>
+									<p
+										className={`text-red-700 px-3 ${
+											errors.donation ? '' : 'invisible'
+										}`}
 									>
-										Login
-									</Link>
-									<Link
-										className='m-2 p-2 text-center w-full bg-gray-700'
-										href='/register'
-									>
-										Sign Up
-									</Link>
+										{errors.donation?.message || 'Placeholder'}
+									</p>
 								</div>
 							</div>
-						)}
 
-						{user && (
-							<form onSubmit={handleSubmit(onSubmit)}>
-								<div className='mb-4'>
-									<label className='block text-gray-700 text-sm font-bold mb-2'>
-										Enter the Donation Amount:
-									</label>
-									<Controller
-										name='donation'
-										control={control}
-										defaultValue=''
-										render={({ field }) => (
-											<div>
-												<input
-													{...field}
-													className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-												/>
-												{getFormErrorMessage(field.name)}
-											</div>
-										)}
-									/>
-								</div>
-								<div className='mb-4'>
-									<span className='text-black'> Add 2% chartiy?</span>
-									<input {...register('checkbox')} type='checkbox' value='A' />
-								</div>
-								<div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
-									<button
-										type='submit'
-										className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm'
-									>
-										Fund Project
-									</button>
-									<button
-										type='button'
-										onClick={() => {
-											setIsOpen(false);
-										}}
-										className='mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
-									>
-										Close
-									</button>
-								</div>
-							</form>
-						)}
+							<div className=' px-4 py-3 sm:px-6 flex w-full justify-center '>
+								<button
+									type='submit'
+									className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-black text-xl font-medium text-white  focus:outline-none sm:ml-3  '
+								>
+									Pay Now
+								</button>
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
