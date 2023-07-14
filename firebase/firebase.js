@@ -175,6 +175,10 @@ export const updateUserPassword = (newPassword) => {
 
 export const updateUserProfilePicture = (newImage) => {
 	const user = auth.currentUser;
+	if (newImage.length < 1) {
+		alert('Please upload an image!');
+		return;
+	}
 	updateProfile(user, {
 		photoURL: newImage,
 	})
@@ -183,10 +187,7 @@ export const updateUserProfilePicture = (newImage) => {
 			alert('Successfully changed!');
 		})
 		.catch((error) => {
-			alert('Failed');
-		})
-		.finally(() => {
-			window.location.reload();
+			alert(error.message);
 		});
 };
 
