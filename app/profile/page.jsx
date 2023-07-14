@@ -17,6 +17,9 @@ import Image from 'next/image';
 import withAuth from '@/components/AuthanticatedRoute';
 import welcome from '@/public/welcome_mobile.png';
 import PageLayout from '@/components/PageLayout';
+import {
+	updateUserPassword,
+} from '@/firebase/firebase'
 const Profile = (props) => {
 	const auth = getAuth();
 
@@ -32,9 +35,7 @@ const Profile = (props) => {
 		repeatpassword: yup
 			.string()
 			.trim()
-			.required('About is required')
-			.min(20, 'About must be at least 50 characters')
-			.max(100, 'About cannot be more than 200 characters'),
+			.required('About is required'),
 		img: yup.mixed().required('A file is required'),
 	});
 	const {
@@ -51,21 +52,9 @@ const Profile = (props) => {
 
 	const onSubmit = (data) => {
 		console.log(auth.currentUser);
-		createProject({
-			title: data.title,
-			desc: data.desc,
-			goal: data.goal,
-			about: data.about,
-			startTime: data.startTime,
-			endTime: data.endTime,
-			category: data.category,
-			userId: auth.currentUser.uid,
-			img: imageUrl,
-			donations: [],
-		});
+		updateUserPassword(data.password)
 		setImageUrl('');
 		reset();
-		dispatch(closeAddProject());
 	};
 
 	const handleFileUpload = async (e) => {
@@ -108,7 +97,7 @@ const Profile = (props) => {
 								Password
 							</label>
 							<Controller
-								name='title'
+								name='password'
 								control={control}
 								defaultValue=''
 								render={({ field }) => (
@@ -127,7 +116,7 @@ const Profile = (props) => {
 								Repeat Password
 							</label>
 							<Controller
-								name='desc'
+								name='repeatpassword'
 								control={control}
 								defaultValue=''
 								render={({ field }) => (
