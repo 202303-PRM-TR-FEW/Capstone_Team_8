@@ -23,7 +23,7 @@ function KickOffProject() {
 	const [imageUrl, setImageUrl] = useState('');
 
 	const auth = getAuth();
-	const categoryOptions = ['All', 'animal', 'education', 'sport', 'denem1'];
+	const categoryOptions = ['animal', 'education', 'sport', 'denem1'];
 	const schema = yup.object().shape({
 		title: yup.string().trim().required('Title is required'),
 		about: yup
@@ -35,25 +35,24 @@ function KickOffProject() {
 
 		desc: yup.string().trim().required('Description is required'),
 		goal: yup.string().trim().required('Goal is required'),
-		startTime: yup.date().required('Start time is required').nullable(),
-		endTime: yup
-			.date()
-			.required('End time is required')
-			.nullable()
-			.when('startTime', (startTime, yup) =>
-				startTime
-					? yup.min(startTime, 'End time must be later than start time')
-					: yup
-			),
+
+		endTime: yup.date().required('End time is required').nullable(),
+
 		category: yup
 			.string()
 			.trim()
 			.required('Category is required')
-			.oneOf(
-				['All', 'animal', 'education', 'sport', 'denem1'],
-				'Invalid category'
+			.oneOf(['animal', 'education', 'sport', 'denem1'], 'Invalid category'),
+		img: yup
+			.mixed()
+			.required('A file is required')
+			.test(
+				'fileFormat',
+				'Unsupported Format',
+				(value) =>
+					value &&
+					(value[0].type === 'image/jpeg' || value[0].type === 'image/png')
 			),
-		img: yup.mixed().required('A file is required'),
 	});
 	const {
 		control,
@@ -74,7 +73,6 @@ function KickOffProject() {
 			desc: data.desc,
 			goal: data.goal,
 			about: data.about,
-			startTime: data.startTime,
 			endTime: data.endTime,
 			category: data.category,
 			userId: auth.currentUser.uid,
@@ -99,8 +97,8 @@ function KickOffProject() {
 	};
 
 	return (
-		<div className='fixed z-10 inset-0 overflow-y-auto w-full'>
-			<div className='flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center'>
+		<div className='fixed top-0 left-0 z-10 inset-0 overflow-y-auto w-full pt-16'>
+			<div className='flex items-center justify-center min-h-screen overflow-auto pt-4 px-4 pb-20 text-center'>
 				<div
 					className='fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity'
 					aria-hidden='true'
@@ -113,136 +111,138 @@ function KickOffProject() {
 				</span>
 				<div className='inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
 					<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
-						<form onSubmit={handleSubmit(onSubmit)}>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Title
-								</label>
-								<Controller
-									name='title'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
+						<form
+							className='flex flex-col w-full'
+							onSubmit={handleSubmit(onSubmit)}
+						>
+							<div className='flex justify-end items-end'>
+								<button
+									type='button'
+									onClick={() => {
+										dispatch(closeAddProject());
+									}}
+									className='mt-3 inline-flex justify-center rounded-md  px-4 py-2 text-2xl font-medium text-gray-700  focus:outline-none sm:mt-0 sm:ml-3  '
+								>
+									X
+								</button>
+							</div>
+
+							<div className='flex flex-col sm:flex-row w-full gap-4'>
+								<div className='sm:border-r-2 w-full pr-4'>
+									<div className='mb-4'>
+										<label className='block text-gray-700 text-sm font-bold mb-2'>
+											Title
+										</label>
+
 										<div>
 											<input
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+												{...register('title')}
+												placeholder='Enter the title of your project'
+												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
-											{getFormErrorMessage(field.name)}
+											<p
+												className={`text-red-700 px-3 ${
+													errors.title ? '' : 'invisible'
+												}`}
+											>
+												{errors.title?.message || 'Placeholder'}
+											</p>
 										</div>
-									)}
-								/>
-							</div>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Description
-								</label>
-								<Controller
-									name='desc'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
+									</div>
+									<div className='mb-4'>
+										<label className='block text-gray-700 text-sm font-bold mb-2'>
+											Description
+										</label>
+
 										<div>
 											<input
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+												placeholder='Enter the description of your project'
+												{...register('desc')}
+												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
-											{getFormErrorMessage(field.name)}
+											<p
+												className={`text-red-700 px-3 ${
+													errors.desc ? '' : 'invisible'
+												}`}
+											>
+												{errors.desc?.message || 'Placeholder'}
+											</p>
 										</div>
-									)}
-								/>
-							</div>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									About Project
-								</label>
-								<Controller
-									name='about'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
+									</div>
+									<div className='mb-4'>
+										<label className='block text-gray-700 text-sm font-bold mb-2'>
+											About Project
+										</label>
+
 										<div>
 											<input
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+												placeholder='Enter the about part of your project'
+												{...register('about')}
+												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
-											{getFormErrorMessage(field.name)}
+											<p
+												className={`text-red-700 px-3 ${
+													errors.about ? '' : 'invisible'
+												}`}
+											>
+												{errors.about?.message || 'Placeholder'}
+											</p>
 										</div>
-									)}
-								/>
-							</div>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Goal
-								</label>
-								<Controller
-									name='goal'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
+									</div>
+								</div>
+								<div className='w-full'>
+									{' '}
+									<div className='mb-4'>
+										<label className='block text-gray-700 text-sm font-bold mb-2'>
+											Goal
+										</label>
+
 										<div>
 											<input
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+												placeholder='Enter the goal amount of your project'
+												{...register('goal')}
+												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
-											{getFormErrorMessage(field.name)}
+											<p
+												className={`text-red-700 px-3 ${
+													errors.goal ? '' : 'invisible'
+												}`}
+											>
+												{errors.goal?.message || 'Placeholder'}
+											</p>
 										</div>
-									)}
-								/>
-							</div>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Start Time
-								</label>
-								<Controller
-									name='startTime'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
+									</div>
+									<div className='mb-4'>
+										<label className='block text-gray-700 text-sm font-bold mb-2'>
+											End Time
+										</label>
+
 										<div>
 											<input
 												type='date'
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+												{...register('endTime')}
+												placeholder='Enter the deadline of your project'
+												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
-											{getFormErrorMessage(field.name)}
+											<p
+												className={`text-red-700 px-3 ${
+													errors.endTime ? '' : 'invisible'
+												}`}
+											>
+												{errors.endTime?.message || 'Placeholder'}
+											</p>
 										</div>
-									)}
-								/>
-							</div>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									End Time
-								</label>
-								<Controller
-									name='endTime'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
-										<div>
-											<input
-												type='date'
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-											/>
-											{getFormErrorMessage(field.name)}
-										</div>
-									)}
-								/>
-							</div>
-							<div className='mb-4'>
-								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Category
-								</label>
-								<Controller
-									name='category'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
+									</div>
+									<div className='mb-4'>
+										<label className='block text-gray-700 text-sm font-bold mb-2'>
+											Category
+										</label>
+
 										<div>
 											<select
-												{...field}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+												{...register('category')}
+												placeholder='Enter the category of your project'
+												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											>
 												{categoryOptions.map((item, index) => {
 													return (
@@ -255,48 +255,49 @@ function KickOffProject() {
 												})}
 											</select>
 
-											{getFormErrorMessage(field.name)}
+											<p
+												className={`text-red-700 px-3 ${
+													errors.category ? '' : 'invisible'
+												}`}
+											>
+												{errors.category?.message || 'Placeholder'}
+											</p>
 										</div>
-									)}
-								/>
+									</div>
+								</div>
 							</div>
 							<div className='mb-4'>
 								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									Upload Your Picture
+									<p>Upload Your Picture</p>
+									<p className='opacity-80 text-blue-400'>
+										You can only upload image format of png, jpeg, jpg
+									</p>
 								</label>
-								<Controller
-									name='img'
-									control={control}
-									defaultValue=''
-									render={({ field }) => (
-										<div>
-											<input
-												type='file'
-												{...field}
-												onChange={handleFileUpload}
-												className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-											/>
 
-											{getFormErrorMessage(field.name)}
-										</div>
-									)}
-								/>
+								<div>
+									<input
+										type='file'
+										{...register('img')}
+										accept='image/png, image/jpg, image/jpeg'
+										onChange={handleFileUpload}
+										className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+									/>
+
+									<p
+										className={`text-red-700 px-3 ${
+											errors.img ? '' : 'invisible'
+										}`}
+									>
+										{errors.img?.message || 'Placeholder'}
+									</p>
+								</div>
 							</div>
-							<div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
+							<div className=' px-4  w-full py-3 sm:px-6 flex justify-center'>
 								<button
 									type='submit'
-									className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm'
+									className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-lg font-bold text-white  focus:outline-none sm:ml-3  sm:text-sm'
 								>
-									Upload Porject
-								</button>
-								<button
-									type='button'
-									onClick={() => {
-										dispatch(closeAddProject());
-									}}
-									className='mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
-								>
-									Close
+									Upload Project
 								</button>
 							</div>
 						</form>

@@ -4,7 +4,6 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeAddProject } from '../../app/features/startproject/kickoff';
 import Loading from '@/app/loading';
 import {
 	createProject,
@@ -19,7 +18,8 @@ import welcome from '@/public/welcome_mobile.png';
 import PageLayout from '@/components/PageLayout';
 import {
 	updateUserPassword,
-} from '@/firebase/firebase'
+	updateUserProfilePicture,
+} from '@/firebase/firebase';
 const Profile = (props) => {
 	const auth = getAuth();
 
@@ -30,31 +30,57 @@ const Profile = (props) => {
 	const [imageUrl, setImageUrl] = useState('');
 	console.log(auth?.currentUser);
 
-	const schema = yup.object().shape({
-		password: yup.string().trim().required('Title is required'),
+	const passwordSchema = yup.object().shape({
+		password: yup
+			.string()
+			.trim('No leading/trailing whitepaces allowed')
+			.required('Password is required')
+			.min(6, 'Password must be at least 6 characters'),
 		repeatpassword: yup
 			.string()
-			.trim()
-			.required('About is required'),
+			.trim('No leading/trailing whitepaces allowed')
+			.required('Password is required')
+			.min(6, 'Password must be at least 6 characters')
+			.oneOf(
+				[yup.ref('password'), null],
+				'Password and Confirm Password must match'
+			),
+	});
+
+	const imageSchema = yup.object().shape({
 		img: yup.mixed().required('A file is required'),
 	});
+
 	const {
-		control,
-		handleSubmit,
+		control: passwordControl,
+		handleSubmit: passwordSubmit,
+		register: passwordRegister,
 		reset,
-		register,
-		formState: { errors },
+		formState: { errors: passwordErrors },
 	} = useForm({
-		resolver: yupResolver(schema),
+		resolver: yupResolver(passwordSchema),
 	});
 
+	const {
+		control: imageControl,
+		handleSubmit: imageSubmit,
+		register: imageRegister,
+		formState: { errors: imageErrors },
+	} = useForm({
+		resolver: yupResolver(imageSchema),
+	});
 	const dispatch = useDispatch();
 
-	const onSubmit = (data) => {
+	const onSubmitPassword = (data) => {
 		console.log(auth.currentUser);
-		updateUserPassword(data.password)
-		setImageUrl('');
+		updateUserPassword(data.password);
+
 		reset();
+	};
+
+	const onSubmitImage = () => {
+		updateUserProfilePicture(imageUrl);
+		setImageUrl('');
 	};
 
 	const handleFileUpload = async (e) => {
@@ -91,83 +117,87 @@ const Profile = (props) => {
 					/>
 				</div>
 				<div className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
-					<form onSubmit={handleSubmit(onSubmit)}>
+					<form onSubmit={passwordSubmit(onSubmitPassword)}>
 						<div className='mb-4'>
 							<label className='block text-gray-700 text-sm font-bold mb-2'>
 								Password
 							</label>
-							<Controller
-								name='password'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
+
+							<div>
+								<input
+									type='password'
+									{...passwordRegister('password')}
+									className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+								/>
+								<p
+									className={`text-red-700 px-3 ${
+										passwordErrors.password ? '' : 'invisible'
+									}`}
+								>
+									{passwordErrors.password?.message || 'Placeholder'}
+								</p>
+							</div>
 						</div>
 						<div className='mb-4'>
 							<label className='block text-gray-700 text-sm font-bold mb-2'>
 								Repeat Password
 							</label>
-							<Controller
-								name='repeatpassword'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											{...field}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
-						</div>
-						<div className='mb-4'>
-							<label className='block text-gray-700 text-sm font-bold mb-2'>
-								Upload Your Picture
-							</label>
-							<Controller
-								name='img'
-								control={control}
-								defaultValue=''
-								render={({ field }) => (
-									<div>
-										<input
-											type='file'
-											{...field}
-											onChange={handleFileUpload}
-											className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
-										/>
 
-										{getFormErrorMessage(field.name)}
-									</div>
-								)}
-							/>
+							<div>
+								<input
+									type='password'
+									{...passwordRegister('repeatpassword')}
+									className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+								/>
+								<p
+									className={`text-red-700 px-3 ${
+										passwordErrors.repeatpassword ? '' : 'invisible'
+									}`}
+								>
+									{passwordErrors.repeatpassword?.message || 'Placeholder'}
+								</p>
+							</div>
 						</div>
-						<div className='bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse'>
+
+						<div className=' px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center'>
 							<button
 								type='submit'
 								className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm'
 							>
-								Update Profile
+								Change Password
 							</button>
-							<button
-								type='button'
-								onClick={() => {
-									dispatch(closeAddProject());
-								}}
-								className='mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm'
-							>
-								Close
-							</button>
+						</div>
+					</form>
+
+					<form onSubmit={imageSubmit(onSubmitImage)}>
+						<div className='mb-4'>
+							<label className='block text-gray-700 text-sm font-bold mb-2'>
+								Update Your Profile Picture
+							</label>
+
+							<div>
+								<input
+									type='file'
+									{...imageRegister('img')}
+									onChange={handleFileUpload}
+									className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+								/>
+								<p
+									className={`text-red-700 px-3 ${
+										imageErrors.img ? '' : 'invisible'
+									}`}
+								>
+									{imageErrors.img?.message || 'Placeholder'}
+								</p>
+							</div>
+							<div className=' px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center'>
+								<button
+									type='submit'
+									className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:ml-3 sm:w-auto sm:text-sm'
+								>
+									Update Image
+								</button>
+							</div>
 						</div>
 					</form>
 				</div>
