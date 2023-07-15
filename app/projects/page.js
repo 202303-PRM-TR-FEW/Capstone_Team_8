@@ -10,6 +10,7 @@ import { db } from "@/firebase/firebase";
 import Loading from "@/app/loading";
 import WithAuth from "@/components/AuthanticatedRoute";
 import ProjectCard from "@/components/ProjectCard";
+import ProjectCardMaterial from "@/components/ProjectCardMaterial";
 function Home(props) {
   const kickOffModalStatus = useSelector(
     (state) => state.isStartProjectOpen.modalOpen
@@ -171,7 +172,7 @@ function Home(props) {
               <ul className="flex gap-4 my-6">{buttons}</ul>
             </div>
 
-            <div className="flex flex-wrap w-full gap-8 ">
+            {/* <div className="flex flex-wrap w-full gap-8 ">
               {filteredData.map((project) => {
                 return (
                   <ProjectCard
@@ -179,6 +180,17 @@ function Home(props) {
                     key={project.id}
                     props={props}
                   ></ProjectCard>
+                );
+              })}
+            </div> */}
+            <div className="flex flex-wrap w-full gap-8 ">
+              {filteredData.map((project) => {
+                return (
+                  <ProjectCardMaterial
+                    project={project}
+                    key={project.id}
+                    props={props}
+                  ></ProjectCardMaterial>
                 );
               })}
             </div>
