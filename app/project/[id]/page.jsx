@@ -7,6 +7,7 @@ import moment from "moment";
 import WithAuth from "@/components/AuthanticatedRoute";
 import Loading from "@/app/loading";
 import { auth } from "@/firebase/firebase";
+import Image from "next/legacy/image";
 
 async function ProjectDetail({ params, query }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +48,13 @@ async function ProjectDetail({ params, query }) {
       <section className="flex  flex-col   justify-center   h-full    md:px-12 px-6 py-24  w-full ">
         <div className="grid grid-cols-12 gap-8  justify-center items-center w-full ">
           <div className=" block  lg:h-[70vh] w-full h-full  lg:col-span-4  col-span-12 ">
-            <img src={projectDetail?.img} alt="projectImage" />
+            <Image
+              src={projectDetail?.img}
+              alt="projectImage"
+              layout="responsive"
+              width={300}
+              height={300}
+            />
           </div>
 
           <div className="flex flex-col  content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-10">
