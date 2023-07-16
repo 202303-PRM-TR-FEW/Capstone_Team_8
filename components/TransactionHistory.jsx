@@ -37,7 +37,10 @@ function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
 							<div className='flex flex-col gap-2 rounded'>
 								{project?.donations.map((item, index) => {
 									return (
-										<div className='flex flex-row justify-between gap-2 items-center rounded p-2 bg-gray-200 '>
+										<div
+											className='flex flex-row justify-between gap-2 items-center rounded p-2 bg-gray-200 '
+											key={item.id}
+										>
 											<div className='flex gap-4 items-center'>
 												{' '}
 												<span>{index + 1}</span>
@@ -45,6 +48,7 @@ function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
 													width={40}
 													height={40}
 													className='rounded'
+													alt='user image'
 													src={item?.user?.imageUrl}
 												/>
 												<p>{item?.user?.displayName}</p>
