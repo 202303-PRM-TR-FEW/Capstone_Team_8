@@ -3,24 +3,36 @@ import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { useDispatch, useSelector } from 'react-redux';
-import { closeAddProject } from '../app/features/startproject/kickoff';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 import {
 	createProject,
 	uploadImage,
+	updateProject,
 	handleUpload,
 	register,
-} from '../firebase/firebase';
+} from '@/firebase/firebase';
 import { getAuth } from 'firebase/auth';
+import Image from 'next/legacy/image';
+import moment from 'moment';
+
 // import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 
 function EditProject({ setIsEditProjectOpen, project }) {
-	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
-
-	const [imageUrl, setImageUrl] = useState('');
+	const [imageUrl, setImageUrl] = useState(project.img);
+	const defaultValues = {
+		title: project.title,
+		desc: project.desc,
+		goal: project.goal,
+		about: project.about,
+		endTime: moment(project.endTime.seconds * 1000).toDate(),
+		category: project.category,
+		img: project.img,
+	};
 
 	const auth = getAuth();
+	console.log(moment(project.endTime.seconds * 1000));
 	const categoryOptions = ['animal', 'education', 'sport', 'denem1'];
 	const schema = yup.object().shape({
 		title: yup.string().trim().required('Title is required'),
@@ -30,27 +42,10 @@ function EditProject({ setIsEditProjectOpen, project }) {
 			.required('About is required')
 			.min(20, 'About must be at least 50 characters')
 			.max(100, 'About cannot be more than 200 characters'),
-
 		desc: yup.string().trim().required('Description is required'),
 		goal: yup.string().trim().required('Goal is required'),
-
 		endTime: yup.date().required('End time is required').nullable(),
-
-		category: yup
-			.string()
-			.trim()
-			.required('Category is required')
-			.oneOf(['animal', 'education', 'sport', 'denem1'], 'Invalid category'),
-		img: yup
-			.mixed()
-			.required('A file is required')
-			.test(
-				'fileFormat',
-				'Unsupported Format',
-				(value) =>
-					value &&
-					(value[0].type === 'image/jpeg' || value[0].type === 'image/png')
-			),
+		img: yup.mixed(),
 	});
 	const {
 		control,
@@ -60,30 +55,31 @@ function EditProject({ setIsEditProjectOpen, project }) {
 		formState: { errors },
 	} = useForm({
 		resolver: yupResolver(schema),
+		defaultValues: defaultValues,
 	});
-
-	const dispatch = useDispatch();
-
-	const onSubmit = (data) => {
-		console.log(auth.currentUser);
-		// createProject({
-		// 	title: data.title,
-		// 	desc: data.desc,
-		// 	goal: data.goal,
-		// 	about: data.about,
-		// 	endTime: data.endTime,
-		// 	category: data.category,
-		// 	userId: auth.currentUser.uid,
-		// 	img: imageUrl,
-		// 	donations: [],
-		// });
-		setImageUrl('');
-		reset();
-		dispatch(closeAddProject());
+	const onSubmit = async (data) => {
+		try {
+			await updateProject(project.id, {
+				title: data.title,
+				desc: data.desc,
+				goal: data.goal,
+				about: data.about,
+				endTime: data.endTime,
+				img: imageUrl,
+			});
+			setImageUrl('');
+			reset();
+			setIsEditProjectOpen(false);
+		} catch (e) {
+			console.log(e);
+		}
 	};
 
 	const handleFileUpload = async (e) => {
 		await handleUpload(e, setImageUrl);
+		await updateProject(project.id, {
+			img: imageUrl,
+		});
 	};
 
 	return (
@@ -164,11 +160,11 @@ function EditProject({ setIsEditProjectOpen, project }) {
 											About Project
 										</label>
 
-										<div>
-											<input
+										<div className='w-full'>
+											<textarea
 												placeholder='Enter the about part of your project'
 												{...register('about')}
-												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+												className=' appearance-none border-b-2 border-black  w-full py-2  text-black leading-tight focus:outline-none focus:shadow-outline min-h-[5rem]'
 											/>
 											<p
 												className={`text-red-700 px-3 ${
@@ -208,11 +204,18 @@ function EditProject({ setIsEditProjectOpen, project }) {
 										</label>
 
 										<div>
-											<input
-												type='date'
-												{...register('endTime')}
-												placeholder='Enter the deadline of your project'
-												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+											<Controller
+												control={control}
+												name='endTime'
+												render={({ field }) => (
+													<DatePicker
+														placeholder='Enter the deadline of your project'
+														className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+														selected={new Date(field.value)}
+														onChange={(date) => field.onChange(moment(date))}
+														dateFormat='dd/MM/yyyy'
+													/>
+												)}
 											/>
 											<p
 												className={`text-red-700 px-3 ${
@@ -220,37 +223,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
 												}`}
 											>
 												{errors.endTime?.message || 'Placeholder'}
-											</p>
-										</div>
-									</div>
-									<div className='mb-4'>
-										<label className='block text-gray-700 text-sm font-bold mb-2'>
-											Category
-										</label>
-
-										<div>
-											<select
-												{...register('category')}
-												placeholder='Enter the category of your project'
-												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
-											>
-												{categoryOptions.map((item, index) => {
-													return (
-														<>
-															<option value={item} key={index}>
-																{item}
-															</option>
-														</>
-													);
-												})}
-											</select>
-
-											<p
-												className={`text-red-700 px-3 ${
-													errors.category ? '' : 'invisible'
-												}`}
-											>
-												{errors.category?.message || 'Placeholder'}
 											</p>
 										</div>
 									</div>
@@ -272,6 +244,15 @@ function EditProject({ setIsEditProjectOpen, project }) {
 										onChange={handleFileUpload}
 										className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 									/>
+									{imageUrl !== '' && <p>The file You Upload</p>}
+									<div className=' relative w-full h-48     '>
+										<Image
+											src={imageUrl}
+											layout='fill'
+											className='rounded '
+											alt='profile-picture'
+										/>{' '}
+									</div>
 
 									<p
 										className={`text-red-700 px-3 ${

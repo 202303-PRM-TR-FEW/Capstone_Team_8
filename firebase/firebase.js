@@ -192,4 +192,26 @@ export const updateUserProfilePicture = (newImage) => {
 		});
 };
 
+export const updateProject = async (id, data) => {
+	try {
+		await updateDoc(doc(db, 'app', id), data);
+	} catch (e) {
+		alert(e.message);
+		console.log(e);
+	}
+};
+
+export const getUserInfo = (uid) => {
+	getAuth()
+		.getUser(uid)
+		.then((userRecord) => {
+			console.log(userRecord);
+			// See the UserRecord reference doc for the contents of userRecord.
+			return userRecord;
+		})
+		.catch((error) => {
+			console.log('Error fetching user data:', error);
+		});
+};
+
 export default app;

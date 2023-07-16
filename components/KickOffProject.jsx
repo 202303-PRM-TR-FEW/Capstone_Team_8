@@ -5,6 +5,10 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeAddProject } from '../app/features/startproject/kickoff';
+import moment from 'moment';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import Image from 'next/legacy/image';
 
 import {
 	createProject,
@@ -88,12 +92,9 @@ function KickOffProject() {
 		await handleUpload(e, setImageUrl);
 	};
 
-	const getFormErrorMessage = (name) => {
-		return errors[name] ? (
-			<small className='text-red-600'>{errors[name].message}</small>
-		) : (
-			<small className='text-red-600'>&nbsp;</small>
-		);
+	const handleCloseKickOffModal = () => {
+		dispatch(closeAddProject());
+		reset();
 	};
 
 	return (
@@ -115,12 +116,11 @@ function KickOffProject() {
 							className='flex flex-col w-full'
 							onSubmit={handleSubmit(onSubmit)}
 						>
-							<div className='flex justify-end items-end'>
+							<div className='flex justify-between text-2xl items-center mb-12'>
+								<h1>Kick-Off your project!</h1>
 								<button
 									type='button'
-									onClick={() => {
-										dispatch(closeAddProject());
-									}}
+									onClick={handleCloseKickOffModal}
 									className='mt-3 inline-flex justify-center rounded-md  px-4 py-2 text-2xl font-medium text-gray-700  focus:outline-none sm:mt-0 sm:ml-3  '
 								>
 									X
@@ -174,11 +174,11 @@ function KickOffProject() {
 											About Project
 										</label>
 
-										<div>
-											<input
+										<div className='w-full'>
+											<textarea
 												placeholder='Enter the about part of your project'
 												{...register('about')}
-												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+												className=' appearance-none border-b-2 border-black  w-full py-2  text-black leading-tight focus:outline-none focus:shadow-outline min-h-[5rem]'
 											/>
 											<p
 												className={`text-red-700 px-3 ${
@@ -218,11 +218,18 @@ function KickOffProject() {
 										</label>
 
 										<div>
-											<input
-												type='date'
-												{...register('endTime')}
-												placeholder='Enter the deadline of your project'
-												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+											<Controller
+												control={control}
+												name='endTime'
+												render={({ field }) => (
+													<DatePicker
+														placeholder='Enter the deadline of your project'
+														className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+														selected={new Date(moment(field.value))}
+														onChange={(date) => field.onChange(moment(date))}
+														dateFormat='dd/MM/yyyy'
+													/>
+												)}
 											/>
 											<p
 												className={`text-red-700 px-3 ${
@@ -282,6 +289,20 @@ function KickOffProject() {
 										onChange={handleFileUpload}
 										className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 									/>
+									{imageUrl !== '' && (
+										<>
+											<p>The file You Upload</p>
+											<div className=' relative w-full h-48     '>
+												<Image
+													src={imageUrl || '/images/placeholder.png'}
+													layout='fill'
+													loading='lazy'
+													className='rounded '
+													alt='profile-picture'
+												/>
+											</div>
+										</>
+									)}
 
 									<p
 										className={`text-red-700 px-3 ${

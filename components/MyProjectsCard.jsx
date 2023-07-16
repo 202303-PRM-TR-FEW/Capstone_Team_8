@@ -4,10 +4,13 @@ import welcome from '@/public/welcome_mobile.png';
 import ProgressBar from './ProgressBar';
 import ConfirmPopUp from './ConfirmPopUp';
 import EditProject from './EditProject';
+import TransactionHistory from './TransactionHistory';
 
 function MyProjectsCard({ project }) {
 	const [isConfirmOpen, setIsConfirOpen] = useState(false);
 	const [isEditProjectOpen, setIsEditProjectOpen] = useState(false);
+	const [isTransactionHistoryOpen, setIsTransactionHistoryOpen] =
+		useState(false);
 
 	const handleOpenConfirmPopUp = () => {
 		setIsConfirOpen(true);
@@ -15,6 +18,10 @@ function MyProjectsCard({ project }) {
 
 	const handleOpenEditPopUp = () => {
 		setIsEditProjectOpen(true);
+	};
+
+	const handleOpenTransactionHistory = () => {
+		setIsTransactionHistoryOpen(true);
 	};
 	return (
 		<>
@@ -29,6 +36,12 @@ function MyProjectsCard({ project }) {
 				<EditProject
 					project={project}
 					setIsEditProjectOpen={setIsEditProjectOpen}
+				/>
+			)}
+			{isTransactionHistoryOpen && (
+				<TransactionHistory
+					project={project}
+					setIsTransactionHistoryOpen={setIsTransactionHistoryOpen}
 				/>
 			)}
 			<div key={project.id} className='block py-2 px-3 '>
@@ -61,7 +74,10 @@ function MyProjectsCard({ project }) {
 								>
 									Delete
 								</button>
-								<button className='m-2 p-2 bg-gray-200'>
+								<button
+									onClick={handleOpenTransactionHistory}
+									className='m-2 p-2 bg-gray-200'
+								>
 									Show Transaction History
 								</button>
 							</div>
