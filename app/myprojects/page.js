@@ -63,11 +63,8 @@ function MyProject(props) {
 				<div className='flex flex-wrap justify-center items-center px-4 gap-4'>
 					{filteredData.map((project) => {
 						return (
-							<div className=' flex justify-center'>
-								<MyProjectsCard
-									project={project}
-									key={project.id}
-								></MyProjectsCard>
+							<div key={project.id} className=' flex justify-center'>
+								<MyProjectsCard project={project}></MyProjectsCard>
 							</div>
 						);
 					})}
