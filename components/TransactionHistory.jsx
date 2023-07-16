@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/legacy/image';
-import { auth } from '../firebase/firebase';
-import { getUserInfo } from '../firebase/adminsdk';
+// import { auth } from '../firebase/firebase';
+// import { getUserInfo } from '../firebase/adminsdk';
 
 function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
 	useEffect(() => {
