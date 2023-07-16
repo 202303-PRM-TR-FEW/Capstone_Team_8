@@ -1,19 +1,8 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Image from 'next/legacy/image';
-// import { auth } from '../firebase/firebase';
-// import { getUserInfo } from '../firebase/adminsdk';
 
 function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
-	useEffect(() => {
-		// getUserInfo(auth?.currentUser?.uid);
-		// project.forEach((project) => {
-		// 	const userDetail = getUserInfo(project.user.uid);
-		// 	project.user.imageUrl = userDetail.photoURL;
-		// 	project.user.name = userDetail.displayName;
-		// });
-	}, []);
-
 	const handleCloseModal = () => {
 		setIsTransactionHistoryOpen(false);
 	};
