@@ -58,7 +58,7 @@ function Home(props) {
     <div key="animal" className="p-2">
       <button
         className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
-          selectedCategory === "animal" ? "bg-blue-500" : ""
+          selectedCategory === "Education" ? "bg-blue-500" : ""
         }`}
         onClick={() => filterHandle("Education")}
       >
@@ -68,7 +68,7 @@ function Home(props) {
     <div key="sport" className="p-2">
       <button
         className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
-          selectedCategory === "sport" ? "bg-blue-500" : ""
+          selectedCategory === "Culture" ? "bg-blue-500" : ""
         }`}
         onClick={() => filterHandle("Culture")}
       >
@@ -78,7 +78,7 @@ function Home(props) {
     <div key="education" className="p-2">
       <button
         className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
-          selectedCategory === "education" ? "bg-blue-500" : ""
+          selectedCategory === "Animals" ? "bg-blue-500" : ""
         }`}
         onClick={() => filterHandle("Animals")}
       >
@@ -88,7 +88,7 @@ function Home(props) {
     <div key="denem1" className="p-2">
       <button
         className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
-          selectedCategory === "denem1" ? "bg-blue-500" : ""
+          selectedCategory === "Children" ? "bg-blue-500" : ""
         }`}
         onClick={() => filterHandle("Children")}
       >
