@@ -12,6 +12,8 @@ import {
 	updateDoc,
 	arrayUnion,
 	deleteDoc,
+	where,
+	getDocs,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -88,6 +90,11 @@ export const register = async (email, password, userName, imageUrl) => {
 		await createUserWithEmailAndPassword(auth, email, password).then(
 			async (res) => {
 				await updateProfile(auth.currentUser, {
+					displayName: userName,
+					photoURL: imageUrl,
+				});
+				await addDoc(collection(db, 'users'), {
+					uid: auth.currentUser.uid,
 					displayName: userName,
 					photoURL: imageUrl,
 				});
@@ -183,9 +190,42 @@ export const updateUserProfilePicture = (newImage) => {
 	updateProfile(user, {
 		photoURL: newImage,
 	})
+		.then(async () => {
+			// Update successful.
+
+			const usersCollection = collection(db, 'users');
+			const q = query(usersCollection, where('uid', '==', user.uid));
+			const querySnapshot = await getDocs(q);
+
+			querySnapshot.forEach((doc) => {
+				updateDoc(doc.ref, { photoURL: newImage });
+			});
+			alert('Successfully changed!');
+		})
+		.catch((error) => {
+			alert(error.message);
+		});
+};
+export const updateUserDisplayName = (displayName) => {
+	const user = auth.currentUser;
+	if (displayName.length < 1) {
+		alert('Please upload an image!');
+		return;
+	}
+
+	updateProfile(user, {
+		displayName: displayName,
+	})
 		.then(() => {
 			// Update successful.
 			alert('Successfully changed!');
+			const usersCollection = collection(db, 'users');
+			const q = query(usersCollection, where('uid', '==', user.uid));
+			const querySnapshot = await getDocs(q);
+
+			querySnapshot.forEach((doc) => {
+				updateDoc(doc.ref, { displayName: displayName });
+			});
 		})
 		.catch((error) => {
 			alert(error.message);
