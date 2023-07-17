@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import Image from 'next/legacy/image';
 import welcome from '@/public/welcome_mobile.png';
+import ProgressBar from './ProgressBar';
 
 function ProjectCard({ project, props }) {
 	return (
@@ -14,38 +15,19 @@ function ProjectCard({ project, props }) {
 			}}
 		>
 			<div key={project.id} className='flex flex-col shadow-lg gap-4 p-6 '>
-				<div className='flex flex-col w-96'>
-					<div className='relative w-96 h-64 '>
+				<div className='flex flex-col w-96 '>
+					<div className=' block w-96 h-64   '>
 						{' '}
 						<Image
-							className='rounded'
 							src={project?.img || welcome}
-							layout='fill'
-							alt='Picture of the author'
-						/>
+							width={100}
+							height={64}
+							layout='responsive'
+							alt='profile-picture'
+						/>{' '}
 					</div>
 					<h1>{project.title}</h1>
-					<div className=' w-full flex flex-col gap-2 text-sm'>
-						<div className='h-2 w-full bg-gray-200 rounded'>
-							<div
-								style={{
-									maxWidth: '100%',
-									width: `${(project.totalDonations / project.goal) * 100}%`,
-								}}
-								className='h-2  bg-[#d4ee26] rounded'
-							></div>
-						</div>
-
-						<div className='grid grid-cols-12'>
-							<span className='col-span-11'>Raised</span>{' '}
-							<span className='col-span-1'>Goal</span>
-						</div>
-
-						<div className='grid grid-cols-12'>
-							<span className='col-span-11'>${project.totalDonations}</span>{' '}
-							<span className='col-span-1'>${project.goal}</span>
-						</div>
-					</div>
+					<ProgressBar project={project} />
 				</div>
 			</div>
 		</Link>

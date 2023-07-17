@@ -5,9 +5,10 @@ import { useRouter } from 'next/navigation';
 import PageLayout from '@/components/PageLayout';
 import WithAuth from '@/components/AuthanticatedRoute';
 import Loading from '@/app/loading';
+import { useParams } from 'next/navigation';
 
 function Thankyou(props) {
-	const router = useRouter;
+	const { id } = useParams();
 
 	if (props.loading || !props.user)
 		return (
@@ -15,7 +16,6 @@ function Thankyou(props) {
 				<Loading></Loading>
 			</div>
 		);
-
 	return (
 		<PageLayout>
 			<div className='h-[100vh] w-full p-24'>
@@ -26,19 +26,17 @@ function Thankyou(props) {
 					</div>
 					<div className='flex flex-col lg:flex-row'>
 						<div>
-							<button
+							<Link
 								className='bg-red-900 text-white border-2 border-solid'
-								onClick={() => {
-									router.back();
-								}}
+								href={`/project/${id}`}
 							>
 								Make another donation.
-							</button>
+							</Link>
 						</div>
 						<div>
 							<Link
 								className='bg-red-900 text-white border-2 border-solid'
-								href='/'
+								href='/projects'
 							>
 								Go to the Home Page
 							</Link>
