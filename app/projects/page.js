@@ -44,7 +44,6 @@ function Home(props) {
 			: data;
 		setFilteredData(filteredProject);
 	};
-
 	const buttons = [
 		<div key='all' className='p-2'>
 			<button
@@ -61,7 +60,7 @@ function Home(props) {
 				className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
 					selectedCategory === 'animal' ? 'bg-blue-500' : ''
 				}`}
-				onClick={() => filterHandle('animal')}
+				onClick={() => filterHandle('Education')}
 			>
 				Animal
 			</button>
@@ -71,7 +70,7 @@ function Home(props) {
 				className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
 					selectedCategory === 'sport' ? 'bg-blue-500' : ''
 				}`}
-				onClick={() => filterHandle('sport')}
+				onClick={() => filterHandle('Culture')}
 			>
 				Sport
 			</button>
@@ -81,7 +80,7 @@ function Home(props) {
 				className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
 					selectedCategory === 'education' ? 'bg-blue-500' : ''
 				}`}
-				onClick={() => filterHandle('education')}
+				onClick={() => filterHandle('Animals')}
 			>
 				Education
 			</button>
@@ -91,7 +90,7 @@ function Home(props) {
 				className={`border-2 rounded-full h-24 w-24 flex items-center justify-center ${
 					selectedCategory === 'denem1' ? 'bg-blue-500' : ''
 				}`}
-				onClick={() => filterHandle('denem1')}
+				onClick={() => filterHandle('Children')}
 			>
 				Denem1
 			</button>
@@ -182,17 +181,6 @@ function Home(props) {
 								);
 							})}
 						</div>
-						{/* <div className="flex flex-wrap w-full gap-8 ">
-              {filteredData.map((project) => {
-                return (
-                  <ProjectCardMaterial
-                    project={project}
-                    key={project.id}
-                    props={props}
-                  ></ProjectCardMaterial>
-                );
-              })}
-            </div> */}
 					</div>
 				</main>
 			</PageLayout>
