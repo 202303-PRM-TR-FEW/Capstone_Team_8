@@ -95,6 +95,15 @@ export const logOut = async () => {
 };
 export const register = async (email, password, userName, imageUrl) => {
 	try {
+		if (userName.length < 1) {
+			alert('Please enter a username!');
+			return;
+		}
+
+		if (imageUrl.length < 1) {
+			alert('Please upload an image!');
+			return;
+		}
 		await createUserWithEmailAndPassword(auth, email, password).then(
 			async (res) => {
 				await updateProfile(auth.currentUser, {

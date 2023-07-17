@@ -22,13 +22,10 @@ import {
 } from '@/firebase/firebase';
 const Profile = (props) => {
 	const auth = getAuth();
-
-	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
 	const [imageUrl, setImageUrl] = useState('');
-	console.log(auth?.currentUser);
 
 	const passwordSchema = yup.object().shape({
 		password: yup
@@ -69,15 +66,13 @@ const Profile = (props) => {
 	} = useForm({
 		resolver: yupResolver(imageSchema),
 	});
-	const dispatch = useDispatch();
 
 	const onSubmitPassword = (data) => {
-		console.log(auth.currentUser);
 		updateUserPassword(data.password);
 
 		reset();
 	};
-	console.log('imageUrL', imageUrl);
+
 	const onSubmitImage = () => {
 		if (imageUrl && imageUrl.trim().length < 1) {
 			alert('No file has been uploaded');
