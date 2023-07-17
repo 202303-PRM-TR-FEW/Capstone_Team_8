@@ -32,8 +32,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
 	};
 
 	const auth = getAuth();
-	console.log(moment(project.endTime.seconds * 1000));
-	const categoryOptions = ['animal', 'education', 'sport', 'denem1'];
 	const schema = yup.object().shape({
 		title: yup.string().trim().required('Title is required'),
 		about: yup
