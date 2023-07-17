@@ -4,6 +4,7 @@ import { query, onSnapshot, collection } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import { useSelector, useDispatch } from "react-redux";
 import { setSearchResults } from "@/app/features/searchproject/searchproject";
+import moment from "moment";
 
 export default function SearchBar({ setIsSeachBarOpen }) {
   const [text, setText] = useState("");
@@ -23,8 +24,8 @@ export default function SearchBar({ setIsSeachBarOpen }) {
     onSnapshot(q, (querySnapshot) => {
       let dataArr = [];
       querySnapshot.forEach((doc) => {
-        const docData = doc.data();
-        const projectData = { ...docData, id: doc.id };
+        const projectData = { ...doc.data(), id: doc.id };
+
         const totalDonations = projectData.donations.reduce(
           (total, donation) => total + parseInt(donation.donation),
           0
@@ -32,6 +33,7 @@ export default function SearchBar({ setIsSeachBarOpen }) {
         dataArr.push({ ...projectData, totalDonations });
       });
       dataArr.sort((a, b) => b.totalDonations - a.totalDonations);
+
       setData(dataArr);
       return dataArr;
     });
@@ -40,9 +42,13 @@ export default function SearchBar({ setIsSeachBarOpen }) {
     const filteredResults = data.filter((item) =>
       item.title.toLowerCase().includes(text.toLowerCase())
     );
+
+    filteredResults.forEach((item) => {
+      item.endTime = item.endTime.seconds;
+      item.startTime = item.startTime.seconds;
+    });
     setSearchResults(filteredResults);
     dispatch(setSearchResults(filteredResults));
-    console.log(filteredResults);
   };
   const handleText = (e) => {
     setText(e.target.value);
