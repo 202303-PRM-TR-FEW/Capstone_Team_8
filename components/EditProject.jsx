@@ -41,7 +41,7 @@ function EditProject({ setIsEditProjectOpen, project }) {
       .min(20, "About must be at least 50 characters")
       .max(100, "About cannot be more than 200 characters"),
     desc: yup.string().trim().required("Description is required"),
-    goal: yup.number().trim().required("Goal is required"),
+    goal: yup.number().required("Goal is required"),
     endTime: yup.date().required("End time is required").nullable(),
     img: yup.mixed(),
   });
