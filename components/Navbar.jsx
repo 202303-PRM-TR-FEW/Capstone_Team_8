@@ -82,7 +82,9 @@ const Navbar = () => {
                   </Link>
                 </li>
               )}
-              {!auth.currentUser == null ? (
+              {auth.currentUser == null ? (
+                ""
+              ) : (
                 <li>
                   <Link
                     className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl "
@@ -91,8 +93,6 @@ const Navbar = () => {
                     Profile
                   </Link>
                 </li>
-              ) : (
-                ""
               )}
 
               {auth.currentUser == null ? (
