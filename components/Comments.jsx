@@ -51,21 +51,27 @@ const Comments = ({ projectId }) => {
 
   return (
     <div>
-      <div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <input
-            {...register("comment")}
-            type="text"
-            placeholder="Add a comment"
-          />
-          <p
-            className={`text-red-700 px-3 ${errors.comment ? "" : "invisible"}`}
-          >
-            {errors.comment?.message || "Placeholder"}
-          </p>
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+      {auth.currentUser == null ? (
+        ""
+      ) : (
+        <div>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <input
+              {...register("comment")}
+              type="text"
+              placeholder="Add a comment"
+            />
+            <p
+              className={`text-red-700 px-3 ${
+                errors.comment ? "" : "invisible"
+              }`}
+            >
+              {errors.comment?.message || "Placeholder"}
+            </p>
+            <button type="submit">Submit</button>
+          </form>
+        </div>
+      )}
       <div>
         {comments.map((comment) => (
           <div key={comment.timestamp}>

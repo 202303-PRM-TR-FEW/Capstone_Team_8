@@ -5,12 +5,11 @@ import PageLayout from "@/components/PageLayout";
 import { useSelector } from "react-redux";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { query, collection, onSnapshot, addDoc } from "firebase/firestore";
+import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import Loading from "@/app/loading";
-import WithAuth from "@/components/AuthanticatedRoute";
 import ProjectCard from "@/components/ProjectCard";
-function Home(props) {
+function Home() {
   const kickOffModalStatus = useSelector(
     (state) => state.isStartProjectOpen.modalOpen
   );
@@ -97,13 +96,6 @@ function Home(props) {
     </div>,
   ];
 
-  if (props.loading || !props?.user)
-    return (
-      <div>
-        <Loading></Loading>
-      </div>
-    );
-
   return (
     <>
       <PageLayout>
@@ -173,11 +165,7 @@ function Home(props) {
             <div className="flex flex-wrap w-full gap-8 ">
               {filteredData.map((project) => {
                 return (
-                  <ProjectCard
-                    project={project}
-                    key={project.id}
-                    props={props}
-                  ></ProjectCard>
+                  <ProjectCard project={project} key={project.id}></ProjectCard>
                 );
               })}
             </div>
@@ -187,4 +175,4 @@ function Home(props) {
     </>
   );
 }
-export default WithAuth(Home);
+export default Home;

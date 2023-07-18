@@ -4,10 +4,10 @@ import { fetchDocById } from "../../../firebase/firebase";
 import PageLayout from "@/components/PageLayout";
 import FundProject from "@/components/FundProject";
 import moment from "moment";
-import WithAuth from "@/components/AuthanticatedRoute";
 import Loading from "@/app/loading";
 import { auth } from "@/firebase/firebase";
 import Image from "next/legacy/image";
+import { useRouter } from "next/navigation";
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -22,7 +22,8 @@ import {
 } from "next-share";
 import Comments from "@/components/Comments";
 
-async function ProjectDetail({ params, query }) {
+async function ProjectDetail({ params }) {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
 
   const projectDetail = await fetchDocById(params.id);
@@ -42,12 +43,11 @@ async function ProjectDetail({ params, query }) {
   const handleClick = () => {
     setIsOpen(true);
   };
-  if (query?.loading || !auth.currentUser)
-    return (
-      <div>
-        <Loading></Loading>
-      </div>
-    );
+
+  const handleLogin = () => {
+    router.push("/login");
+  };
+
   return (
     <PageLayout>
       {isOpen && (
@@ -80,7 +80,6 @@ async function ProjectDetail({ params, query }) {
                 <h2 className="font-bold">About Section</h2>
                 <p className="break-words">{projectDetail.about}</p>
               </div>
-              {/* <div className='border-solid border-l-4 border-black'></div> */}
 
               <div className="border-solid sm:border-l-2 border-y-2 p-2  lg:p-6  border-black col-span-12 sm:col-span-6 order-first sm:order-2">
                 <div className=" w-full flex flex-col gap-2 text-sm     ">
@@ -113,13 +112,36 @@ async function ProjectDetail({ params, query }) {
               </div>
             </div>
             <div className="flex flex-col sm:flex-row gap-10">
-              <button
-                className="block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]"
-                onClick={handleClick}
-                disabled={dayLeft < 0}
-              >
-                Fund This project
-              </button>
+              {projectDetail.goal == totalAmount ? (
+                <button
+                  className="block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-green-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]"
+                  disabled
+                >
+                  This project reached its goal
+                </button>
+              ) : (
+                <>
+                  {auth.currentUser == null ? (
+                    <button
+                      className="block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]"
+                      onClick={handleLogin}
+                    >
+                      In order to donate you need to login!
+                    </button>
+                  ) : (
+                    <button
+                      className="block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]"
+                      onClick={handleClick}
+                      disabled={
+                        dayLeft < 0 || projectDetail.goal === totalAmount
+                      }
+                    >
+                      Fund This project
+                    </button>
+                  )}
+                </>
+              )}
+
               <div className="flex gap-2 justify-center">
                 <FacebookShareButton
                   url={`capstone-team-8.vercel.app/project/${params.id}`}
@@ -150,9 +172,10 @@ async function ProjectDetail({ params, query }) {
             </div>
           </div>
         </div>
+
         <Comments projectId={params.id} />
       </section>
     </PageLayout>
   );
 }
-export default WithAuth(ProjectDetail);
+export default ProjectDetail;
