@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { fetchDocById } from "../../../firebase/firebase";
+import { fetchDocById, fetchDocByUserId } from "../../../firebase/firebase";
 import PageLayout from "@/components/PageLayout";
 import FundProject from "@/components/FundProject";
 import moment from "moment";
@@ -27,6 +27,7 @@ async function ProjectDetail({ params }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const projectDetail = await fetchDocById(params.id);
+  const userDetail = await fetchDocByUserId(projectDetail.userId);
 
   const totalAmount = projectDetail.donations.reduce((total, donation) => {
     return total + parseFloat(donation.donation);
@@ -73,7 +74,16 @@ async function ProjectDetail({ params }) {
           <div className="flex flex-col  content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-10">
             <div className="p-2  lg:p-6  flex flex-col gap-4 lg:gap-8">
               <h1>{projectDetail.title}</h1>
-              <p>{projectDetail.desc} </p>
+              <div className="flex items-center gap-2">
+                <Image
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  alt="user image"
+                  src={userDetail[0]?.photoURL}
+                />
+                <p>{userDetail[0]?.displayName} </p>
+              </div>
             </div>
             <div className="grid grid-cols-12   ">
               <div className="w-full col-span-12 p-2  lg:p-6  sm:col-span-6 border-solid sm:border-t-2 border-b-2 border-black">

@@ -194,7 +194,9 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-              {!auth.currentUser == null ? (
+              {auth.currentUser == null ? (
+                ""
+              ) : (
                 <>
                   {" "}
                   <li className="border-white border-b-2 w-full  pb-4 ">
@@ -220,8 +222,6 @@ const Navbar = () => {
                     </Link>
                   </li>
                 </>
-              ) : (
-                ""
               )}
 
               {auth.currentUser == null ? (
@@ -238,7 +238,9 @@ const Navbar = () => {
                 </li>
               )}
             </ul>
-            {!auth.currentUser == null ? (
+            {auth.currentUser == null ? (
+              ""
+            ) : (
               <button
                 onClick={() => {
                   setIsOpen(!isOpen);
@@ -253,8 +255,6 @@ const Navbar = () => {
                   NewProject
                 </Link>
               </button>
-            ) : (
-              ""
             )}
           </div>
         )}

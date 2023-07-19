@@ -36,8 +36,6 @@ function KickOffProject() {
       .required("About is required")
       .min(20, "About must be at least 50 characters")
       .max(100, "About cannot be more than 200 characters"),
-
-    desc: yup.string().trim().required("Description is required"),
     goal: yup.number().required("Goal is required"),
 
     endTime: yup.date().required("End time is required").nullable(),
@@ -76,7 +74,6 @@ function KickOffProject() {
   const onSubmit = (data) => {
     createProject({
       title: data.title,
-      desc: data.desc,
       goal: data.goal,
       about: data.about,
       endTime: data.endTime,
@@ -148,26 +145,6 @@ function KickOffProject() {
                         }`}
                       >
                         {errors.title?.message || "Placeholder"}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                      Description
-                    </label>
-
-                    <div>
-                      <input
-                        placeholder="Enter the description of your project"
-                        {...register("desc")}
-                        className=" appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                      />
-                      <p
-                        className={`text-red-700 px-3 ${
-                          errors.desc ? "" : "invisible"
-                        }`}
-                      >
-                        {errors.desc?.message || "Placeholder"}
                       </p>
                     </div>
                   </div>
