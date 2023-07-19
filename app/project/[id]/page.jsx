@@ -44,7 +44,6 @@ function ProjectDetail({ params }) {
 			setLoading(false);
 		}
 	};
-
 	useEffect(() => {
 		fetchAllData();
 	}, [params?.id]);
