@@ -23,7 +23,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
   const [imageUrl, setImageUrl] = useState(project.img);
   const defaultValues = {
     title: project.title,
-    desc: project.desc,
     goal: project.goal,
     about: project.about,
     endTime: moment(project.endTime.seconds * 1000).toDate(),
@@ -40,7 +39,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
       .required("About is required")
       .min(20, "About must be at least 50 characters")
       .max(100, "About cannot be more than 200 characters"),
-    desc: yup.string().trim().required("Description is required"),
     goal: yup.number().required("Goal is required"),
     endTime: yup.date().required("End time is required").nullable(),
     img: yup.mixed(),
@@ -59,7 +57,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
     try {
       await updateProject(project.id, {
         title: data.title,
-        desc: data.desc,
         goal: data.goal,
         about: data.about,
         endTime: data.endTime,
@@ -130,26 +127,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
                         }`}
                       >
                         {errors.title?.message || "Placeholder"}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2">
-                      Description
-                    </label>
-
-                    <div>
-                      <input
-                        placeholder="Enter the description of your project"
-                        {...register("desc")}
-                        className=" appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
-                      />
-                      <p
-                        className={`text-red-700 px-3 ${
-                          errors.desc ? "" : "invisible"
-                        }`}
-                      >
-                        {errors.desc?.message || "Placeholder"}
                       </p>
                     </div>
                   </div>
