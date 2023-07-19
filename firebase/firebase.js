@@ -193,6 +193,14 @@ export const handleDelete = async (id) => {
   }
 };
 
+export const handleCommentDelete = async (id) => {
+  try {
+    await deleteDoc(doc(db, "comments", id));
+  } catch (e) {
+    console.log(e);
+  }
+};
+
 export const updateUserPassword = (newPassword) => {
   const user = auth.currentUser;
 
