@@ -8,6 +8,7 @@ import {
 	getDocs,
 } from 'firebase/firestore';
 import Image from 'next/legacy/image';
+import DeleteComment from './DeleteComment';
 const Comments = ({ projectId }) => {
 	const [comments, setComments] = useState([]);
 	const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);

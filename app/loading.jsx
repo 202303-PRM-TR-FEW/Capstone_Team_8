@@ -1,4 +1,5 @@
 function Loading() {
+	//https://css-tricks.com/single-element-loaders-the-spinner/
 	return (
 		<div
 			style={{
