@@ -24,7 +24,7 @@ const Comment = ({ projectId }) => {
 			userUid: auth?.currentUser?.uid,
 		});
 		reset();
-		setComments([]);
+		// setComments([]);
 	};
 
 	return (
