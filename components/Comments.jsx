@@ -32,7 +32,6 @@ const Comments = ({ projectId }) => {
 			commentsData.sort((a, b) => b.timestamp - a.timestamp);
 			setComments(commentsData);
 		});
-
 		return () => {
 			unsubscribe();
 		};

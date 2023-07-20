@@ -4,25 +4,19 @@ import { db, auth, handleCommentDelete } from '@/firebase/firebase';
 
 function DeleteComment({ setIsDeleteCommentOpen, projectId }) {
 	const ref = useRef(null);
-	// const imageUrl = useSelector(()=>state.imageUrl.imageUrl)
 	const handleDeleteComment = async () => {
 		await handleDelete(projectId);
 		handleCommentDelete(false);
 	};
 
 	useEffect(() => {
-		/**
-		 * Alert if clicked on outside of element
-		 */
 		function handleClickOutside(event) {
 			if (ref.current && !ref.current.contains(event.target)) {
 				setIsDeleteCommentOpen(false);
 			}
 		}
-		// Bind the event listener
 		document.addEventListener('mousedown', handleClickOutside);
 		return () => {
-			// Unbind the event listener on clean up
 			document.removeEventListener('mousedown', handleClickOutside);
 		};
 	}, [ref]);

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { auth } from '../firebase/firebase';
@@ -8,17 +8,7 @@ import { handleEdit } from '../firebase/firebase';
 import { useRouter } from 'next/navigation';
 
 function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
-	const [user, setUser] = useState(null);
-
-	useEffect(() => {
-		auth.onAuthStateChanged((user) => {
-			if (user) {
-				setUser(user);
-			} else {
-				setUser(null);
-			}
-		});
-	}, []);
+	const ref = useRef(null);
 
 	const remaining = parseFloat(
 		parseFloat(Number(projectDetail.goal)) - parseFloat(Number(totalAmount))
@@ -39,7 +29,17 @@ function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
 	} = useForm({
 		resolver: yupResolver(schema),
 	});
-
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (ref.current && !ref.current.contains(event.target)) {
+				setIsOpen(false);
+			}
+		}
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [ref]);
 	const router = useRouter();
 	const onSubmit = async (data) => {
 		await handleEdit(projectId, data);
@@ -72,7 +72,10 @@ function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
 				</span>
 
 				<div className='inline-block  align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
-					<div className='bg-white px-12 pt-2 pb-16  flex flex-col w-full'>
+					<div
+						ref={ref}
+						className='bg-white px-12 pt-2 pb-16  flex flex-col w-full'
+					>
 						<div className='flex justify-end items-end'>
 							{' '}
 							<button
