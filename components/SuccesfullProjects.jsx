@@ -38,7 +38,7 @@ function SuccesfullProjects() {
       {" "}
       <div className='grid grid-cols-12 gap-6 border-b-2 pb-12 '>
         <div className='w-full flex flex-col justify-center gap-12 md:pt-0 sm:col-span-7 col-span-12  '>
-          <h1 className='text-6xl font-bold'>Project of the week</h1>
+          <h1 className='text-6xl font-bold'>Most Successful Project</h1>
           <div className='w-full'>
             {" "}
             <Link
