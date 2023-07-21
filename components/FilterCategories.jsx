@@ -11,6 +11,7 @@ function FilterCategories({
 		const filteredProject = category
 			? data.filter((item) => item.category === category)
 			: data;
+
 		setFilteredData(filteredProject);
 	};
 	return (
