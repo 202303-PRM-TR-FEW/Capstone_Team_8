@@ -11,7 +11,7 @@ const withAuth = (WrappedComponent) => {
 		useEffect(() => {
 			const unsubscribe = onAuthStateChanged(auth, (user) => {
 				if (!user) {
-					Router.replace('/login');
+					Router.replace('/');
 				}
 				setLoading(false);
 			});
