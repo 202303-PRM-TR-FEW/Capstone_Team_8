@@ -14,8 +14,12 @@ export default function SearchBar({ setIsSeachBarOpen }) {
 	const dispatch = useDispatch();
 	const searchText = (e) => {
 		e.preventDefault();
+		if (!text || text.trim().length < 1) {
+			return;
+		}
 		setIsSeachBarOpen(false);
 		filterDataBySearchQuery();
+
 		router.push('/search');
 		setText('');
 	};
