@@ -74,6 +74,15 @@ export const createComment = async (data) => {
     console.log(e);
   }
 };
+
+export const createSubs = async (data) => {
+  try {
+    const result = await addDoc(collection(db, "newsletter"), data);
+    return result;
+  } catch (e) {
+    console.log(e);
+  }
+};
 export const login = async (email, password) => {
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
