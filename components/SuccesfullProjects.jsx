@@ -1,0 +1,106 @@
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Image from "next/legacy/image";
+import { query, collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/firebase/firebase";
+import { useRouter } from "next/navigation";
+
+function SuccesfullProjects() {
+  const [filteredData, setFilteredData] = useState([]);
+  const router = useRouter();
+
+  useEffect(() => {
+    const q = query(collection(db, "app"));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let dataArr = [];
+      querySnapshot.forEach((doc) => {
+        const projectData = { ...doc.data(), id: doc.id };
+        const totalDonations = projectData.donations.reduce(
+          (total, donation) => total + parseInt(donation.donation),
+          0
+        );
+        dataArr.push({ ...projectData, totalDonations });
+      });
+      dataArr.sort((a, b) => b.totalDonations - a.totalDonations);
+      const filterSuccess = dataArr.filter(
+        (item) => item.totalDonations === item.goal
+      );
+      setFilteredData(filterSuccess);
+    });
+    return () => unsubscribe();
+  }, []);
+  const handleClick = () => {
+    router.push("/success");
+  };
+
+  return (
+    <div>
+      {" "}
+      <div className='grid grid-cols-12 gap-6 border-b-2 pb-12 '>
+        <div className='w-full flex flex-col justify-center gap-12 md:pt-0 sm:col-span-7 col-span-12  '>
+          <h1 className='text-6xl font-bold'>Project of the week</h1>
+          <div className='w-full'>
+            {" "}
+            <Link
+              key={filteredData[0]?.id}
+              className='block py-2 px-3 lg:w-2/4'
+              href={`/project/${filteredData[0]?.id}`}
+            >
+              <Image
+                className='border-2 '
+                src={filteredData[0]?.img}
+                layout='responsive'
+                width={300}
+                height={200}
+                alt='Picture of the author'
+              />
+            </Link>
+          </div>
+        </div>
+        <div className='w-full flex flex-col gap-4 sm:col-span-5 col-span-12  justify-end  '>
+          <h3 className='font-bold lg:text-4xl md:text-3xl text-2xl '>
+            {filteredData[0]?.title}
+          </h3>
+          <p className='text-sm'>{filteredData[0]?.desc}</p>
+
+          <div className=' w-full flex flex-col gap-2 text-sm'>
+            <div className='h-2 w-full bg-gray-200 rounded'>
+              <div
+                style={{
+                  maxWidth: "100%",
+                  width: `${
+                    (filteredData[0]?.totalDonations / filteredData[0]?.goal) *
+                    100
+                  }%`,
+                }}
+                className='h-2  bg-[#d4ee26] rounded'
+              ></div>
+            </div>
+
+            <div className='grid grid-cols-12'>
+              <span className='col-span-11'>Raised</span>{" "}
+              <span className='col-span-1'>Goal:</span>
+            </div>
+
+            <div className='grid grid-cols-12'>
+              <span className='col-span-11'>
+                ${filteredData[0]?.totalDonations}
+              </span>{" "}
+              <span className='col-span-1'>${filteredData[0]?.goal}</span>
+            </div>
+          </div>
+          <div className=' px-4 py-3 sm:px-6 flex w-full justify-center '>
+            <button
+              onClick={handleClick}
+              className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-black text-xl font-medium text-white  focus:outline-none sm:ml-3  '
+            >
+              See More Projects
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default SuccesfullProjects;
