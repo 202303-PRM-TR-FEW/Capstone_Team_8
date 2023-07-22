@@ -8,6 +8,7 @@ import { login } from '@/firebase/firebase';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import PageLayout from '@/components/PageLayout';
 // import Spinner from '../components/Spinner';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
@@ -47,8 +48,8 @@ const Login = () => {
 	// const dispatch = useDispatch();
 
 	return (
-		<>
-			<div className='bg-white  '>
+		<PageLayout>
+			<div className='flex min-h-[80vh]  flex-col   justify-center   h-full overflow-auto   sm:px-4 px-2 py-24  w-full'>
 				{' '}
 				<form onSubmit={handleSubmit(onSubmit)}>
 					<div className='flex  items-center justify-center py-8 px-4 sm:px-6 lg:px-8 '>
@@ -125,7 +126,7 @@ const Login = () => {
 					</button>
 				</div>
 			</div>
-		</>
+		</PageLayout>
 	);
 };
 export default Login;

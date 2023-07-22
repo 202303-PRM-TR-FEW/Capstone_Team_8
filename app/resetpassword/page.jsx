@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import PageLayout from '@/components/PageLayout';
 // import Spinner from '../components/Spinner';
 // import { ToastContainer, toast } from 'react-toastify';
 // import 'react-toastify/dist/ReactToastify.css';
@@ -57,8 +58,8 @@ export default function ResetPassword() {
 	};
 
 	return (
-		<>
-			<div className='flex w-full h-full mobile:w-full mt-[10%]   flex-col justify-center align-middle  items-center px-2'>
+		<PageLayout>
+			<div className='flex w-full h-full min-h-[95vh]   flex-col justify-center align-middle  items-center px-2'>
 				<div>
 					<div>
 						{' '}
@@ -106,6 +107,6 @@ export default function ResetPassword() {
 					</button>
 				</div>
 			</div>
-		</>
+		</PageLayout>
 	);
 }
