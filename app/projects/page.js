@@ -51,11 +51,13 @@ function Home() {
 			<PageLayout>
 				{loading && <Loading />}
 				{kickOffModalStatus && <KickOffProject />}
-				<main className='flex  flex-col   justify-center   h-full overflow-auto   md:px-12 px-6 py-24  w-full '>
+				<main className='flex  flex-col   justify-center   h-full overflow-auto   sm:px-4 px-2 py-24  w-full '>
 					<Tabs data={data} ongoingProjects={ongoingProjects} />
 
 					<div className='my-6 flex flex-col justify-center items-center w-full '>
-						<h1 className='text-5xl text-left font-bold'>Categories</h1>
+						<h1 className='lg:text-5xl text-3xl sm:text-4xl text-left font-bold'>
+							Categories
+						</h1>
 						<div className='justify-center items-center'>
 							<ul className='flex gap-4 my-6 '>
 								{
@@ -70,7 +72,7 @@ function Home() {
 						</div>
 					</div>
 					<div className='flex justify-center items-center w-full'>
-						<div className='flex flex-wrap w-full gap-4 '>
+						<div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
 							{filteredData?.map((project) => {
 								return (
 									<ProjectCard project={project} key={project.id}></ProjectCard>
