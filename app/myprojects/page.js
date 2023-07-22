@@ -4,11 +4,13 @@ import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import { getAuth } from "@firebase/auth";
 import PageLayout from "@/components/PageLayout";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import KickOffProject from "@/components/KickOffProject";
 import WithAuth from "@/components/AuthanticatedRoute";
 import Loading from "@/app/loading";
 import MyProjectsCard from "@/components/MyProjectsCard";
+import Link from "next/link";
+import { openAddProject } from "../features/startproject/kickoff";
 
 function MyProject(props) {
   const [data, setData] = useState([]);
@@ -18,6 +20,7 @@ function MyProject(props) {
     (state) => state.isStartProjectOpen.modalOpen
   );
   const auth = getAuth();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const q = query(collection(db, "app"));
@@ -56,19 +59,61 @@ function MyProject(props) {
         <Loading></Loading>
       </div>
     );
+
   return (
     <PageLayout>
       {kickOffModalStatus && <KickOffProject />}
-      <div className="w-full overflow-auto flex   pt-24 pb-20 ">
-        <div className="flex flex-wrap justify-start items-start w-full px-4 gap-4">
-          {filteredData.map((project) => {
-            return (
-              <div key={project.id} className=" flex justify-center  ">
-                <MyProjectsCard project={project}></MyProjectsCard>
+      <div className='flex  flex-col  w-full overflow-auto h-[100vh] pt-12 pb-20 '>
+        {filteredData.length < 1 ? (
+          <div
+            id='noData'
+            className='flex flex-col w-full h-full justify-end items-center gap-4 p-6'
+          >
+            <div>
+              <p className='font-bold text-3xl text-black '>
+                It seems you have not started any project!
+              </p>
+            </div>
+
+            <div className='flex gap-4 justify-center items-center'>
+              <button
+                onClick={() => {
+                  dispatch(openAddProject());
+                }}
+              >
+                <Link
+                  className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
+                  href='/projects'
+                >
+                  New project
+                </Link>
+              </button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className='flex flex-col sm:justify-start sm:items-start justify-center items-center gap-4 p-6'>
+              <div>
+                <h1 className='font-bold text-3xl'>Your Projects</h1>
               </div>
-            );
-          })}
-        </div>
+              <div>
+                <p>
+                  Here you can edit, delete or see the transaction history of
+                  your projects
+                </p>
+              </div>
+            </div>
+            <div className='flex flex-wrap justify-start items-start w-full px-4 gap-4'>
+              {filteredData.map((project) => {
+                return (
+                  <div key={project.id} className=' flex justify-center  '>
+                    <MyProjectsCard project={project}></MyProjectsCard>
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
     </PageLayout>
   );
