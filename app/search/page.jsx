@@ -9,14 +9,20 @@ function Search() {
   const data = useSelector((state) => state.searchProject.searchResult);
   return (
     <PageLayout>
-      <div className=" h-full overflow-auto flex flex-col   md:px-12 px-6 py-24  w-full">
+      <div className='flex flex-col overflow-auto h-[100vh]  pt-24 pb-20   w-full'>
+        <h1 className='font-bold text-2xl pl-4 pb-4'>Search Results</h1>
         {data.length < 1 && (
-          <div>
-            Our robot could not find what you were looking for. Please give our
-            robot more easy terms.
+          <div
+            id='noData'
+            className='flex flex-col w-full h-full justify-end items-center gap-4 p-6'
+          >
+            <p className='font-bold sm:text-3xl text-xl text-black '>
+              Our robot could not find what you were looking for. Please give
+              our robot more easy terms.
+            </p>
           </div>
         )}
-        <div className="flex flex-wrap">
+        <div className='flex flex-wrap'>
           {data.map((item) => (
             <ProjectCard project={item} key={item.id}></ProjectCard>
           ))}
