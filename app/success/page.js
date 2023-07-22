@@ -30,13 +30,20 @@ function Success() {
   }, []);
   return (
     <PageLayout>
-      <div className="flex justify-center items-center p-24">
-        <div className="flex flex-wrap w-full gap-8 ">
-          {filteredData.map((item) => {
-            return <ProjectCard project={item} key={item.id}></ProjectCard>;
-          })}
+      <main className='flex  flex-col   justify-center   h-full overflow-auto   sm:px-4 px-2 py-24  w-full '>
+        <div className='my-6 flex flex-col justify-center items-center w-full '>
+          <h1 className='font-bold text-2xl'>
+            Here are the projects that reached their goals.
+          </h1>
         </div>
-      </div>
+        <div className='flex justify-center items-center w-full'>
+          <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
+            {filteredData.map((item) => {
+              return <ProjectCard project={item} key={item.id}></ProjectCard>;
+            })}
+          </div>
+        </div>
+      </main>
     </PageLayout>
   );
 }
