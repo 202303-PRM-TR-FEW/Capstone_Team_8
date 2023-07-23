@@ -55,7 +55,6 @@ export default function Register() {
 	const watchedImg = watch('img');
 
 	const onSubmit = async (data) => {
-		console.log(data);
 		setLoading(true);
 		const user = await registerUser(
 			data.email,
@@ -63,18 +62,6 @@ export default function Register() {
 			data.userName,
 			image
 		);
-		// toast('Registered Successfully', {
-		// 	position: 'top-right',
-		// 	autoClose: 2000,
-		// 	hideProgressBar: false,
-		// 	closeOnClick: true,
-		// 	pauseOnHover: true,
-		// 	draggable: true,
-		// 	progress: undefined,
-		// 	theme: 'light',
-		// 	type: 'success',
-		// }
-
 		if (user) {
 			router.push('/login');
 			reset();

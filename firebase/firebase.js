@@ -2,6 +2,10 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
+import { createTranslator } from 'next-intl';
+import messagesEN from '../messages/en.json';
+import messagesTR from '../messages/tr.json';
 import {
 	query,
 	collection,
@@ -16,7 +20,6 @@ import {
 	getDocs,
 } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-
 import {
 	getAuth,
 	signInWithEmailAndPassword,
@@ -26,11 +29,9 @@ import {
 	updateProfile,
 	updatePassword,
 } from 'firebase/auth';
-
 import store from '../app/[locale]/store';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
 	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -40,12 +41,37 @@ const firebaseConfig = {
 	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
 	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const auth = getAuth();
+const messages = {
+	en: messagesEN,
+	tr: messagesTR,
+};
+
+let localeLang = localStorage.getItem('i18nextLng') || 'en';
+
+let translator = createTranslator({
+	locale: localeLang,
+	messages: messages[localeLang],
+});
+
+window.addEventListener('storage', function (event) {
+	if (event.key === 'i18nextLng') {
+		localeLang = event.newValue;
+		translator = createTranslator({
+			locale: localeLang,
+			messages: messages[localeLang],
+		});
+	}
+});
+
+// Expose the translator function as needed
+export function translate(key) {
+	return translator(key);
+}
 
 export const fetchAllData = () => {
 	const q = query(collection(db, 'app'));
@@ -61,16 +87,28 @@ export const fetchAllData = () => {
 export const createProject = async (data) => {
 	try {
 		const result = await addDoc(collection(db, 'app'), data);
+
+		enqueueSnackbar(translator('create_project_success'), {
+			variant: 'success',
+		});
+
 		return result;
 	} catch (e) {
+		enqueueSnackbar(translator('create_project_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
 export const createComment = async (data) => {
 	try {
 		const result = await addDoc(collection(db, 'comments'), data);
+		enqueueSnackbar(translator('create_comment_success'), {
+			variant: 'success',
+		});
 		return result;
 	} catch (e) {
+		enqueueSnackbar(translator('create_comment_error'), {
+			variant: 'error',
+		});
 		console.log(e);
 	}
 };
@@ -78,8 +116,13 @@ export const createComment = async (data) => {
 export const createSubs = async (data) => {
 	try {
 		const result = await addDoc(collection(db, 'newsletter'), data);
+		enqueueSnackbar(translator('create_subs_success'), {
+			variant: 'success',
+		});
+
 		return result;
 	} catch (e) {
+		enqueueSnackbar(translator('create_subs_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -87,9 +130,12 @@ export const login = async (email, password) => {
 	try {
 		const { user } = await signInWithEmailAndPassword(auth, email, password);
 
+		enqueueSnackbar(translator('login_success'), { variant: 'success' });
+
 		return user;
 	} catch (e) {
-		alert(e.message);
+		enqueueSnackbar(translator('login_error'), { variant: 'error' });
+
 		console.log(e);
 	}
 };
@@ -97,37 +143,47 @@ export const login = async (email, password) => {
 export const logOut = async () => {
 	try {
 		await signOut(auth);
+		enqueueSnackbar(translator('logout_success'), { variant: 'success' });
 	} catch (e) {
-		alert(e.message);
+		enqueueSnackbar(translator('logout_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
 export const register = async (email, password, userName, imageUrl) => {
 	try {
 		if (userName.length < 1) {
-			alert('Please enter a username!');
+			enqueueSnackbar(translator('enter_username'), { variant: 'error' });
 			return;
 		}
 
 		if (imageUrl.length < 1) {
-			alert('Please upload an image!');
+			enqueueSnackbar(translator('upload_image'), { variant: 'error' });
 			return;
 		}
 		await createUserWithEmailAndPassword(auth, email, password).then(
 			async (res) => {
-				await updateProfile(auth.currentUser, {
-					displayName: userName,
-					photoURL: imageUrl,
-				});
+				try {
+					await updateProfile(auth.currentUser, {
+						displayName: userName,
+						photoURL: imageUrl,
+					});
+				} catch (error) {
+					console.log(error);
+					enqueueSnackbar(translator('register_error'), { variant: 'error' });
+				}
 				await addDoc(collection(db, 'users'), {
 					uid: auth.currentUser.uid,
 					displayName: userName,
 					photoURL: imageUrl,
 				});
+
+				enqueueSnackbar(translator('register_success'), {
+					variant: 'success',
+				});
 			}
 		);
 	} catch (e) {
-		alert(e.message);
+		enqueueSnackbar(translator('register_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -150,7 +206,7 @@ export const handleUpload = async (e, callback) => {
 		const downloadURL = await uploadImage(file);
 		callback(downloadURL);
 	} catch (error) {
-		alert(error.message);
+		enqueueSnackbar(translator('upload_error'), { variant: 'error' });
 		console.error('Error uploading file:', error);
 	}
 };
@@ -189,15 +245,20 @@ export const handleEdit = async (project, data) => {
 		await updateDoc(doc(db, 'app', project), {
 			donations: arrayUnion(payload),
 		});
+		enqueueSnackbar(translator('donate_success'), { variant: 'success' });
 	} catch (e) {
+		enqueueSnackbar(translator('donate_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
 export const handleDelete = async (id) => {
 	try {
 		await deleteDoc(doc(db, 'app', id));
+		enqueueSnackbar(translator('delete_project_success'), {
+			variant: 'success',
+		});
 	} catch (e) {
-		alert(e.message);
+		enqueueSnackbar(translator('delete_project_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -205,7 +266,11 @@ export const handleDelete = async (id) => {
 export const handleCommentDelete = async (id) => {
 	try {
 		await deleteDoc(doc(db, 'comments', id));
+		enqueueSnackbar(translator('delete_comment_success'), {
+			variant: 'success',
+		});
 	} catch (e) {
+		enqueueSnackbar(translator('delete_comment_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -216,38 +281,43 @@ export const updateUserPassword = (newPassword) => {
 	updatePassword(user, newPassword)
 		.then(() => {
 			// Update successful.
-			alert('Successfully changed!');
+			enqueueSnackbar(translator('password_change_success'), {
+				variant: 'success',
+			});
 		})
 		.catch((error) => {
-			alert(error.message);
+			enqueueSnackbar(translator('password_change_error'), {
+				variant: 'error',
+			});
 		});
 };
 
 export const updateUserProfilePicture = (newImage) => {
 	const user = auth.currentUser;
 	if (newImage.length < 1) {
-		alert('Please upload an image!');
+		enqueueSnackbar(translator('upload_image'), { variant: 'error' });
 		return;
 	}
 	updateProfile(user, {
 		photoURL: newImage,
-	})
-		.then(async () => {
-			// Update successful.
+	}).then(async () => {
+		// Update successful.
 
-			const usersCollection = collection(db, 'users');
-			const q = query(usersCollection, where('uid', '==', user.uid));
-			const querySnapshot = await getDocs(q);
+		const usersCollection = collection(db, 'users');
+		const q = query(usersCollection, where('uid', '==', user.uid));
+		const querySnapshot = await getDocs(q);
 
-			querySnapshot.forEach((doc) => {
-				updateDoc(doc.ref, { photoURL: newImage });
-			});
-			alert('Successfully changed!');
-		})
-		.catch((error) => {
-			alert(error.message);
+		querySnapshot.forEach((doc) => {
+			updateDoc(doc.ref, { photoURL: newImage });
 		});
+		enqueueSnackbar(translator('image_change_success'), {}).catch((error) => {
+			enqueueSnackbar(translator('image_change_error'), {
+				variant: 'error',
+			});
+		});
+	});
 };
+
 export const updateUserDisplayName = (displayName) => {
 	const user = auth.currentUser;
 	if (displayName.length < 1) {
@@ -277,8 +347,11 @@ export const updateUserDisplayName = (displayName) => {
 export const updateProject = async (id, data) => {
 	try {
 		await updateDoc(doc(db, 'app', id), data);
+		enqueueSnackbar(translator('update_project_success'), {
+			variant: 'success',
+		});
 	} catch (e) {
-		alert(e.message);
+		enqueueSnackbar(translator('update_project_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
