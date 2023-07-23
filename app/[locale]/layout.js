@@ -18,6 +18,7 @@ export const metadata = {
 
 export default function RootLayout({ children, params }) {
 	const locale = useLocale();
+
 	const messages = useMessages();
 
 	// Show a 404 error if the user requests an unknown locale

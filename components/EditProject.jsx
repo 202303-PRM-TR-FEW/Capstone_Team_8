@@ -16,10 +16,12 @@ import {
 import { getAuth } from 'firebase/auth';
 import Image from 'next/legacy/image';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 // import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 
 function EditProject({ setIsEditProjectOpen, project }) {
+	const lang = useSelector((state) => state.lang.lang);
 	const [imageUrl, setImageUrl] = useState(project.img);
 	const ref = useRef(null);
 	const defaultValues = {
@@ -69,13 +71,18 @@ function EditProject({ setIsEditProjectOpen, project }) {
 
 	const onSubmit = async (data) => {
 		try {
-			await updateProject(project.id, {
-				title: data.title,
-				goal: data.goal,
-				about: data.about,
-				endTime: data.endTime,
-				img: imageUrl,
-			});
+			console.log(lang);
+			await updateProject(
+				project.id,
+				{
+					title: data.title,
+					goal: data.goal,
+					about: data.about,
+					endTime: data.endTime,
+					img: imageUrl,
+				},
+				lang
+			);
 			setImageUrl('');
 			reset();
 			setIsEditProjectOpen(false);

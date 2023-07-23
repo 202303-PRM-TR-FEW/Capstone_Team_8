@@ -6,7 +6,10 @@ import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 
 export function ReduxProvider({ children }) {
 	return (
-		<SnackbarProvider anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+		<SnackbarProvider
+			autoHideDuration={3000}
+			anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+		>
 			<Provider store={store}>{children}</Provider>
 		</SnackbarProvider>
 	);

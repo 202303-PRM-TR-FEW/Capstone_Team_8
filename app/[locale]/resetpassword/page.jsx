@@ -6,11 +6,11 @@ import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import PageLayout from '@/components/PageLayout';
-// import Spinner from '../components/Spinner';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
+import { useTranslations } from 'next-intl';
+import { enqueueSnackbar } from 'notistack';
 
 export default function ResetPassword() {
+	const t = useTranslations();
 	const [loading, setLoading] = useState(false);
 
 	const schema = yup.object().shape({
@@ -27,29 +27,20 @@ export default function ResetPassword() {
 		formState: { errors },
 		reset,
 	} = useForm({ resolver: yupResolver(schema) });
-
 	const router = useRouter();
-
 	const auth = getAuth();
-
 	const onSubmit = (data) => {
 		setLoading(true);
 		sendPasswordResetEmail(auth, data.email)
 			.then(() => {
-				// toast('Password reset email sent!', {
-				// 	position: 'top-right',
-				// 	autoClose: 2000,
-				// 	hideProgressBar: false,
-				// 	closeOnClick: true,
-				// 	pauseOnHover: true,
-				// 	draggable: true,
-				// 	progress: undefined,
-				// 	theme: 'light',
-				// 	type: 'success',
-				// });
-
+				enqueueSnackbar(t('reset_password_email_sent'), {
+					variant: 'success',
+					anchorOrigin: {
+						vertical: 'top',
+						horizontal: 'center',
+					},
+				});
 				router.push('/login');
-
 				setLoading(false);
 			})
 			.catch((error) => {
@@ -67,15 +58,14 @@ export default function ResetPassword() {
 							Reset Your Password
 						</h1>
 					</div>
-					<div className='align-center justify-center flex'>
-						{' '}
-						<img src='./screen.svg' alt='screen'></img>
-					</div>
 				</div>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					className='flex w-full h-full mobile:w-full  max-w-[600px]  flex-col justify-center  items-center'
 				>
+					<label className='text-left w-full px-3' htmlFor='email'>
+						{t('email_address')}
+					</label>
 					<input
 						{...register('email')}
 						className='relative block w-full justify-center appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 my-4 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 mobile:text-sm'
@@ -88,7 +78,7 @@ export default function ResetPassword() {
 					>
 						{errors.email?.message || 'Placeholder'}
 					</p>
-					<div>
+					<div className=' w-full'>
 						<button
 							type='submit'
 							className='group relative flex w-full justify-center rounded-md border border-transparent  bg-[#D8605B] py-2 px-4 text-sm font-medium text-white hover:bg-[#b84c48] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
@@ -97,14 +87,16 @@ export default function ResetPassword() {
 						</button>
 					</div>
 				</form>
-				<div className='text-center py-4 '>
-					Already have an account?{' '}
-					<button
-						className='text-[#D8605B] font-bold pl-2'
-						onClick={() => router.push('/login')}
-					>
-						Login
-					</button>
+				<div className='text-center py-4 w-full  flex flex-col'>
+					<p> Already have an account? </p>
+					<div className='w-full flex justify-center'>
+						<button
+							className='text-[#D8605B] font-bold pl-2'
+							onClick={() => router.push('/login')}
+						>
+							Login
+						</button>
+					</div>
 				</div>
 			</div>
 		</PageLayout>

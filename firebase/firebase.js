@@ -50,28 +50,19 @@ const messages = {
 	en: messagesEN,
 	tr: messagesTR,
 };
-
 let localeLang = localStorage.getItem('i18nextLng') || 'en';
-
-let translator = createTranslator({
-	locale: localeLang,
-	messages: messages[localeLang],
-});
-
-window.addEventListener('storage', function (event) {
-	if (event.key === 'i18nextLng') {
-		localeLang = event.newValue;
-		translator = createTranslator({
-			locale: localeLang,
-			messages: messages[localeLang],
-		});
-	}
-});
-
-// Expose the translator function as needed
-export function translate(key) {
+// let translator = createTranslator({
+// 	locale: localeLang,
+// 	messages: messages[localeLang],
+// });
+export const translate = (key) => {
+	let localeLang = localStorage.getItem('i18nextLng') || 'en';
+	let translator = createTranslator({
+		locale: localeLang,
+		messages: messages[localeLang],
+	});
 	return translator(key);
-}
+};
 
 export const fetchAllData = () => {
 	const q = query(collection(db, 'app'));
@@ -88,25 +79,25 @@ export const createProject = async (data) => {
 	try {
 		const result = await addDoc(collection(db, 'app'), data);
 
-		enqueueSnackbar(translator('create_project_success'), {
+		enqueueSnackbar(translate('create_project_success'), {
 			variant: 'success',
 		});
 
 		return result;
 	} catch (e) {
-		enqueueSnackbar(translator('create_project_error'), { variant: 'error' });
+		enqueueSnackbar(translate('create_project_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
 export const createComment = async (data) => {
 	try {
 		const result = await addDoc(collection(db, 'comments'), data);
-		enqueueSnackbar(translator('create_comment_success'), {
+		enqueueSnackbar(translate('create_comment_success'), {
 			variant: 'success',
 		});
 		return result;
 	} catch (e) {
-		enqueueSnackbar(translator('create_comment_error'), {
+		enqueueSnackbar(translate('create_comment_error'), {
 			variant: 'error',
 		});
 		console.log(e);
@@ -116,13 +107,13 @@ export const createComment = async (data) => {
 export const createSubs = async (data) => {
 	try {
 		const result = await addDoc(collection(db, 'newsletter'), data);
-		enqueueSnackbar(translator('create_subs_success'), {
+		enqueueSnackbar(translate('create_subs_success'), {
 			variant: 'success',
 		});
 
 		return result;
 	} catch (e) {
-		enqueueSnackbar(translator('create_subs_error'), { variant: 'error' });
+		enqueueSnackbar(translate('create_subs_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -130,11 +121,11 @@ export const login = async (email, password) => {
 	try {
 		const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-		enqueueSnackbar(translator('login_success'), { variant: 'success' });
+		enqueueSnackbar(translate('login_success'), { variant: 'success' });
 
 		return user;
 	} catch (e) {
-		enqueueSnackbar(translator('login_error'), { variant: 'error' });
+		enqueueSnackbar(translate('login_error'), { variant: 'error' });
 
 		console.log(e);
 	}
@@ -143,21 +134,21 @@ export const login = async (email, password) => {
 export const logOut = async () => {
 	try {
 		await signOut(auth);
-		enqueueSnackbar(translator('logout_success'), { variant: 'success' });
+		enqueueSnackbar(translate('logout_success'), { variant: 'success' });
 	} catch (e) {
-		enqueueSnackbar(translator('logout_error'), { variant: 'error' });
+		enqueueSnackbar(translate('logout_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
 export const register = async (email, password, userName, imageUrl) => {
 	try {
 		if (userName.length < 1) {
-			enqueueSnackbar(translator('enter_username'), { variant: 'error' });
+			enqueueSnackbar(translate('enter_username'), { variant: 'error' });
 			return;
 		}
 
 		if (imageUrl.length < 1) {
-			enqueueSnackbar(translator('upload_image'), { variant: 'error' });
+			enqueueSnackbar(translate('upload_image'), { variant: 'error' });
 			return;
 		}
 		await createUserWithEmailAndPassword(auth, email, password).then(
@@ -169,7 +160,7 @@ export const register = async (email, password, userName, imageUrl) => {
 					});
 				} catch (error) {
 					console.log(error);
-					enqueueSnackbar(translator('register_error'), { variant: 'error' });
+					enqueueSnackbar(translate('register_error'), { variant: 'error' });
 				}
 				await addDoc(collection(db, 'users'), {
 					uid: auth.currentUser.uid,
@@ -177,13 +168,13 @@ export const register = async (email, password, userName, imageUrl) => {
 					photoURL: imageUrl,
 				});
 
-				enqueueSnackbar(translator('register_success'), {
+				enqueueSnackbar(translate('register_success'), {
 					variant: 'success',
 				});
 			}
 		);
 	} catch (e) {
-		enqueueSnackbar(translator('register_error'), { variant: 'error' });
+		enqueueSnackbar(translate('register_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -206,7 +197,7 @@ export const handleUpload = async (e, callback) => {
 		const downloadURL = await uploadImage(file);
 		callback(downloadURL);
 	} catch (error) {
-		enqueueSnackbar(translator('upload_error'), { variant: 'error' });
+		enqueueSnackbar(translate('upload_error'), { variant: 'error' });
 		console.error('Error uploading file:', error);
 	}
 };
@@ -245,20 +236,20 @@ export const handleEdit = async (project, data) => {
 		await updateDoc(doc(db, 'app', project), {
 			donations: arrayUnion(payload),
 		});
-		enqueueSnackbar(translator('donate_success'), { variant: 'success' });
+		enqueueSnackbar(translate('donate_success'), { variant: 'success' });
 	} catch (e) {
-		enqueueSnackbar(translator('donate_error'), { variant: 'error' });
+		enqueueSnackbar(translate('donate_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
 export const handleDelete = async (id) => {
 	try {
 		await deleteDoc(doc(db, 'app', id));
-		enqueueSnackbar(translator('delete_project_success'), {
+		enqueueSnackbar(translate('delete_project_success'), {
 			variant: 'success',
 		});
 	} catch (e) {
-		enqueueSnackbar(translator('delete_project_error'), { variant: 'error' });
+		enqueueSnackbar(translate('delete_project_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -266,11 +257,11 @@ export const handleDelete = async (id) => {
 export const handleCommentDelete = async (id) => {
 	try {
 		await deleteDoc(doc(db, 'comments', id));
-		enqueueSnackbar(translator('delete_comment_success'), {
+		enqueueSnackbar(translate('delete_comment_success'), {
 			variant: 'success',
 		});
 	} catch (e) {
-		enqueueSnackbar(translator('delete_comment_error'), { variant: 'error' });
+		enqueueSnackbar(translate('delete_comment_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
@@ -281,12 +272,12 @@ export const updateUserPassword = (newPassword) => {
 	updatePassword(user, newPassword)
 		.then(() => {
 			// Update successful.
-			enqueueSnackbar(translator('password_change_success'), {
+			enqueueSnackbar(translate('password_change_success'), {
 				variant: 'success',
 			});
 		})
 		.catch((error) => {
-			enqueueSnackbar(translator('password_change_error'), {
+			enqueueSnackbar(translate('password_change_error'), {
 				variant: 'error',
 			});
 		});
@@ -295,7 +286,7 @@ export const updateUserPassword = (newPassword) => {
 export const updateUserProfilePicture = (newImage) => {
 	const user = auth.currentUser;
 	if (newImage.length < 1) {
-		enqueueSnackbar(translator('upload_image'), { variant: 'error' });
+		enqueueSnackbar(translate('upload_image'), { variant: 'error' });
 		return;
 	}
 	updateProfile(user, {
@@ -310,8 +301,8 @@ export const updateUserProfilePicture = (newImage) => {
 		querySnapshot.forEach((doc) => {
 			updateDoc(doc.ref, { photoURL: newImage });
 		});
-		enqueueSnackbar(translator('image_change_success'), {}).catch((error) => {
-			enqueueSnackbar(translator('image_change_error'), {
+		enqueueSnackbar(translate('image_change_success'), {}).catch((error) => {
+			enqueueSnackbar(translate('image_change_error'), {
 				variant: 'error',
 			});
 		});
@@ -347,11 +338,11 @@ export const updateUserDisplayName = (displayName) => {
 export const updateProject = async (id, data) => {
 	try {
 		await updateDoc(doc(db, 'app', id), data);
-		enqueueSnackbar(translator('update_project_success'), {
+		enqueueSnackbar(translate('update_project_success'), {
 			variant: 'success',
 		});
 	} catch (e) {
-		enqueueSnackbar(translator('update_project_error'), { variant: 'error' });
+		enqueueSnackbar(translate('update_project_error'), { variant: 'error' });
 		console.log(e);
 	}
 };
