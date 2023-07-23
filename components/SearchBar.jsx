@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { query, onSnapshot, collection } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSearchResults } from '@/app/features/searchproject/searchproject';
+import { setSearchResults } from '@/app/[locale]/features/searchproject/searchproject';
 import moment from 'moment';
 
 export default function SearchBar({ setIsSeachBarOpen }) {

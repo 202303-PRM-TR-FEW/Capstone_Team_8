@@ -1,10 +1,10 @@
 'use client';
 import Link from 'next/link';
 import PageLayout from '@/components/PageLayout';
-import { auth } from '@/firebase/firebase';
 import React from 'react';
-import Loading from './loading';
+import { useTranslations } from 'next-intl';
 const Welcome = () => {
+	const t = useTranslations();
 	return (
 		<>
 			<PageLayout>
@@ -12,7 +12,10 @@ const Welcome = () => {
 					<div className='welcome-desktop w-full  h-full hidden lg:flex justify-end lg:justify-start  items-end lg:items-center  '>
 						<div className='lg:justify-self-end'></div>
 						<div className='lg:w-1/3  flex gap-8 flex-col lg:ml-36 ml-6 mr-6'>
-							<h1 className='text-8xl font-bold'>Givingly</h1>
+							<h1 className='text-8xl font-bold'>
+								Givingly
+								{t('save')}
+							</h1>
 							<h2 className='text-3xl'>Supporting great causes made easy</h2>
 
 							<p>

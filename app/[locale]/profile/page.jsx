@@ -4,13 +4,13 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import Loading from '@/app/loading';
+import Loading from '@/app/[locale]/loading';
 import {
 	createProject,
 	uploadImage,
 	handleUpload,
 	register,
-} from '../../firebase/firebase';
+} from '../../../firebase/firebase';
 import { getAuth } from 'firebase/auth';
 import Image from 'next/image';
 import withAuth from '@/components/AuthanticatedRoute';

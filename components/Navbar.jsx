@@ -6,11 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { logOut, auth } from '../firebase/firebase';
 import { useRouter } from 'next/navigation';
 import SearchBar from './SearchBar';
+import LocaleSwitcher from './LocaleSwitcher';
 
 import {
 	closeAddProject,
 	openAddProject,
-} from '../app/features/startproject/kickoff';
+} from '../app/[locale]/features/startproject/kickoff';
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -124,11 +125,17 @@ const Navbar = () => {
 									</Link>
 								</li>
 							)}
+							<li className='flex justify-center items-center'>
+								<LocaleSwitcher></LocaleSwitcher>
+							</li>
 						</>
 					</ul>
 				</div>
-				<div className='lg:hidden'>
-					{' '}
+
+				<div className='lg:hidden flex justify-center items-center'>
+					<button className='lg:hidden   hover:scale-105   rounded-lg text-sm px-2.5  mr-1'>
+						<LocaleSwitcher></LocaleSwitcher>
+					</button>{' '}
 					<button
 						className='lg:hidden text-gray-500  hover:scale-105  focus:outline-none focus:ring-4  rounded-lg text-sm p-2.5 mr-1'
 						onClick={() => setIsSeachBarOpen(!isSearchBarOpen)}
@@ -203,6 +210,7 @@ const Navbar = () => {
 									Home
 								</Link>
 							</li>
+
 							{auth.currentUser == null ? (
 								''
 							) : (
