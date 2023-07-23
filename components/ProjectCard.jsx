@@ -1,10 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
 import Image from 'next/legacy/image';
-import welcome from '@/public/welcome_mobile.png';
 import ProgressBar from './ProgressBar';
+import { useLocale } from 'next-intl';
+import Link from 'next-intl/link';
 
 function ProjectCard({ project }) {
+	const locale = useLocale();
 	return (
 		<Link
 			key={project.id}
@@ -12,6 +13,7 @@ function ProjectCard({ project }) {
 			href={{
 				pathname: `/project/${project?.id}`,
 			}}
+			locale={locale}
 		>
 			<div
 				key={project.id}

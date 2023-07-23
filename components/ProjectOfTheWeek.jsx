@@ -1,9 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
+
 import Image from 'next/legacy/image';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import Link from 'next-intl/link';
 
 function ProjectOfTheWeek({ data }) {
+	const locale = useLocale();
 	const t = useTranslations();
 	return (
 		<div>
@@ -19,6 +21,7 @@ function ProjectOfTheWeek({ data }) {
 							key={data[0]?.id}
 							className='block py-2  '
 							href={`/project/${data[0]?.id}`}
+							locale={locale}
 						>
 							<div className='relative  md:h-[35dvh] lg:h-[40dvh] xl:h-[45dvh] 2xl:h-[50dvh] h-[30svh] w-full'>
 								<Image
