@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .welcome-desktop {
-	background-image: url(../public/welcome_desktop.png);
+	background-image: url(../../public/welcome_desktop.png);
 	background-position: center center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -12,7 +12,7 @@
 }
 
 .welcome-tablet {
-	background-image: url(../public/welcome_tablet.png);
+	background-image: url(../../public/welcome_tablet.png);
 	background-position: center center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -21,7 +21,7 @@
 }
 
 .welcome-mobile {
-	background-image: url(../public/welcome_mobile.png);
+	background-image: url(../../public/welcome_mobile.png);
 	background-position: center center;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -52,7 +52,7 @@
 }
 
 .thankyou {
-	background-image: url('../public/thankyou.png');
+	background-image: url('../../public/thankyou.png');
 	background-position: center center;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -64,4 +64,10 @@ input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
 	-webkit-appearance: none;
 	margin: 0;
+}
+#noData {
+	background-image: url('../../public/5928294_3009287.jpg');
+	background-position: center center;
+	background-size: cover;
+	background-repeat: no-repeat;
 }

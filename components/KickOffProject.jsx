@@ -4,7 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import { useDispatch, useSelector } from 'react-redux';
-import { closeAddProject } from '../app/features/startproject/kickoff';
+import { closeAddProject } from '../app/[locale]/features/startproject/kickoff';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';

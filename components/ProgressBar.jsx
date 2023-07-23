@@ -1,6 +1,8 @@
 import React from 'react';
+import { useTranslations } from 'next-intl';
 
 function ProgressBar({ project }) {
+	const t = useTranslations();
 	return (
 		<div className=' w-full flex flex-col gap-2 text-sm '>
 			<div className='h-2 w-full bg-gray-200 rounded'>
@@ -14,15 +16,21 @@ function ProgressBar({ project }) {
 			</div>
 
 			<div className='grid grid-cols-12'>
-				<span className='col-span-10 justify-self-start'>Raised</span>{' '}
-				<span className='col-span-2 justify-self-end'>Goal</span>
+				<span className='sm:col-span-10 col-span-9 justify-self-start'>
+					{t('raised')}
+				</span>{' '}
+				<span className='sm:col-span-2 col-span-3 justify-self-end'>Goal</span>
 			</div>
 
 			<div className='grid grid-cols-12'>
-				<span className='col-span-10 justify-self-start'>
-					${project?.totalDonations}
+				<span className='sm:col-span-10 col-span-9 justify-self-start'>
+					<span className='font-bold  text-base sm:text-lg '>$ </span>
+					{project?.totalDonations}
 				</span>{' '}
-				<span className='col-span-2 justify-self-end'>${project?.goal}</span>
+				<span className='sm:col-span-2 col-span-3 justify-self-end'>
+					<span className='font-bold  text-base sm:text-lg '>$ </span>
+					{project?.goal}
+				</span>
 			</div>
 		</div>
 	);

@@ -1,10 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { fetchDocById, fetchDocByUserId } from '../../../firebase/firebase';
+import { fetchDocById, fetchDocByUserId } from '../../../../firebase/firebase';
 import PageLayout from '@/components/PageLayout';
 import FundProject from '@/components/FundProject';
 import moment from 'moment';
-import Loading from '@/app/loading';
+import Loading from '@/app/[locale]/loading';
 import { auth } from '@/firebase/firebase';
 import Image from 'next/legacy/image';
 import { useRouter } from 'next/navigation';
@@ -103,20 +103,22 @@ function ProjectDetail({ params }) {
 					/>
 				)}
 				<section className='flex  flex-col   justify-center   h-full    md:px-12 px-6 py-24  w-full '>
-					<div className='grid grid-cols-12 gap-8  justify-center items-center w-full '>
-						<div className=' block  lg:h-[70vh] w-full h-full  lg:col-span-4  col-span-12 '>
+					<div className='grid grid-cols-12 gap-6  justify-center items-center w-full pb-16'>
+						<div className='relative sm:h-[40dvh] col-span-12 lg:col-span-4 h-[40svh] w-full'>
 							<Image
 								src={projectDetailInfo?.img}
-								alt='projectImage'
-								layout='responsive'
-								width={300}
-								height={300}
+								layout='fill'
+								className='rounded-xl drop-shadow-lg'
+								objectFit='cover'
+								alt='Picture of the author'
 							/>
 						</div>
 
-						<div className='flex flex-col  content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-10'>
+						<div className='flex flex-col  content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-6'>
 							<div className='p-2  lg:p-6  flex flex-col gap-4 lg:gap-8'>
-								<h1>{projectDetailInfo?.title}</h1>
+								<h1 className='font-bold sm:text-3xl text-xl '>
+									{projectDetailInfo?.title}
+								</h1>
 								<div className='flex items-center gap-2'>
 									<Image
 										width={40}
@@ -130,7 +132,7 @@ function ProjectDetail({ params }) {
 							</div>
 							<div className='grid grid-cols-12   '>
 								<div className='w-full col-span-12 p-2  lg:p-6  sm:col-span-6 border-solid sm:border-t-2 border-b-2 border-black'>
-									<h2 className='font-bold'>About Section</h2>
+									<h2 className='font-bold'>About the Project</h2>
 									<p className='break-words'>{projectDetailInfo?.about}</p>
 								</div>
 
@@ -207,7 +209,7 @@ function ProjectDetail({ params }) {
 								<Comment projectId={params?.id} />
 								<Comments projectId={params?.id} />
 							</div>
-							<div className='flex flex-col  gap-4 '>
+							<div className='flex flex-col justify-start items-center sm:w-full lg:w-[75vh]  gap-4 '>
 								<h1 className='text-2xl'>Similar Projects</h1>
 
 								{data.map((project) => {
