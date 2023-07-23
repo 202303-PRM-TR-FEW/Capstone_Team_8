@@ -9,11 +9,13 @@ import KickOffProject from '@/components/KickOffProject';
 import WithAuth from '@/components/AuthanticatedRoute';
 import Loading from '@/app/[locale]/loading';
 import MyProjectsCard from '@/components/MyProjectsCard';
-import Link from 'next/link';
 import { openAddProject } from '../features/startproject/kickoff';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
+import Link from 'next-intl/link';
 
 function MyProject(props) {
+	const locale = useLocale();
 	const [data, setData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 
@@ -85,6 +87,7 @@ function MyProject(props) {
 								<Link
 									className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
 									href='/projects'
+									locale={locale}
 								>
 									{t('start_project')}
 								</Link>
