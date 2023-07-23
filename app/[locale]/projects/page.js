@@ -7,7 +7,7 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { query, collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
-import Loading from '@/app/loading';
+import Loading from '@/app/[locale]/loading';
 import ProjectCard from '@/components/ProjectCard';
 import FilterCategories from '@/components/FilterCategories';
 import Tabs from '@/components/Tabs';

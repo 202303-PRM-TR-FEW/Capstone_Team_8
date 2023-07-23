@@ -64,7 +64,6 @@ function SuccesfullProjects() {
 					<h3 className='font-bold lg:text-4xl md:text-3xl text-2xl '>
 						{filteredData[0]?.title}
 					</h3>
-					<p className='text-sm'>{filteredData[0]?.desc}</p>
 
 					<div className=' w-full flex flex-col gap-2 text-sm'>
 						<div className='h-2 w-full bg-gray-200 rounded'>
