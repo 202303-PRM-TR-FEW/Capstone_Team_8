@@ -4,9 +4,11 @@ import PageLayout from "@/components/PageLayout";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import ProjectCard from "@/components/ProjectCard";
+import { useTranslations } from "next-intl";
 
 function Success() {
   const [filteredData, setFilteredData] = useState([]);
+  const t = useTranslations();
 
   useEffect(() => {
     const q = query(collection(db, "app"));
@@ -32,9 +34,7 @@ function Success() {
     <PageLayout>
       <main className='flex  flex-col   justify-center   h-full overflow-auto   sm:px-4 px-2 py-24  w-full '>
         <div className='my-6 flex flex-col justify-center items-center w-full '>
-          <h1 className='font-bold text-2xl'>
-            Here are the projects that reached their goals.
-          </h1>
+          <h1 className='font-bold text-2xl'>{t("success_stories")}</h1>
         </div>
         <div className='flex justify-center items-center w-full'>
           <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>

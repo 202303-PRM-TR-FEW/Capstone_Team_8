@@ -15,24 +15,23 @@ export default function Register() {
     userName: yup
       .string()
       .trim(t("white_space"))
-      .required("User Name is required"),
+      .required(t("user_name_required")),
     email: yup
       .string()
-      .trim("No leading/trailing whitepaces allowed")
-      .required("Email is required")
-      .email("Invalid email address"),
+      .trim(t("white_space"))
+      .required(t("email_required"))
+      .email(t("email_invalid")),
     password: yup
       .string()
-      .trim("No leading/trailing whitepaces allowed")
-      .required("Password is required")
-      .min(6, "Password must be at least 6 characters"),
+      .trim(t("white_space"))
+      .required(t("password_required"))
+      .min(6, t("password_min_length")),
     confirmPassword: yup
       .string()
-      .trim("No leading/trailing whitepaces allowed")
-      .required("Password is required")
-      .min(6, "Confirm password must be at least 6 characters")
-      .oneOf([yup.ref("password"), null], "Passwords must match"),
-    img: yup.mixed().required("A file is required"),
+      .trim(t("white_space"))
+      .required(t("password_required"))
+      .oneOf([yup.ref("password"), null], t("password_not_match")),
+    img: yup.mixed().required(t("image_required")),
   });
   const {
     register,
@@ -73,7 +72,7 @@ export default function Register() {
                 <div>
                   {" "}
                   <h1 className='text-center text-3xl font-bold tracking-tight text-gray-900'>
-                    Register
+                    {t("register")}
                   </h1>
                 </div>
               </div>
@@ -81,11 +80,11 @@ export default function Register() {
                 <input type='hidden' name='remember' value='true' />
                 <div className=' space-y-4 rounded-md shadow-sm'>
                   <div>
-                    <label htmlFor='email-address'>User Name</label>
+                    <label htmlFor='email-address'>{t("user_name")}</label>
                     <input
                       {...register("userName")}
                       className='relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                      placeholder='User Name'
+                      placeholder={t("user_name")}
                     />
                     <p
                       className={`text-red-700 px-3 ${
@@ -96,11 +95,11 @@ export default function Register() {
                     </p>
                   </div>
                   <div>
-                    <label htmlFor='email-address'>Email address</label>
+                    <label htmlFor='email-address'>{t("email_address")}</label>
                     <input
                       {...register("email")}
                       className='relative block w-full appearance-none rounded-none rounded-t-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                      placeholder='Email address'
+                      placeholder={t("email_address")}
                     />
                     <p
                       className={`text-red-700 px-3 ${
@@ -111,12 +110,12 @@ export default function Register() {
                     </p>
                   </div>
                   <div>
-                    <label htmlFor='password'>Password</label>
+                    <label htmlFor='password'>{t("Password")}</label>
                     <input
                       type='password'
                       {...register("password")}
                       className='relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                      placeholder='Password'
+                      placeholder={t("Password")}
                     />
                     <p
                       className={`text-red-700 px-3 ${
@@ -127,12 +126,12 @@ export default function Register() {
                     </p>
                   </div>
                   <div>
-                    <label htmlFor='password'>Confirm Password</label>
+                    <label htmlFor='password'>{t("confirm_pass")}</label>
                     <input
                       type='password'
                       {...register("confirmPassword")}
                       className='relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
-                      placeholder='Confirm Password'
+                      placeholder={t("confirm_pass")}
                     />
                     <p
                       className={`text-red-700 px-3 ${
@@ -143,7 +142,7 @@ export default function Register() {
                     </p>
                   </div>
                   <div>
-                    <label htmlFor='password'>Upload Your Picture</label>
+                    <label htmlFor='password'>{t("upload_picture")} </label>
                     <input
                       {...register("img")}
                       onChange={handleFileUpload}
@@ -164,7 +163,7 @@ export default function Register() {
                     type='submit'
                     className='group relative flex w-full justify-center rounded-md border border-transparent  bg-[#D8605B] py-2 px-4 text-sm font-medium text-white hover:bg-[#b84c48] focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
                   >
-                    Register
+                    {t("register")}
                   </button>
                 </div>
               </div>
@@ -172,12 +171,12 @@ export default function Register() {
           </div>
         </form>
         <div className='text-center py-4 '>
-          Already have an account?{" "}
+          {t("already_have_account")}
           <button
             className='text-[#D8605B] font-bold pl-2'
             onClick={() => router.push("/login")}
           >
-            Login
+            {t("Login")}
           </button>
         </div>
       </div>

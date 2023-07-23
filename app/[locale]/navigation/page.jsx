@@ -71,19 +71,15 @@ const Navigation = () => {
               </div>
               <div className='text-left'>
                 {" "}
-                <h1>Stay informed</h1>
-                <p>
-                  Want to be among the first people to know about amazing
-                  projects on our platform? Join our monthly digest of the best
-                  causes.
-                </p>
+                <h1>{t("stay_informed")}</h1>
+                <p>{t("stay_informed_desc")}</p>
               </div>
 
               <button
                 onClick={handleClick}
                 className='bg-[#d4ee26] m-2 p-2 rounded text-black text-center w-full'
               >
-                Join newsletter
+                {t("subscribe")}
               </button>
             </div>
           </div>
