@@ -3,9 +3,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import Image from "next/legacy/image";
+import { useTranslations } from "next-intl";
 
 function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
   const ref = useRef(null);
+  const t = useTranslations();
   const handleCloseModal = () => {
     setIsTransactionHistoryOpen(false);
   };
@@ -71,7 +73,7 @@ function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
         <div className='inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full'>
           <div ref={ref} className='bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4'>
             <div className='flex flex-col gap-12 '>
-              <h1>Transaction History</h1>
+              <h1>{t("transaction_history")} </h1>
               <div className='flex flex-col gap-2 rounded'>
                 {filteredData?.map((item, index) => {
                   return (
@@ -105,7 +107,7 @@ function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
                   className=' rounded m-2 p-2 bg-transparent text-black'
                 >
                   {" "}
-                  Close
+                  {t("close")}
                 </button>
               </div>
             </div>
