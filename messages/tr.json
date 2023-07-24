@@ -150,5 +150,6 @@
   "password_requirements": "Şifre değiştirebilmek için en fazla 30 dakika önce giriş yapmış olmanız gerekmektedir.",
   "update_profile_picture": "Profil Resmini Güncelle",
   "upload_image_error": "Resim yüklenirken bir hata oluştu!",
-  "user_projects": "`nin Projeleri"
+  "user_projects": "`in Projeleri",
+  "follow": "Takip Et"
 }

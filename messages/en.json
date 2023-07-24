@@ -150,5 +150,6 @@
   "password_requirements": "In order to change your password, you need to be logged in before 30 minutes.",
   "update_profile_picture": "Update Profile Picture",
   "upload_image_error": "There was an error uploading your image!",
-  "user_projects": "`s Projects"
+  "user_projects": "`s Projects",
+  "follow": "Follow"
 }

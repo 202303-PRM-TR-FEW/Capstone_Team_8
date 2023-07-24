@@ -11,7 +11,7 @@ import Comments from "@/components/Comments";
 import Comment from "@/components/Comment";
 import SocialSharing from "@/components/SocialSharing";
 import { query, collection, onSnapshot } from "firebase/firestore";
-import { db } from "@/firebase/firebase";
+import { db, updateFollow } from "@/firebase/firebase";
 import ProjectCard from "@/components/ProjectCard";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next-intl/client";
@@ -27,6 +27,7 @@ function ProjectDetail({ params }) {
   const [dayLeft, setDayLeft] = useState(0);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [follow, setFollow] = useState(false);
   const t = useTranslations();
   const fetchAllData = async () => {
     if (params && params?.id) {
@@ -80,8 +81,6 @@ function ProjectDetail({ params }) {
     fetchAllData();
   }, [params?.id]);
 
-  useEffect(() => {}, [params?.id]);
-
   const handleClick = () => {
     setIsOpen(true);
   };
@@ -89,7 +88,13 @@ function ProjectDetail({ params }) {
   const handleLogin = () => {
     router.push("/login", { locale: locale });
   };
-
+  const handleFollow = async () => {
+    setFollow((prevState) => !prevState);
+    if (auth.currentUser) {
+      await updateFollow(userDetail[0]?.uid, follow);
+    }
+  };
+  console.log(follow);
   return (
     <>
       <PageLayout>
@@ -135,7 +140,12 @@ function ProjectDetail({ params }) {
                   >
                     <p>{userDetail[0]?.displayName} </p>
                   </Link>
-                  <button className='bg-sky-200 rounded p-2'>Follow</button>
+                  <button
+                    onClick={handleFollow}
+                    className='bg-[#0095f6] text-white rounded p-2'
+                  >
+                    {t("follow")}
+                  </button>
                 </div>
               </div>
               <div className='grid grid-cols-12   '>

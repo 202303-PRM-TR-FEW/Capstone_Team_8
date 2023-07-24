@@ -305,6 +305,27 @@ export const updateUserProfilePicture = (newImage) => {
   });
 };
 
+export const updateFollow = async (data, follow) => {
+  try {
+    const user = auth.currentUser;
+    const payload = {
+      followedUser: data,
+      follow: follow,
+    };
+    const usersCollection = collection(db, "users");
+    const q = query(usersCollection, where("uid", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      updateDoc(doc.ref, { followers: arrayUnion(payload) });
+    });
+    enqueueSnackbar(translate("follow_success"), { variant: "success" });
+  } catch (e) {
+    enqueueSnackbar(translate("follow_error"), { variant: "error" });
+    console.log(e);
+  }
+};
+
 export const updateUserDisplayName = (displayName) => {
   const user = auth.currentUser;
   if (displayName.length < 1) {
