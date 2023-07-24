@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import ProjectOfTheWeek from "./ProjectOfTheWeek";
-import SuccesfullProjects from "./SuccesfullProjects";
-import TopDonors from "./TopDonors";
+import ProfileInfo from "./ProfileInfo";
+import ChangePassword from "./ChangePassword";
+import ChangeProfileImg from "./ChangeProfileImg";
 import { useTranslations } from "next-intl";
-function Tabs({ data, ongoingProjects }) {
-  const [activeTab, setActiveTab] = useState("Project Of The Week");
+function ProfilePageTab() {
+  const [activeTab, setActiveTab] = useState("Profile Info");
 
   const handleTabClick = (tabId) => {
     setActiveTab(tabId);
@@ -22,55 +22,55 @@ function Tabs({ data, ongoingProjects }) {
           <li className='mr-2 w-full' role='presentation'>
             <button
               className={`inline-block p-4 border-b-2 rounded-t-lg font-bold text-lg ${
-                activeTab === "Project Of The Week"
+                activeTab === "Profile Info"
                   ? "border-indigo-500"
                   : "border-transparent"
               }`}
-              id='Project Of The Week-tab'
-              data-tabs-target='#Project Of The Week'
+              id='Profile Info-tab'
+              data-tabs-target='#Profile Info'
               type='button'
               role='tab'
-              aria-controls='Project Of The Week'
-              aria-selected={activeTab === "Project Of The Week"}
-              onClick={() => handleTabClick("Project Of The Week")}
+              aria-controls='Profile Info'
+              aria-selected={activeTab === "Profile Info"}
+              onClick={() => handleTabClick("Profile Info")}
             >
-              {t("Project Of The Week")}
+              {t("Profile Info")}
             </button>
           </li>
           <li className='mr-2 w-full' role='presentation'>
             <button
               className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-bold text-lg  ${
-                activeTab === "Successful Projects"
+                activeTab === "Change Password"
                   ? "border-indigo-500"
                   : "border-transparent"
               }`}
-              id='Successful Projects-tab'
-              data-tabs-target='#Successful Projects'
+              id='Change Password-tab'
+              data-tabs-target='#Change Password'
               type='button'
               role='tab'
-              aria-controls='Successful Projects'
-              aria-selected={activeTab === "Successful Projects"}
-              onClick={() => handleTabClick("Successful Projects")}
+              aria-controls='Change Password'
+              aria-selected={activeTab === "Change Password"}
+              onClick={() => handleTabClick("Change Password")}
             >
-              {t("Successful Projects")}
+              {t("Change Password")}
             </button>
           </li>
           <li className='mr-2 w-full' role='presentation'>
             <button
               className={`inline-block p-4 border-b-2 rounded-t-lg hover:text-gray-600 hover:border-gray-300 font-bold text-lg  ${
-                activeTab === "Top Donors"
+                activeTab === "Change Profile Picture"
                   ? "border-indigo-500"
                   : "border-transparent"
               }`}
-              id='Top Donors-tab'
-              data-tabs-target='#Top Donors'
+              id='Change Profile Picture-tab'
+              data-tabs-target='#Change Profile Picture'
               type='button'
               role='tab'
-              aria-controls='Top Donors'
-              aria-selected={activeTab === "Top Donors"}
-              onClick={() => handleTabClick("Top Donors")}
+              aria-controls='Change Profile Picture'
+              aria-selected={activeTab === "Change Profile Picture"}
+              onClick={() => handleTabClick("Change Profile Picture")}
             >
-              {t("Top Donors")}
+              {t("Change Profile Picture")}
             </button>
           </li>
         </ul>
@@ -78,37 +78,37 @@ function Tabs({ data, ongoingProjects }) {
       <div id='myTabContent'>
         <div
           className={`p-4 rounded-lg bg-gray-50  ${
-            activeTab === "Project Of The Week" ? "block" : "hidden"
+            activeTab === "Profile Info" ? "block" : "hidden"
           }`}
-          id='Project Of The Week'
+          id='Profile Info'
           role='tabpanel'
-          aria-labelledby='Project Of The Week-tab'
+          aria-labelledby='Profile Info-tab'
         >
-          <ProjectOfTheWeek data={ongoingProjects} />
+          <ProfileInfo />
         </div>
         <div
           className={`p-4 rounded-lg bg-gray-50  ${
-            activeTab === "Successful Projects" ? "block" : "hidden"
+            activeTab === "Change Password" ? "block" : "hidden"
           }`}
-          id='Successful Projects'
+          id='Change Password'
           role='tabpanel'
-          aria-labelledby='Successful Projects-tab'
+          aria-labelledby='Change Password-tab'
         >
-          <SuccesfullProjects />
+          <ChangePassword />
         </div>
         <div
           className={`p-4 rounded-lg bg-gray-50 ${
-            activeTab === "Top Donors" ? "block" : "hidden"
+            activeTab === "Change Profile Picture" ? "block" : "hidden"
           }`}
-          id='Top Donors'
+          id='Change Profile Picture'
           role='tabpanel'
-          aria-labelledby='Top Donors-tab'
+          aria-labelledby='Change Profile Picture-tab'
         >
-          <TopDonors data={data} />
+          <ChangeProfileImg />
         </div>
       </div>
     </>
   );
 }
 
-export default Tabs;
+export default ProfilePageTab;
