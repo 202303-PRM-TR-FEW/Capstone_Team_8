@@ -1,15 +1,19 @@
 import React from 'react';
-import Link from 'next/link';
+
 import Image from 'next/legacy/image';
+import { useTranslations, useLocale } from 'next-intl';
+import Link from 'next-intl/link';
 
 function ProjectOfTheWeek({ data }) {
+	const locale = useLocale();
+	const t = useTranslations();
 	return (
 		<div>
 			{' '}
 			<div className='grid grid-cols-12 gap-6 border-b-2 pb-12 '>
 				<div className='w-full flex flex-col justify-center gap-12 md:pt-0 sm:col-span-7 col-span-12  '>
 					<h1 className='lg:text-6xl text-4xl sm:text-5xl font-bold'>
-						Project of the week
+						{t('Project Of The Week')}
 					</h1>
 					<div className='w-full'>
 						{' '}
@@ -17,8 +21,9 @@ function ProjectOfTheWeek({ data }) {
 							key={data[0]?.id}
 							className='block py-2  '
 							href={`/project/${data[0]?.id}`}
+							locale={locale}
 						>
-							<div className='relative sm:h-[30dvh] h-[30svh] w-full'>
+							<div className='relative  md:h-[35dvh] lg:h-[40dvh] xl:h-[45dvh] 2xl:h-[50dvh] h-[30svh] w-full'>
 								<Image
 									src={data[0]?.img}
 									layout='fill'
@@ -48,8 +53,8 @@ function ProjectOfTheWeek({ data }) {
 						</div>
 
 						<div className='grid grid-cols-12 justify-end'>
-							<span className='col-span-10'>Raised</span>{' '}
-							<span className='col-span-2 justify-self-end'>Goal:</span>
+							<span className='col-span-10'>{t('Raised')}</span>{' '}
+							<span className='col-span-2 justify-self-end'>{t('Goal')}</span>
 						</div>
 
 						<div className='grid grid-cols-12'>

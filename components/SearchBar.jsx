@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { query, onSnapshot, collection } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
 import { useSelector, useDispatch } from 'react-redux';
 import { setSearchResults } from '@/app/[locale]/features/searchproject/searchproject';
 import moment from 'moment';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
 
 export default function SearchBar({ setIsSeachBarOpen }) {
+	const locale = useLocale();
 	const [text, setText] = useState('');
 	const [data, setData] = useState([]);
-
+	const t = useTranslations();
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const searchText = (e) => {
@@ -20,7 +22,7 @@ export default function SearchBar({ setIsSeachBarOpen }) {
 		setIsSeachBarOpen(false);
 		filterDataBySearchQuery();
 
-		router.push('/search');
+		router.push('/search', { locale: locale });
 		setText('');
 	};
 	useEffect(() => {
@@ -63,7 +65,7 @@ export default function SearchBar({ setIsSeachBarOpen }) {
 				onChange={handleText}
 				id='search-navbar'
 				className='block lg:w-72 relative w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 '
-				placeholder='Search...'
+				placeholder={t('Search')}
 			/>
 			<button
 				type='submit'
@@ -74,7 +76,6 @@ export default function SearchBar({ setIsSeachBarOpen }) {
 					aria-hidden='true'
 					fill='currentColor'
 					viewBox='0 0 20 20'
-					xmlns='http://www.w3.org/2000/svg'
 				>
 					<path
 						fillRule='evenodd'

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+
 import { onAuthStateChanged, getAuth } from 'firebase/auth';
+import { useRouter } from 'next-intl/client';
+import { useLocale } from 'next-intl';
 
 const withAuth = (WrappedComponent) => {
 	const WithAuthComponent = (props) => {
+		const locale = useLocale();
 		const [loading, setLoading] = useState(true);
 		const Router = useRouter();
 		const auth = getAuth();
@@ -11,7 +14,7 @@ const withAuth = (WrappedComponent) => {
 		useEffect(() => {
 			const unsubscribe = onAuthStateChanged(auth, (user) => {
 				if (!user) {
-					Router.replace('/');
+					Router.push('/', { locale: locale });
 				}
 				setLoading(false);
 			});

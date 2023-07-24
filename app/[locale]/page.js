@@ -1,9 +1,10 @@
 'use client';
-import Link from 'next/link';
 import PageLayout from '@/components/PageLayout';
 import React from 'react';
-import { useTranslations } from 'next-intl';
+import { useTranslations, useLocale } from 'next-intl';
+import Link from 'next-intl/link';
 const Welcome = () => {
+	const locale = useLocale();
 	const t = useTranslations();
 	return (
 		<>
@@ -12,28 +13,29 @@ const Welcome = () => {
 					<div className='welcome-desktop w-full  h-full hidden lg:flex justify-end lg:justify-start  items-end lg:items-center  '>
 						<div className='lg:justify-self-end'></div>
 						<div className='lg:w-1/3  flex gap-8 flex-col lg:ml-36 ml-6 mr-6'>
-							<h1 className='text-8xl font-bold'>
-								Givingly
-								{t('save')}
-							</h1>
-							<h2 className='text-3xl'>Supporting great causes made easy</h2>
+							<h1 className='text-8xl font-bold'>Givingly</h1>
+							<h2 className='text-3xl'>
+								{t('Supporting great causes made easy')}
+							</h2>
 
 							<p>
-								We helped over 3,500 projects and causes. Sign in today and get
-								your idea kicked off or support others kick off their amazing
-								projects
+								{t(
+									'We helped over 3,500 projects and causes! Sign in today and get your idea kicked off or support others kick off their amazing projects'
+								)}
 							</p>
 							<Link
 								className='bg-black w-full p-2 text-white rounded mt-4 hover:text-[#d4ee26] text-center '
 								href='/navigation'
+								locale={locale}
 							>
-								Start today
+								{t('Start today')}
 							</Link>
 							<Link
 								className='bg-black w-full p-2  mt-4 text-white rounded text-center hover:text-[#d4ee26] '
 								href='/success'
+								locale={locale}
 							>
-								See Success Stories
+								{t('See Success Stories')}
 							</Link>
 						</div>
 					</div>
@@ -41,23 +43,27 @@ const Welcome = () => {
 					<div className='welcome-tablet  w-full hidden h-full md:flex  justify-end lg:hidden items-end   '>
 						<div className=' w-1/2 flex gap-8 flex-col lg:ml-36 ml-6 mr-6'>
 							<h1 className='text-8xl font-bold'>Givingly</h1>
-							<h2 className='text-3xl '>Supporting great causes made easy</h2>
+							<h2 className='text-3xl '>
+								{t('Supporting great causes made easy')}
+							</h2>
 							<p>
-								We helped over 3,500 projects and causes. Sign in today and get
-								your idea kicked off or support others kick off their amazing
-								projects
+								{t(
+									'We helped over 3,500 projects and causes! Sign in today and get your idea kicked off or support others kick off their amazing projects'
+								)}
 							</p>
 							<Link
 								className='bg-black w-full p-2 text-center text-white rounded mt-4 hover:text-[#d4ee26] '
 								href='/navigation'
+								locale={locale}
 							>
-								Start today
+								{t('Start today')}
 							</Link>
 							<Link
 								className='bg-black w-full p-2  mt-4 text-white rounded text-center hover:text-[#d4ee26] '
 								href='/success'
+								locale={locale}
 							>
-								See Success Stories
+								{t('See Success Stories')}
 							</Link>
 						</div>
 					</div>
@@ -68,23 +74,27 @@ const Welcome = () => {
 
 							<div className='text-center flex flex-col px-4 w-full'>
 								{' '}
-								<h2 className='text-2xl'>Supporting great causes made easy</h2>
+								<h2 className='text-2xl'>
+									{t('Supporting great causes made easy')}
+								</h2>
 								<p>
-									We helped over 3,500 projects and causes. Sign in today and
-									get your idea kicked off or support others kick off their
-									amazing projects
+									{t(
+										'We helped over 3,500 projects and causes! Sign in today and get your idea kicked off or support others kick off their amazing projects'
+									)}
 								</p>
 								<Link
 									className='bg-black w-full p-2 text-white rounded mt-4 text-center hover:text-[#d4ee26] '
 									href='/navigation'
+									locale={locale}
 								>
-									Start today
+									{t('Start today')}
 								</Link>
 								<Link
 									className='bg-black w-full p-2  mt-4 text-white rounded text-center hover:text-[#d4ee26] '
 									href='/success'
+									locale={locale}
 								>
-									See Success Stories
+									{t('See Success Stories')}
 								</Link>
 							</div>
 						</div>

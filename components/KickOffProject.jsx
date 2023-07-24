@@ -9,18 +9,13 @@ import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Image from 'next/legacy/image';
-
-import {
-	createProject,
-	uploadImage,
-	handleUpload,
-	register,
-} from '../firebase/firebase';
+import { useTranslations } from 'next-intl';
+import { createProject, handleUpload } from '../firebase/firebase';
 import { getAuth } from 'firebase/auth';
-// import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 
 function KickOffProject() {
 	const ref = useRef(null);
+	const t = useTranslations();
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
@@ -29,28 +24,28 @@ function KickOffProject() {
 	const auth = getAuth();
 	const categoryOptions = ['Education', 'Culture', 'Animals', 'Children'];
 	const schema = yup.object().shape({
-		title: yup.string().trim().required('Title is required'),
+		title: yup.string().trim().required(t('title_required')),
 		about: yup
 			.string()
 			.trim()
-			.required('About is required')
-			.min(20, 'About must be at least 50 characters')
-			.max(100, 'About cannot be more than 200 characters'),
-		goal: yup.number().required('Goal is required'),
+			.required(t('about_required'))
+			.min(20, t('about_min_length'))
+			.max(100, t('about_max_length')),
+		goal: yup.number().required(t('goal_required')),
 
-		endTime: yup.date().required('End time is required').nullable(),
+		endTime: yup.date().required(t('deadline_required')).nullable(),
 
 		category: yup
 			.string()
 			.trim()
-			.required('Category is required')
+			.required(t('category_required'))
 			.oneOf(
 				['Education', 'Culture', 'Animals', 'Children'],
-				'Invalid category'
+				t('invalid_category')
 			),
 		img: yup
 			.mixed()
-			.required('A file is required')
+			.required(t('image_required'))
 			.test(
 				'fileFormat',
 				'Unsupported Format',
@@ -127,7 +122,7 @@ function KickOffProject() {
 							onSubmit={handleSubmit(onSubmit)}
 						>
 							<div className='flex justify-between text-2xl items-center mb-12'>
-								<h1>Kick-Off your project!</h1>
+								<h1>{t('kick_off_project')}</h1>
 								<button
 									type='button'
 									onClick={handleCloseKickOffModal}
@@ -149,13 +144,13 @@ function KickOffProject() {
 								<div className='sm:border-r-2 w-full pr-4'>
 									<div className='mb-4'>
 										<label className='block text-gray-700 text-sm font-bold mb-2'>
-											Title
+											{t('title')}
 										</label>
 
 										<div>
 											<input
 												{...register('title')}
-												placeholder='Enter the title of your project'
+												placeholder={t('title_placeholder')}
 												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
 											<p
@@ -169,12 +164,12 @@ function KickOffProject() {
 									</div>
 									<div className='mb-4'>
 										<label className='block text-gray-700 text-sm font-bold mb-2'>
-											About Project
+											{t('about')}
 										</label>
 
 										<div className='w-full'>
 											<textarea
-												placeholder='Enter the about part of your project'
+												placeholder={t('about_placeholder')}
 												{...register('about')}
 												className=' appearance-none border-b-2 border-black  w-full py-2  text-black leading-tight focus:outline-none focus:shadow-outline min-h-[5rem]'
 											/>
@@ -192,13 +187,13 @@ function KickOffProject() {
 									{' '}
 									<div className='mb-4'>
 										<label className='block text-gray-700 text-sm font-bold mb-2'>
-											Goal
+											{t('goal')}
 										</label>
 
 										<div>
 											<input
 												type='number'
-												placeholder='Enter the goal amount of your project'
+												placeholder={t('goal_placeholder')}
 												{...register('goal')}
 												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											/>
@@ -213,7 +208,7 @@ function KickOffProject() {
 									</div>
 									<div className='mb-4'>
 										<label className='block text-gray-700 text-sm font-bold mb-2'>
-											End Time
+											{t('deadline')}
 										</label>
 
 										<div>
@@ -222,7 +217,7 @@ function KickOffProject() {
 												name='endTime'
 												render={({ field }) => (
 													<DatePicker
-														placeholder='Enter the deadline of your project'
+														placeholder={t('deadline_placeholder')}
 														className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 														selected={new Date(moment(field.value))}
 														onChange={(date) => field.onChange(moment(date))}
@@ -241,7 +236,7 @@ function KickOffProject() {
 									</div>
 									<div className='mb-4'>
 										<label className='block text-gray-700 text-sm font-bold mb-2'>
-											Category
+											{t('category')}
 										</label>
 
 										<div>
@@ -250,15 +245,10 @@ function KickOffProject() {
 												placeholder='Enter the category of your project'
 												className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 											>
-												{categoryOptions.map((item, index) => {
-													return (
-														<>
-															<option value={item} key={index}>
-																{item}
-															</option>
-														</>
-													);
-												})}
+												<option value='Education'>{t('Education')}</option>
+												<option value='Culture'>{t('Culture')}</option>
+												<option value='Animals'>{t('Animals')}</option>
+												<option value='Children'>{t('Children')}</option>
 											</select>
 
 											<p
@@ -274,9 +264,9 @@ function KickOffProject() {
 							</div>
 							<div className='mb-4'>
 								<label className='block text-gray-700 text-sm font-bold mb-2'>
-									<p>Upload Your Picture</p>
+									<p>{t('upload_picture')}</p>
 									<p className='opacity-80 text-blue-400'>
-										You can only upload image format of png, jpeg, jpg
+										{t('upload_picture_note')}
 									</p>
 								</label>
 
@@ -290,7 +280,7 @@ function KickOffProject() {
 									/>
 									{imageUrl !== '' && (
 										<>
-											<p>The file You Upload</p>
+											<p>{t('image_upload_file')}</p>
 											<div className=' relative w-full h-48     '>
 												<Image
 													src={imageUrl || '/images/placeholder.png'}
@@ -317,7 +307,7 @@ function KickOffProject() {
 									type='submit'
 									className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-lg font-bold text-white  focus:outline-none sm:ml-3  sm:text-sm'
 								>
-									Upload Project
+									{t('submit_project')}
 								</button>
 							</div>
 						</form>

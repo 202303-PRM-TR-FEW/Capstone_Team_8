@@ -5,20 +5,22 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { auth } from '../firebase/firebase';
 import * as yup from 'yup';
 import { handleEdit } from '../firebase/firebase';
-import { useRouter } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
 
 function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
+	const locale = useLocale();
 	const ref = useRef(null);
+	const t = useTranslations();
 
 	const remaining = parseFloat(
 		parseFloat(Number(projectDetail.goal)) - parseFloat(Number(totalAmount))
 	);
-	// Include remaining amount in the schema
 	const schema = yup.object().shape({
 		donation: yup
 			.number()
-			.required('Donation is required')
-			.max(remaining, 'Donation must not exceed the goal'),
+			.required(t('donation_required'))
+			.max(remaining, t('donation_max')),
 	});
 	const {
 		control,
@@ -46,7 +48,7 @@ function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
 		setIsOpen(false);
 		reset();
 
-		router.push(`/thankyou/${projectId}`);
+		router.push(`/thankyou/${projectId}`, { locale: locale });
 	};
 
 	const getFormErrorMessage = (name) => {
@@ -103,13 +105,13 @@ function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
 						>
 							<div className='mb-4'>
 								<label className='block text-black text-2xl font-bold mb-8'>
-									Enter the Donation <br /> Amount:
+									{t('donation')} <br /> {t('amount')}
 								</label>
 
 								<div>
 									<input
 										type='number'
-										placeholder='Enter the amount'
+										placeholder={t('donation_placeholder')}
 										{...register('donation')}
 										className='appearance-none border-b-2 border-black w-full py-2 px-3 text-gray-700  focus:outline-none focus:shadow-outline'
 									/>
@@ -128,7 +130,7 @@ function FundProject({ setIsOpen, projectId, totalAmount, projectDetail }) {
 									type='submit'
 									className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-black text-xl font-medium text-white  focus:outline-none sm:ml-3  '
 								>
-									Pay Now
+									{t('fund_project')}
 								</button>
 							</div>
 						</form>

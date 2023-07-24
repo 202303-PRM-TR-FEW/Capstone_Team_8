@@ -9,10 +9,13 @@ import KickOffProject from '@/components/KickOffProject';
 import WithAuth from '@/components/AuthanticatedRoute';
 import Loading from '@/app/[locale]/loading';
 import MyProjectsCard from '@/components/MyProjectsCard';
-import Link from 'next/link';
 import { openAddProject } from '../features/startproject/kickoff';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
+import Link from 'next-intl/link';
 
 function MyProject(props) {
+	const locale = useLocale();
 	const [data, setData] = useState([]);
 	const [filteredData, setFilteredData] = useState([]);
 
@@ -21,7 +24,7 @@ function MyProject(props) {
 	);
 	const auth = getAuth();
 	const dispatch = useDispatch();
-
+	const t = useTranslations();
 	useEffect(() => {
 		const q = query(collection(db, 'app'));
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -63,7 +66,7 @@ function MyProject(props) {
 	return (
 		<PageLayout>
 			{kickOffModalStatus && <KickOffProject />}
-			<div className='flex  flex-col  w-full overflow-auto h-[100vh] pt-12 pb-20 '>
+			<div className='flex  flex-col  w-full overflow-auto h-[100vh] sm:pt-24 pt-12  pb-20 '>
 				{filteredData.length < 1 ? (
 					<div
 						id='noData'
@@ -71,7 +74,7 @@ function MyProject(props) {
 					>
 						<div>
 							<p className='font-bold text-3xl text-black '>
-								It seems you have not started any project!
+								{t('no_project')}
 							</p>
 						</div>
 
@@ -84,8 +87,9 @@ function MyProject(props) {
 								<Link
 									className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
 									href='/projects'
+									locale={locale}
 								>
-									New project
+									{t('start_project')}
 								</Link>
 							</button>
 						</div>
@@ -94,16 +98,13 @@ function MyProject(props) {
 					<>
 						<div className='flex flex-col sm:justify-start sm:items-start justify-center items-center gap-4 p-6'>
 							<div>
-								<h1 className='font-bold text-3xl'>Your Projects</h1>
+								<h1 className='font-bold text-3xl'>{t('your_projects')}</h1>
 							</div>
 							<div>
-								<p>
-									Here you can edit, delete or see the transaction history of
-									your projects
-								</p>
+								<p>{t('your_projects_desc')}</p>
 							</div>
 						</div>
-						<div className='flex flex-wrap justify-start items-start w-full px-4 gap-4'>
+						<div className='flex flex-wrap justify-start items-start w-full px-2 gap-4'>
 							{filteredData.map((project) => {
 								return (
 									<div key={project.id} className=' flex justify-center  '>

@@ -10,7 +10,9 @@ import {
 import Image from 'next/legacy/image';
 import DeleteComment from './DeleteComment';
 import moment from 'moment';
+import { useTranslations } from 'next-intl';
 const Comments = ({ projectId }) => {
+	const t = useTranslations();
 	const [comments, setComments] = useState([]);
 	const [isDeleteCommentOpen, setIsDeleteCommentOpen] = useState(false);
 	const [commentId, setCommentId] = useState(null);
@@ -50,7 +52,6 @@ const Comments = ({ projectId }) => {
 	const openDeleteComment = (comment) => {
 		setIsDeleteCommentOpen(true);
 		setCommentId(comment?.id);
-		// console.log(comment);
 	};
 
 	const calculateTimePassed = (comment) => {
@@ -74,12 +75,6 @@ const Comments = ({ projectId }) => {
 							className='w-full flex-flex-col bg-gray-100 p-4  rounded'
 							key={comment?.timestamp}
 						>
-							{/* {isDeleteCommentOpen && (
-								<DeleteComment
-									setIsDeleteCommentOpen={setIsDeleteCommentOpen}
-									commentId={comment?.commentId}
-								/>
-							)} */}
 							<div className='flex items-center w-full gap-2'>
 								<Image
 									width={40}
@@ -91,7 +86,9 @@ const Comments = ({ projectId }) => {
 								<p className='font-bold text-xl'>
 									{comment?.user?.displayName}
 								</p>
-								<p>{comment?.dayPassed} days ago</p>
+								<p>
+									{comment?.dayPassed} {t('days ago')}
+								</p>
 							</div>
 
 							<div className='flex justify-between '>

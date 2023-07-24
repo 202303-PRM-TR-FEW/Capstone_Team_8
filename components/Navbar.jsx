@@ -1,12 +1,15 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut, auth } from '../firebase/firebase';
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import SearchBar from './SearchBar';
 import LocaleSwitcher from './LocaleSwitcher';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
+import Link from 'next-intl/link';
 
 import {
 	closeAddProject,
@@ -16,9 +19,9 @@ import {
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
-
+	const locale = useLocale();
 	const [user, setUser] = useState(null);
-
+	const t = useTranslations();
 	useEffect(() => {
 		auth.onAuthStateChanged((user) => {
 			if (user) {
@@ -36,11 +39,11 @@ const Navbar = () => {
 
 	const logoutHandler = async () => {
 		await logOut();
-		router.push('/');
+		router.push('/', { locale: locale });
 		setIsOpen(false);
 	};
 	const loginHandler = () => {
-		router.push('/login');
+		router.push('/login', { locale: locale });
 	};
 	const dispatch = useDispatch();
 	return (
@@ -50,6 +53,7 @@ const Navbar = () => {
 					<Link
 						className='self-center text-2xl font-semibold whitespace-nowrap'
 						href='/projects'
+						locale={locale}
 					>
 						Givingly
 					</Link>
@@ -65,8 +69,9 @@ const Navbar = () => {
 							<Link
 								className='block py-2 pl-3 pr-4 text-black bg-blue-700 rounded md:bg-transparent hover:text-gray-700 hover:drop-shadow-xl  '
 								href='/projects'
+								locale={locale}
 							>
-								Home
+								{t('Home')}
 							</Link>
 						</li>
 
@@ -78,8 +83,9 @@ const Navbar = () => {
 									<Link
 										className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
 										href='/myprojects'
+										locale={locale}
 									>
-										My projects
+										{t('My projects')}
 									</Link>
 								</li>
 							)}
@@ -90,8 +96,9 @@ const Navbar = () => {
 									<Link
 										className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
 										href='/profile'
+										locale={locale}
 									>
-										Profile
+										{t('Profile')}
 									</Link>
 								</li>
 							)}
@@ -99,13 +106,13 @@ const Navbar = () => {
 							{auth.currentUser == null ? (
 								<li onClick={loginHandler}>
 									<button className='block py-2 pl-3 pr-4 bg-blue-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '>
-										Login
+										{t('Login')}
 									</button>
 								</li>
 							) : (
 								<li onClick={logoutHandler}>
 									<button className='block py-2 pl-3 pr-4 bg-red-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '>
-										Logout
+										{t('Logout')}
 									</button>
 								</li>
 							)}
@@ -120,8 +127,9 @@ const Navbar = () => {
 									<Link
 										className='block py-2 pl-3 pr-4 bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '
 										href='/projects'
+										locale={locale}
 									>
-										New project
+										{t('New project')}
 									</Link>
 								</li>
 							)}
@@ -158,7 +166,7 @@ const Navbar = () => {
 						className='lg:hidden text-gray-500  hover:scale-105  focus:outline-none focus:ring-4  rounded-lg text-sm p-2.5 '
 						onClick={() => setIsOpen(!isOpen)}
 					>
-						<span className='sr-only'>Open menu</span>
+						<span className='sr-only'>{t('Open menu')}</span>
 						<svg
 							className='w-6 h-6 sm:w-8 sm:h-8'
 							aria-hidden='true'
@@ -206,8 +214,9 @@ const Navbar = () => {
 									}}
 									className='block py-2 pl-3 pr-4 text-3xl sm:text-8xl  text-white rounded     hover:drop-shadow-xl '
 									href='/projects'
+									locale={locale}
 								>
-									Home
+									{t('Home')}
 								</Link>
 							</li>
 
@@ -223,8 +232,9 @@ const Navbar = () => {
 											}}
 											className='block py-2 pl-3 pr-4 text-3xl sm:text-8xl  text-white rounded     hover:drop-shadow-xl '
 											href='/myprojects'
+											locale={locale}
 										>
-											My projects
+											{t('My projects')}
 										</Link>
 									</li>
 									<li className=' w-full  pb-4  mb-12 '>
@@ -234,23 +244,24 @@ const Navbar = () => {
 											}}
 											className='block py-4  pl-3 pr-4 text-white rounded text-3xl sm:text-8xl hover:drop-shadow-xl '
 											href='/profile'
+											locale={locale}
 										>
-											Profile
+											{t('Profile')}
 										</Link>
 									</li>
 								</>
 							)}
 
 							{auth.currentUser == null ? (
-								<li onClick={loginHandler}>
-									<button className='block py-2 pl-3 pr-4 bg-blue-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '>
-										Login
+								<li className='w-full' onClick={loginHandler}>
+									<button className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl  bg-blue-600 text-black rounded  hover:drop-shadow-xl   '>
+										{t('Login')}
 									</button>
 								</li>
 							) : (
-								<li onClick={logoutHandler}>
-									<button className='block py-2 pl-3 pr-4 bg-red-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]  '>
-										Logout
+								<li className='w-full' onClick={logoutHandler}>
+									<button className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl  bg-red-600 text-black rounded  hover:drop-shadow-xl   '>
+										{t('Logout')}
 									</button>
 								</li>
 							)}
@@ -268,8 +279,9 @@ const Navbar = () => {
 								<Link
 									className='block py-2 sm:py-4 px-4 sm:px-8 w-full text-lg sm:text-3xl sm:w-auto bg-[#d4ee26] text-black rounded  hover:drop-shadow-xl   '
 									href='/projects'
+									locale={locale}
 								>
-									NewProject
+									{t('New Project')}
 								</Link>
 							</button>
 						)}
@@ -296,7 +308,7 @@ const Navbar = () => {
 							Givingly
 						</p>
 
-						<p className='text-white mb-12 text-3xl'>Search Projects </p>
+						<p className='text-white mb-12 text-3xl'>{t('Search Projects')} </p>
 						<div className='absolute top-1/2 left-0 w-full px-4'>
 							<SearchBar setIsSeachBarOpen={setIsSeachBarOpen}></SearchBar>
 						</div>

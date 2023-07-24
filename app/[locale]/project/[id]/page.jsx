@@ -7,16 +7,18 @@ import moment from 'moment';
 import Loading from '@/app/[locale]/loading';
 import { auth } from '@/firebase/firebase';
 import Image from 'next/legacy/image';
-import { useRouter } from 'next/navigation';
 import Comments from '@/components/Comments';
 import Comment from '@/components/Comment';
 import SocialSharing from '@/components/SocialSharing';
 import { query, collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
 import ProjectCard from '@/components/ProjectCard';
-import FilterCategories from '@/components/FilterCategories';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
+import Link from 'next-intl/link';
 function ProjectDetail({ params }) {
 	const router = useRouter();
+	const locale = useLocale();
 	const [isOpen, setIsOpen] = useState(false);
 	const [projectDetailInfo, setProjectDetail] = useState({});
 	const [userDetail, setUserDetail] = useState({});
@@ -25,7 +27,7 @@ function ProjectDetail({ params }) {
 	const [dayLeft, setDayLeft] = useState(0);
 	const [loading, setLoading] = useState(true);
 	const [data, setData] = useState([]);
-
+	const t = useTranslations();
 	const fetchAllData = async () => {
 		if (params && params?.id) {
 			setLoading(true);
@@ -87,7 +89,7 @@ function ProjectDetail({ params }) {
 	};
 
 	const handleLogin = () => {
-		router.push('/login');
+		router.push('/login', { locale: locale });
 	};
 
 	return (
@@ -132,7 +134,7 @@ function ProjectDetail({ params }) {
 							</div>
 							<div className='grid grid-cols-12   '>
 								<div className='w-full col-span-12 p-2  lg:p-6  sm:col-span-6 border-solid sm:border-t-2 border-b-2 border-black'>
-									<h2 className='font-bold'>About the Project</h2>
+									<h2 className='font-bold'>{t('About the Project')}</h2>
 									<p className='break-words'>{projectDetailInfo?.about}</p>
 								</div>
 
@@ -140,8 +142,8 @@ function ProjectDetail({ params }) {
 									<div className=' w-full flex flex-col gap-2 text-sm     '>
 										<div className='flex flex-col self-center justify-self-center'>
 											<div className='grid grid-cols-12'>
-												<span className='col-span-11'>Raised</span>{' '}
-												<span className='col-span-1'>Goal:</span>
+												<span className='col-span-11'>{t('Raised')}</span>{' '}
+												<span className='col-span-1'>{t('Goal')}</span>
 											</div>
 											<div className='h-2 w-full bg-gray-200 rounded'>
 												<div
@@ -157,10 +159,10 @@ function ProjectDetail({ params }) {
 											</div>
 											<div>
 												{dayLeft < 0 ? (
-													<span>Expired</span>
+													<span>{t('Expired')}</span>
 												) : (
 													<p>
-														<span>{dayLeft}</span> <span>Days Left</span>
+														<span>{dayLeft}</span> <span>{t('Days Left')}</span>
 													</p>
 												)}
 											</div>
@@ -174,7 +176,7 @@ function ProjectDetail({ params }) {
 										className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-green-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
 										disabled
 									>
-										This project reached its goal
+										{t('This project reached its goal')}
 									</button>
 								) : (
 									<>
@@ -183,7 +185,7 @@ function ProjectDetail({ params }) {
 												className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
 												onClick={handleLogin}
 											>
-												In order to donate you need to login!
+												{t('In order to donate you need to login!')}
 											</button>
 										) : (
 											<button
@@ -193,7 +195,7 @@ function ProjectDetail({ params }) {
 													dayLeft < 0 || projectDetailInfo.goal === totalAmount
 												}
 											>
-												Fund This project
+												{t('Fund This project')}
 											</button>
 										)}
 									</>
@@ -205,12 +207,12 @@ function ProjectDetail({ params }) {
 					<div className='flex justify-center items-center w-full '>
 						<div className='flex flex-col lg:flex-row w-full gap-6  '>
 							<div className='flex flex-col w-full'>
-								<h1 className='text-2xl'>Comments</h1>
+								<h1 className='text-2xl'>{t('Comments')}</h1>
 								<Comment projectId={params?.id} />
 								<Comments projectId={params?.id} />
 							</div>
 							<div className='flex flex-col justify-start items-center sm:w-full lg:w-[75vh]  gap-4 '>
-								<h1 className='text-2xl'>Similar Projects</h1>
+								<h1 className='text-2xl'>{t('Similar Projects')}</h1>
 
 								{data.map((project) => {
 									return (

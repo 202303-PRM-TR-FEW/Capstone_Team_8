@@ -4,21 +4,22 @@ import PageLayout from "@/components/PageLayout";
 
 import ProjectCard from "@/components/ProjectCard";
 import { useSelector } from "react-redux";
+import { useTranslations } from "next-intl";
 
 function Search() {
   const data = useSelector((state) => state.searchProject.searchResult);
+  const t = useTranslations();
   return (
     <PageLayout>
       <div className='flex flex-col overflow-auto h-[100vh]  pt-24 pb-20   w-full'>
-        <h1 className='font-bold text-2xl pl-4 pb-4'>Search Results</h1>
+        <h1 className='font-bold text-2xl pl-4 pb-4'>{t("search_results")} </h1>
         {data.length < 1 && (
           <div
             id='noData'
             className='flex flex-col w-full h-full justify-end items-center gap-4 p-6'
           >
             <p className='font-bold sm:text-3xl text-xl text-black '>
-              Our robot could not find what you were looking for. Please give
-              our robot more easy terms.
+              {t("no_results")}
             </p>
           </div>
         )}

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import Link from 'next/link';
 import Image from 'next/legacy/image';
 import { query, collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
-import { useRouter } from 'next/navigation';
+import { useTranslations, useLocale } from 'next-intl';
+import { useRouter } from 'next-intl/client';
+import Link from 'next-intl/link';
 
 function SuccesfullProjects() {
+	const locale = useLocale();
 	const [filteredData, setFilteredData] = useState([]);
 	const router = useRouter();
-
+	const t = useTranslations();
 	useEffect(() => {
 		const q = query(collection(db, 'app'));
 		const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -30,7 +32,7 @@ function SuccesfullProjects() {
 		return () => unsubscribe();
 	}, []);
 	const handleClick = () => {
-		router.push('/success');
+		router.push('/success', { locale: locale });
 	};
 
 	return (
@@ -39,7 +41,7 @@ function SuccesfullProjects() {
 			<div className='grid grid-cols-12 gap-6 border-b-2 pb-12 '>
 				<div className='w-full flex flex-col justify-center gap-12 md:pt-0 sm:col-span-7 col-span-12  '>
 					<h1 className='lg:text-6xl text-4xl sm:text-5xl font-bold'>
-						Most Successful Project
+						{t('Most Successful Project')}
 					</h1>
 					<div className='w-full'>
 						{' '}
@@ -47,8 +49,9 @@ function SuccesfullProjects() {
 							key={filteredData[0]?.id}
 							className='block py-2 px-3'
 							href={`/project/${filteredData[0]?.id}`}
+							locale={locale}
 						>
-							<div className='relative sm:h-[30dvh] h-[30svh] w-full'>
+							<div className='relative md:h-[35dvh] lg:h-[40dvh] xl:h-[45dvh] 2xl:h-[50dvh] h-[30svh] w-full'>
 								<Image
 									src={filteredData[0]?.img}
 									layout='fill'
@@ -80,8 +83,8 @@ function SuccesfullProjects() {
 						</div>
 
 						<div className='grid grid-cols-12 justify-end'>
-							<span className='col-span-10'>Raised</span>{' '}
-							<span className='col-span-2 justify-self-end'>Goal:</span>
+							<span className='col-span-10'>{t('Raised')}</span>{' '}
+							<span className='col-span-2 justify-self-end'>{t('Goal')}</span>
 						</div>
 
 						<div className='grid grid-cols-12'>
@@ -100,7 +103,7 @@ function SuccesfullProjects() {
 							onClick={handleClick}
 							className='w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-6 py-2 bg-black text-xl font-medium text-white  focus:outline-none sm:ml-3  '
 						>
-							See More Projects
+							{t('See More Projects')}
 						</button>
 					</div>
 				</div>

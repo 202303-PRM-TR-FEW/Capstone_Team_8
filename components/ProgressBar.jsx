@@ -11,15 +11,17 @@ function ProgressBar({ project }) {
 						maxWidth: '100%',
 						width: `${(project?.totalDonations / project?.goal) * 100}%`,
 					}}
-					className='h-2  bg-[#d4ee26] rounded'
+					className='h-2   bg-[#d4ee26] rounded'
 				></div>
 			</div>
 
 			<div className='grid grid-cols-12'>
 				<span className='sm:col-span-10 col-span-9 justify-self-start'>
-					{t('raised')}
+					{t('Raised')}
 				</span>{' '}
-				<span className='sm:col-span-2 col-span-3 justify-self-end'>Goal</span>
+				<span className='sm:col-span-2 col-span-3 justify-self-end'>
+					{t('Goal')}
+				</span>
 			</div>
 
 			<div className='grid grid-cols-12'>
