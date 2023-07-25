@@ -151,5 +151,13 @@
   "update_profile_picture": "Update Profile Picture",
   "upload_image_error": "There was an error uploading your image!",
   "user_projects": "`s Projects",
-  "follow": "Follow"
+  "follow": "Follow",
+  "password_same": "New password must be different from the old one!",
+  "current_password": "Current Password",
+  "new_password": "New Password",
+  "follow_success": "Successfully followed!",
+  "follow_error": "There was an error following!",
+  "unfollow": "Unfollow",
+  "unfollow_success": "Successfully unfollowed!",
+  "unfollow_error": "There was an error unfollowing!"
 }
