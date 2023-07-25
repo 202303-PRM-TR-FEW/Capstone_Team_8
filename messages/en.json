@@ -33,7 +33,7 @@
   "Fund This project": "Fund This project",
   "Comments": "Comments",
   "Similar Projects": "Similar Projects",
-  "In order to command you need to Login": "In order to command you need to Login",
+  "In order to command you need to Login": "In order to comment you need to Login",
   "Cancel": "Cancel",
   "Comment": "Comment",
   "days ago": "days ago",
@@ -149,5 +149,15 @@
   "change_password": "Change Password",
   "password_requirements": "In order to change your password, you need to be logged in before 30 minutes.",
   "update_profile_picture": "Update Profile Picture",
-  "upload_image_error": "There was an error uploading your image!"
+  "upload_image_error": "There was an error uploading your image!",
+  "user_projects": "`s Projects",
+  "follow": "Follow",
+  "password_same": "New password must be different from the old one!",
+  "current_password": "Current Password",
+  "new_password": "New Password",
+  "follow_success": "Successfully followed!",
+  "follow_error": "There was an error following!",
+  "unfollow": "Unfollow",
+  "unfollow_success": "Successfully unfollowed!",
+  "unfollow_error": "There was an error unfollowing!"
 }
