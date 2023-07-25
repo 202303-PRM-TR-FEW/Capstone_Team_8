@@ -2,16 +2,19 @@
 import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { query, collection, onSnapshot } from "firebase/firestore";
-import { db, fetchDocByUserId } from "@/firebase/firebase";
+import { db, fetchDocByUserId, auth } from "@/firebase/firebase";
 import PageLayout from "@/components/PageLayout";
 import ProjectCard from "@/components/ProjectCard";
 import Image from "next/legacy/image";
+import Follow from "@/components/Follow";
 
 function Users({ params }) {
   const id = params.id;
+  const userId = auth.currentUser?.uid;
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [user, setUser] = useState([]);
+  const [userDonatedProjects, setUserDonatedProjects] = useState([]);
   const t = useTranslations();
   useEffect(() => {
     const q = query(collection(db, "app"));
@@ -34,6 +37,7 @@ function Users({ params }) {
 
   useEffect(() => {
     filterProjectByUserId();
+    filterDonatedProjectsByUserId();
   }, [data]);
 
   const filterProjectByUserId = () => {
@@ -41,6 +45,13 @@ function Users({ params }) {
 
     setFilteredData(filteredProjects);
     return filteredData;
+  };
+
+  const filterDonatedProjectsByUserId = () => {
+    const userDonatedProjects = data.filter((item) =>
+      item.donations.some((donation) => donation.user.uid === id)
+    );
+    setUserDonatedProjects(userDonatedProjects);
   };
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +70,7 @@ function Users({ params }) {
   }, []);
   return (
     <PageLayout>
-      <div className='flex  flex-col  w-full overflow-auto h-[100vh] sm:pt-24 pt-12  pb-20 '>
+      <div className='flex  flex-col  w-full h-full sm:pt-24 pt-12  pb-20 '>
         <div className='flex items-center justify-center gap-2 pt-8'>
           <Image
             width={50}
@@ -72,8 +83,18 @@ function Users({ params }) {
             {user[0]?.displayName} {t("user_projects")} :
           </h1>
         </div>
+        <div className='flex justify-center items-center'>
+          <Follow userDetail={user[0]}></Follow>
+        </div>
         <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
           {filteredData?.map((project) => {
+            return (
+              <ProjectCard project={project} key={project.id}></ProjectCard>
+            );
+          })}
+        </div>
+        <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
+          {userDonatedProjects?.map((project) => {
             return (
               <ProjectCard project={project} key={project.id}></ProjectCard>
             );
