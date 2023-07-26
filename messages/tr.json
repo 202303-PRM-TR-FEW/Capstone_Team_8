@@ -149,5 +149,22 @@
   "change_password": "Şifre Değiştir",
   "password_requirements": "Şifre değiştirebilmek için en fazla 30 dakika önce giriş yapmış olmanız gerekmektedir.",
   "update_profile_picture": "Profil Resmini Güncelle",
-  "upload_image_error": "Resim yüklenirken bir hata oluştu!"
+  "upload_image_error": "Resim yüklenirken bir hata oluştu!",
+  "user_projects": "`in Projeleri",
+  "follow": "Takip Et",
+  "password_same": "Yeni şifre eski şifre ile aynı olamaz!",
+  "current_password": "Mevcut Şifre",
+  "new_password": "Yeni Şifre",
+  "follow_success": "Takip başarılı!",
+  "follow_error": "Takip edilirken bir hata oluştu!",
+  "unfollow": "Takibi Bırak",
+  "unfollow_success": "Takip bırakıldı!",
+  "unfollow_error": "Takip bırakılırken bir hata oluştu!",
+  "donated_projects": "Bağış yaptığı projeler",
+  "no_projects": "Proje bulunamadı!",
+  "no_donated_projects": "Bağış yapılan proje bulunamadı!",
+  "follows_you": "Takipçilerin",
+  "no_followers": "Takipçi bulunamadı!",
+  "you_are_following": "Takip edilenler",
+  "no_follows": "Takip edinler bulunamadı!"
 }

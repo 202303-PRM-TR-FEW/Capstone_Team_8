@@ -11,7 +11,7 @@ function ProfilePageTab() {
   };
   const t = useTranslations();
   return (
-    <>
+    <div className='h-full'>
       <div className='mb-4 border-b border-gray-200 w-full '>
         <ul
           className='flex md:flex-row flex-col w/full -mb-px text-sm font-medium text-center'
@@ -107,7 +107,7 @@ function ProfilePageTab() {
           <ChangeProfileImg />
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

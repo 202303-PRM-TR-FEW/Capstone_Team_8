@@ -2,10 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
-import { SnackbarProvider, enqueueSnackbar } from "notistack";
+import { enqueueSnackbar } from "notistack";
 import { createTranslator } from "next-intl";
 import messagesEN from "../messages/en.json";
 import messagesTR from "../messages/tr.json";
+
 import {
   query,
   collection,
@@ -18,6 +19,8 @@ import {
   deleteDoc,
   where,
   getDocs,
+  deleteField,
+  arrayRemove,
 } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
@@ -30,6 +33,7 @@ import {
   updatePassword,
 } from "firebase/auth";
 import store from "../app/[locale]/store";
+import { FieldValue } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
@@ -46,10 +50,12 @@ const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const auth = getAuth();
+export { FieldValue };
 const messages = {
   en: messagesEN,
   tr: messagesTR,
 };
+
 let localeLang = localStorage.getItem("i18nextLng") || "en";
 // let translator = createTranslator({
 // 	locale: localeLang,
@@ -266,21 +272,35 @@ export const handleCommentDelete = async (id) => {
   }
 };
 
-export const updateUserPassword = (newPassword) => {
-  const user = auth.currentUser;
+export const updateUserPassword = async (currentPassword, newPassword) => {
+  const userEmail = auth.currentUser.email;
+  try {
+    const { user } = await signInWithEmailAndPassword(
+      auth,
+      userEmail,
+      currentPassword
+    );
 
-  updatePassword(user, newPassword)
-    .then(() => {
-      // Update successful.
-      enqueueSnackbar(translate("password_change_success"), {
-        variant: "success",
-      });
-    })
-    .catch((error) => {
-      enqueueSnackbar(translate("password_change_error"), {
-        variant: "error",
-      });
+    if (user) {
+      updatePassword(user, newPassword)
+        .then(() => {
+          // Update successful.
+          enqueueSnackbar(translate("password_change_success"), {
+            variant: "success",
+          });
+        })
+        .catch((error) => {
+          enqueueSnackbar(translate("password_change_error"), {
+            variant: "error",
+          });
+        });
+    }
+  } catch (error) {
+    enqueueSnackbar(translate("password_change_error"), {
+      variant: "error",
     });
+    console.log(error);
+  }
 };
 
 export const updateUserProfilePicture = (newImage) => {
@@ -303,6 +323,25 @@ export const updateUserProfilePicture = (newImage) => {
     });
     enqueueSnackbar(translate("image_change_success"), { variant: "success" });
   });
+};
+
+export const updateFollow = async (data) => {
+  try {
+    const user = auth.currentUser;
+    const payload = data;
+
+    const usersCollection = collection(db, "users");
+    const q = query(usersCollection, where("uid", "==", user.uid));
+    const querySnapshot = await getDocs(q);
+
+    querySnapshot.forEach((doc) => {
+      updateDoc(doc.ref, { followed: arrayUnion(payload) });
+    });
+    enqueueSnackbar(translate("follow_success"), { variant: "success" });
+  } catch (e) {
+    enqueueSnackbar(translate("follow_error"), { variant: "error" });
+    console.log(e);
+  }
 };
 
 export const updateUserDisplayName = (displayName) => {
