@@ -62,7 +62,6 @@ function TopDonors({ data }) {
   if (loading) {
     return <div>Loading...</div>;
   }
-  console.log(donators);
   return (
     <div className='flex flex-col'>
       {donators.map((donator, index) => (
@@ -107,9 +106,6 @@ function TopDonors({ data }) {
                 {donator.totalDonation}{" "}
               </p>
             </div>
-          </div>
-          <div className='w-full '>
-            <Follow userDetail={donator} />
           </div>
         </div>
       ))}

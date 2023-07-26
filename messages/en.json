@@ -159,5 +159,12 @@
   "follow_error": "There was an error following!",
   "unfollow": "Unfollow",
   "unfollow_success": "Successfully unfollowed!",
-  "unfollow_error": "There was an error unfollowing!"
+  "unfollow_error": "There was an error unfollowing!",
+  "donated_projects": "Donated this projects",
+  "no_projects": "No projects found!",
+  "no_donated_projects": "No donated projects found!",
+  "follows_you": "Follows you",
+  "no_followers": "No followers found!",
+  "you_are_following": "You are following",
+  "no_follows": "No follows found!"
 }

@@ -271,30 +271,6 @@ export const handleCommentDelete = async (id) => {
     console.log(e);
   }
 };
-// export const unfollowUser = async (userId, followedUserToRemove) => {
-//   try {
-//     const userRef = doc(db, "users", userId);
-//     const userSnap = await getDoc(userRef);
-
-//     const userData = userSnap.data();
-//     const { followed } = userData;
-//     const followedUserObject = followed.find(
-//       (user) => user.followed == followedUserToRemove
-//     );
-//     if (followedUserObject) {
-//       await updateDoc(userRef.followed, {
-//         followed: deleteDoc(followedUserObject),
-//       });
-
-//       enqueueSnackbar(translate("unfollow_success"), { variant: "success" });
-//     } else {
-//       console.log("User not found in followed list.");
-//     }
-//   } catch (e) {
-//     enqueueSnackbar(translate("unfollow_error"), { variant: "error" });
-//     console.log(e);
-//   }
-// };
 
 export const updateUserPassword = async (currentPassword, newPassword) => {
   const userEmail = auth.currentUser.email;
