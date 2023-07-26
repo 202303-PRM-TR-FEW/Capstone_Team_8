@@ -3,10 +3,12 @@ import React, { useEffect, useState, useRef } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import Image from "next/legacy/image";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+import Link from "next-intl/link";
 
 function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
   const ref = useRef(null);
+  const locale = useLocale();
   const t = useTranslations();
   const handleCloseModal = () => {
     setIsTransactionHistoryOpen(false);
@@ -91,7 +93,14 @@ function TransactionHistory({ setIsTransactionHistoryOpen, project }) {
                           alt='user image'
                           src={item?.photoURL}
                         />
-                        <p>{item?.displayName}</p>
+                        <Link
+                          href={{
+                            pathname: `/users/${item?.uid}`,
+                          }}
+                          locale={locale}
+                        >
+                          <p>{item?.displayName}</p>
+                        </Link>
                       </div>
                       <div className='flex gap-4'>
                         {" "}
