@@ -10,8 +10,8 @@ import {
   updateDoc,
   arrayRemove,
   addDoc,
+  collection,
 } from "firebase/firestore";
-import { collection } from "firebase/firestore";
 
 function Follow({ userDetail }) {
   const t = useTranslations();
@@ -81,7 +81,7 @@ function Follow({ userDetail }) {
 
   return (
     <>
-      {userUid == null ? (
+      {userUid == null || userUid == userDetail?.uid ? (
         ""
       ) : (
         <div>

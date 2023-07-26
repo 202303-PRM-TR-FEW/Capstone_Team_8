@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { auth, fetchDocByUserId } from "@/firebase/firebase";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useTranslations } from "next-intl";
+import Followers from "./Followers";
 
 function ProfileInfo() {
   const [data, setData] = useState([]);
@@ -24,20 +25,25 @@ function ProfileInfo() {
   }, []);
 
   return (
-    <div className='flex flex-col items-center justify-center gap-2'>
+    <div className='flex flex-col items-center justify-center gap-2 w-full h-full'>
       <div className='flex items-center justify-center gap-2'>
-        <Image
-          width={50}
-          height={50}
-          className='rounded-full'
-          alt='Picture of the author'
-          src={data[0]?.photoURL}
-        />
+        <div className='relative h-[5svh] w-[5svh] '>
+          <Image
+            src={data[0]?.photoURL}
+            layout='fill'
+            className='rounded-xl drop-shadow-lg'
+            objectFit='cover'
+            alt='Picture of the author'
+          />
+        </div>
         <h1>{data[0]?.displayName}</h1>
       </div>
       <div className='flex justify-center items-center gap-2'>
-        <span>{t("e-mail")} : </span>
+        <span>{t("e-mail")}: </span>
         <p>{auth.currentUser.email} </p>
+      </div>
+      <div className='p-4 h-full w-full'>
+        <Followers />
       </div>
     </div>
   );

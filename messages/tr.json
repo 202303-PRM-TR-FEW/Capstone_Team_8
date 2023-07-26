@@ -159,5 +159,12 @@
   "follow_error": "Takip edilirken bir hata oluştu!",
   "unfollow": "Takibi Bırak",
   "unfollow_success": "Takip bırakıldı!",
-  "unfollow_error": "Takip bırakılırken bir hata oluştu!"
+  "unfollow_error": "Takip bırakılırken bir hata oluştu!",
+  "donated_projects": "Bağış yaptığı projeler",
+  "no_projects": "Proje bulunamadı!",
+  "no_donated_projects": "Bağış yapılan proje bulunamadı!",
+  "follows_you": "Takipçilerin",
+  "no_followers": "Takipçi bulunamadı!",
+  "you_are_following": "Takip edilenler",
+  "no_follows": "Takip edinler bulunamadı!"
 }

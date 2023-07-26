@@ -79,13 +79,15 @@ const Comments = ({ projectId }) => {
               key={comment?.timestamp}
             >
               <div className='flex items-center w-full gap-2'>
-                <Image
-                  width={40}
-                  height={40}
-                  className='rounded-full'
-                  alt='user image'
-                  src={comment?.user?.photoURL}
-                />
+                <div className='relative h-[5svh] w-[5svh] '>
+                  <Image
+                    src={comment?.user?.photoURL}
+                    layout='fill'
+                    className='rounded-xl drop-shadow-lg'
+                    objectFit='cover'
+                    alt='Picture of the author'
+                  />
+                </div>
                 <Link
                   key={comment?.user?.uid}
                   className='block py-2 px-3 w-full max-w-md '
