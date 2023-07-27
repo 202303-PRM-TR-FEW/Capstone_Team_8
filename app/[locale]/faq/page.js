@@ -14,7 +14,7 @@ function Faq() {
     <PageLayout>
       <div className="flex flex-col justify-center items-start py-24 gap-4 sm:min-h-[95vh] min-h-[95svh] px-4 sm:px-6 w-screen">
         <h1 className="text-left text-2xl font-bold pb-4">
-          Most Popular Questions:
+          {t("most_popular_questions")}
         </h1>
 
         <div className="border-2 border-gray-20 w-full flex flex-col justify-start rounded">
@@ -24,9 +24,7 @@ function Faq() {
               className="w-full px-5 py-3 outline-none focus:outline-none"
               onClick={() => toggleSection("section1")}
             >
-              <p className="font-semibold text-left w-full ">
-                Q1: What is crowdfunding?
-              </p>
+              <p className="font-semibold text-left w-full ">{t("faq_q1")}</p>
             </button>
             {openSection == "section1" ? (
               <button className="text-2xl">-</button>
@@ -37,11 +35,7 @@ function Faq() {
 
           {openSection === "section1" && (
             <div className="p-5  border-gray-200 flex justify-start w-full border-t-2">
-              <p className="w-full text-left">
-                A: Crowdfunding is a method of raising funds for a project,
-                business, or cause by collecting small contributions from a
-                large number of people through an online platform.
-              </p>
+              <p className="w-full text-left">{t("faq_a1")}</p>
             </div>
           )}
         </div>
@@ -52,9 +46,7 @@ function Faq() {
               className="w-full px-5 py-3 outline-none focus:outline-none"
               onClick={() => toggleSection("section2")}
             >
-              <p className="font-semibold text-left w-full ">
-                Q2: How does crowdfunding work?
-              </p>
+              <p className="font-semibold text-left w-full ">{t("faq_q2")}</p>
             </button>
             {openSection == "section2" ? (
               <button className="text-2xl">-</button>
@@ -65,13 +57,7 @@ function Faq() {
 
           {openSection === "section2" && (
             <div className="p-5  border-gray-200 flex justify-start w-full border-t-2">
-              <p className="w-full text-left">
-                A: In crowdfunding, project creators set a funding goal and
-                offer rewards or incentives to backers who contribute money to
-                support the project. If the funding goal is reached within a
-                specified timeframe, the project is funded, and backers receive
-                their rewards.
-              </p>
+              <p className="w-full text-left">{t("faq_a2")}</p>
             </div>
           )}
         </div>
