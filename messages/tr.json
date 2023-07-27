@@ -166,5 +166,32 @@
   "follows_you": "Takipçilerin",
   "no_followers": "Takipçi bulunamadı!",
   "you_are_following": "Takip edilenler",
-  "no_follows": "Takip edinler bulunamadı!"
+  "no_follows": "Takip edinler bulunamadı!",
+  "About_Givingly":"Givingly Hakkında",
+  "mission_title": "Misyonumuz",
+  "mission_content": "Givingly, insanların hayallerini gerçekleştirebilmeleri ve topluma değer katmaları için güçlü bir platform sağlar. Amacımız, eğitim, hayvanlar, çocuklar ve kültürel alanlar gibi önemli sektörlere odaklanan projeleri desteklemek ve bu projelerin başarıya ulaşmasını sağlamaktır. Givingly, bağışçılar ve projeler arasında bağ kurarak, toplumun güzelliklerini keşfetmesini ve birlikte büyümesini sağlar.",
+  "vision_title": "Vizyonumuz",
+  "vision_content": "Givingly, dünya çapında toplumun gücünü birleştirerek, iyilik odaklı projelerin hayata geçmesine öncülük eden öncü bir crowdfunding platformudur. Amacımız, gelecekte daha adil, eğitimli, sağlıklı ve kültürel olarak zengin bir dünya yaratmaktır.",
+  "values_title": "Değerlerimiz",
+  "value_one_title" :"İnsana Saygı",
+  "value_one_content": "Her bireyin potansiyeline inanır ve onların hayallerini gerçekleştirmek için destek sağlamayı amaçlarız.",
+  "value_two_title": "Topluma Hizmet",
+  "value_two_content": "Topluma değer katan projelere öncelik vererek, iyiliği yayma sorumluluğunu taşırız.",
+  "value_three_title": "Şeffaflık",
+  "value_three_content": "Açık iletişim ve şeffaf süreçlerle, bağışçılar ve projeler arasında güvenilir bir köprü kurarız.",
+  "value_four_title": "İyilik ve Coşku",
+  "value_four_content": "İyiliğin gücüne inanır ve Givingly ailesinin coşkusunu projelerimizde yansıtırız.",
+  "why_givingly":"Neden Givingly?",
+  "why_one_title":"Çeşitlilik ve Katılım",
+  "why_one_content":"Givingly, eğitim, hayvanlar, çocuklar ve kültürel miras gibi farklı alanlardaki projelere destek vererek, toplumun her kesiminden insanları bir araya getirir. Her bağışçı, kendi değerlerine ve ilgi alanlarına uygun bir projeyi destekleme şansına sahiptir.",
+  "why_two_title":"İyilik Ağı",
+  "why_two_content":"Givingly, güçlü bir bağışçı ve destekçi ağı oluşturur. İyilikseverler, hayalini gerçekleştirmek isteyen projelerle kolayca iletişim kurabilir ve onlara destek olabilirler.",
+  "why_three_title":"Şeffaflık ve Güvenilirlik",
+  "why_three_content":"Givingly, projelerin güvenilirliğini ve başarı potansiyelini sağlamak için titiz bir değerlendirme süreci uygular. Böylece bağışçılar, paralarının değerli amaçlar için harcandığından emin olabilirler.",
+  "why_four_title":"Etki Odaklı Sonuçlar",
+  "why_four_content":"Givingly, projelerin gerçek etkisini ve topluma olan katkısını izler ve raporlar. Bağışçılarımızın desteğiyle başarıya ulaşan projelerin hikayelerini ve sonuçlarını paylaşarak, olumlu değişim yaratmaya katkıda bulunur.",
+  "support_title":"Nasıl Destek Olabilirsiniz?",
+  "support_content":"Siz de Givingly'ye katılarak, eğitim, hayvanlar, çocuklar ve kültürel miras gibi alanlarda hayat değiştiren projelerin bir parçası olabilirsiniz. Bağış yaparak, projelerin yayılmasına ve gerçekleştirilmesine destek vererek, siz de topluma değer katan bir misyonun parçası olabilirsiniz."
+
+  
 }
