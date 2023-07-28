@@ -47,7 +47,7 @@ function Contributors() {
   const t = useTranslations();
   return (
     <PageLayout>
-      <div className="flex flex-col gap-8 justify-center items-center  pt-24">
+      <div className="flex flex-col gap-8 h-screen justify-center items-center  pt-24">
         <div>
           <div className="flex flex-col gap-4 justify-center items-center ">
             <h1 className="font-bold text-2xl">{t("contributors")} </h1>
@@ -58,7 +58,7 @@ function Contributors() {
             return (
               <div
                 key={item.id}
-                className="flex flex-col w-full max-w-sm gap-4  bg-white border border-gray-200 rounded-lg justify-center items-center shadow bg-cyan-900 pt-6 pb-8"
+                className="flex flex-col w-full max-w-sm gap-4  border border-gray-200 rounded-lg justify-center items-center bg-cyan-900 pt-6 pb-8"
               >
                 <div className="relative h-[25svh] w-[25svh]  ">
                   <Image
