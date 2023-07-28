@@ -213,5 +213,8 @@
   "faq_a9": "A: No, in most cases, backers can not cancel their pledges before the campaign ends. However, double-check the platforms rules as they may vary. You may also contact us by email to resolve your issues.",
   "faq_q10": "Q10: How do I contact the project creator for more information?",
   "faq_a10": "A: On most crowdfunding platforms, there is a messaging system that allows backers to communicate with the project creator directly. You can use this feature to ask questions or seek additional information about the project.",
-  "contributors": "Contributors"
+  "contributors": "Contributors",
+  "about_link": "About",
+  "faq": "FAQ",
+  "reserved": "All Rights Reserved"
 }
