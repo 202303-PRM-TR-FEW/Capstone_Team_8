@@ -5,7 +5,7 @@ export default function Foooter() {
   const t = useTranslations();
   const locale = useLocale();
   return (
-    <footer className=" relative  bg-gray-100 rounded shadow  m-4">
+    <footer className=" relative  bg-gray-100 rounded shadow  mt-4">
       <div className="w-full max-w-screen-xl mx-auto p-4 md:py-8">
         <div className="sm:flex sm:items-center sm:justify-between">
           <Link
