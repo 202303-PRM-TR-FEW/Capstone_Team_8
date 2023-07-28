@@ -47,7 +47,7 @@ function Contributors() {
   const t = useTranslations();
   return (
     <PageLayout>
-      <div className="flex flex-col gap-8 h-screen justify-center items-center  pt-24">
+      <div className="flex flex-col gap-8 h-screen justify-center items-center">
         <div>
           <div className="flex flex-col gap-4 justify-center items-center ">
             <h1 className="font-bold text-2xl">{t("contributors")} </h1>
