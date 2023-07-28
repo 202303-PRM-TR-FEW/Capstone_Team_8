@@ -44,14 +44,14 @@ function Contributors() {
     <PageLayout>
       <div className="grid grid-col-span-12 justify-center items-center p-12 m-5 h-full">
         <h1 className="font-bold text-gray-800 text-4xl p-12">Contributors</h1>
-        <div className="grid grid-col-span-2 gap-2 lg:justify-start justify-center items-center">
+        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2 xl:grid-cols-3 justify-items-center">
           {/* Wrap cards in a container */}
           {contributorsData.map((contributor) => (
             <div
               key={contributor.id}
-              className="max-w-sm grid-col-span-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-slate-900 dark:border-gray-700 m-4 h-full"
+              className="max-w-sm grid-col-span-2 bg-white border border-gray-200 rounded-lg shadow dark:bg-indigo-950 dark:border-gray-700 m-4 h-full"
             >
-              <div className="relative h-[20svh] sm:h-[25vh]  lg:h-[30svh] w-full ">
+              <div className="relative h-48 sm:h-60 lg:h-80 w-full">
                 <Image
                   src={contributor.image}
                   layout="fill"
