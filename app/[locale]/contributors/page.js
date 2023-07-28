@@ -44,15 +44,13 @@ const contributorsData = [
 ];
 
 function Contributors() {
+  const t = useTranslations();
   return (
     <PageLayout>
       <div className="flex flex-col gap-8 justify-center items-center  pt-24">
         <div>
           <div className="flex flex-col gap-4 justify-center items-center ">
-            <h1 className="font-bold text-2xl">Contributors</h1>
-            <p className="font-bold text-xl">
-              Here are the people who worked on this project
-            </p>
+            <h1 className="font-bold text-2xl">{t("contributors")} </h1>
           </div>
         </div>
         <div className="flex flex-col lg:flex-row gap-4  w-full justify-center items-center    ">
