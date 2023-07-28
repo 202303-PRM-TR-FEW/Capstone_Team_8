@@ -70,9 +70,9 @@ function Users({ params }) {
   }, []);
   return (
     <PageLayout>
-      <div className='flex  flex-col  w-full h-full sm:pt-24 pt-12  pb-20 '>
+      <div className='flex  flex-col  w-full h-full sm:pt-24 pt-12 px-4 pb-20 '>
         <div>
-          <div className='flex items-center justify-center gap-2 pt-8'>
+          <div className='flex items-center justify-start gap-2 pt-8 '>
             <div className='relative h-[5svh] w-[5svh] '>
               <Image
                 src={user[0]?.photoURL}
@@ -82,12 +82,16 @@ function Users({ params }) {
                 alt='Picture of the author'
               />
             </div>
-            <h1>
-              {user[0]?.displayName} {t("user_projects")} :
-            </h1>
-          </div>
-          <div className='flex justify-center items-center'>
-            <Follow userDetail={user[0]}></Follow>
+            <div>
+              <h1>
+                {user[0]?.displayName} {t("user_projects")} :
+              </h1>
+            </div>
+            <div className='flex flex-col'>
+              <div className='flex justify-center items-center'>
+                <Follow userDetail={user[0]}></Follow>
+              </div>
+            </div>
           </div>
           {filteredData?.length > 0 ? (
             <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
@@ -108,8 +112,9 @@ function Users({ params }) {
             </div>
           )}
         </div>
+
         <div>
-          <div className='flex items-center justify-center gap-2 pt-8'>
+          <div className='flex items-center justify-start gap-2 pt-8'>
             <div className='relative h-[5svh] w-[5svh] '>
               <Image
                 src={user[0]?.photoURL}
@@ -122,9 +127,6 @@ function Users({ params }) {
             <h1>
               {user[0]?.displayName} {t("donated_projects")} :
             </h1>
-          </div>
-          <div className='flex justify-center items-center'>
-            <Follow userDetail={user[0]}></Follow>
           </div>
           {userDonatedProjects?.length > 0 ? (
             <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
