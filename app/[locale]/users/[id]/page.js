@@ -7,6 +7,7 @@ import PageLayout from "@/components/PageLayout";
 import ProjectCard from "@/components/ProjectCard";
 import Image from "next/legacy/image";
 import Follow from "@/components/Follow";
+import UserProfileTabs from "@/components/UserProfileTabs";
 
 function Users({ params }) {
   const id = params.id;
@@ -71,82 +72,11 @@ function Users({ params }) {
   return (
     <PageLayout>
       <div className='flex  flex-col  w-full h-full sm:pt-24 pt-12 px-4 pb-20 '>
-        <div>
-          <div className='flex items-center justify-start gap-2 pt-8 '>
-            <div className='relative h-[5svh] w-[5svh] '>
-              <Image
-                src={user[0]?.photoURL}
-                layout='fill'
-                className='rounded-xl drop-shadow-lg'
-                objectFit='cover'
-                alt='Picture of the author'
-              />
-            </div>
-            <div>
-              <h1>
-                {user[0]?.displayName} {t("user_projects")} :
-              </h1>
-            </div>
-            <div className='flex flex-col'>
-              <div className='flex justify-center items-center'>
-                <Follow userDetail={user[0]}></Follow>
-              </div>
-            </div>
-          </div>
-          {filteredData?.length > 0 ? (
-            <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
-              {filteredData?.map((project) => {
-                return (
-                  <ProjectCard project={project} key={project.id}></ProjectCard>
-                );
-              })}
-            </div>
-          ) : (
-            <div
-              id='noData'
-              className='flex  w-full h-[50vh] gap-4 pt-6 justify-center items-end '
-            >
-              <h1 className='text-2xl font-bold text-center'>
-                {t("no_projects")}
-              </h1>
-            </div>
-          )}
-        </div>
-
-        <div>
-          <div className='flex items-center justify-start gap-2 pt-8'>
-            <div className='relative h-[5svh] w-[5svh] '>
-              <Image
-                src={user[0]?.photoURL}
-                layout='fill'
-                className='rounded-xl drop-shadow-lg'
-                objectFit='cover'
-                alt='Picture of the author'
-              />
-            </div>
-            <h1>
-              {user[0]?.displayName} {t("donated_projects")} :
-            </h1>
-          </div>
-          {userDonatedProjects?.length > 0 ? (
-            <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
-              {userDonatedProjects?.map((project) => {
-                return (
-                  <ProjectCard project={project} key={project.id}></ProjectCard>
-                );
-              })}
-            </div>
-          ) : (
-            <div
-              id='noData'
-              className='flex  w-full h-[50vh] gap-4 pt-6 justify-center items-end '
-            >
-              <h1 className='text-2xl font-bold text-center'>
-                {t("no_donated_projects")}
-              </h1>
-            </div>
-          )}
-        </div>
+        <UserProfileTabs
+          user={user}
+          filteredData={filteredData}
+          userDonatedProjects={userDonatedProjects}
+        ></UserProfileTabs>
       </div>
     </PageLayout>
   );
