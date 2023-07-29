@@ -55,7 +55,7 @@ function ChangePassword() {
 				className='flex flex-col justify-center items-center'
 				onSubmit={passwordSubmit(onSubmitPassword)}
 			>
-				<div className='mb-4'>
+				<div className='mb-4 '>
 					<label className='block text-gray-700 text-sm font-bold mb-2'>
 						{t('current_password')}
 					</label>
@@ -63,7 +63,7 @@ function ChangePassword() {
 					<div className='relative'>
 						<input
 							type={showPassword ? 'text' : 'password'}
-							placeholder={t('new_password')}
+							placeholder={t('current_password')}
 							{...passwordRegister('currentPassword')}
 							className='shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
 						/>
@@ -105,21 +105,21 @@ function ChangePassword() {
 								</g>
 							</svg>
 						</div>
-						<p
-							className={`text-red-700 px-3 ${
-								passwordErrors.currentPassword ? '' : 'invisible'
-							}`}
-						>
-							{passwordErrors.currentPassword?.message || 'Placeholder'}
-						</p>
 					</div>
+					<p
+						className={`text-red-700 px-3  ${
+							passwordErrors.currentPassword ? '' : 'invisible'
+						}`}
+					>
+						{passwordErrors.currentPassword?.message || 'Placeholder'}
+					</p>
 				</div>
 				<div className='mb-4'>
 					<label className='block text-gray-700 text-sm font-bold mb-2'>
 						{t('new_password')}
 					</label>
 
-					<div className='relative'>
+					<div className='relative w-full'>
 						<input
 							type={showRepeatPassword ? 'text' : 'password'}
 							placeholder={t('new_password')}
@@ -164,15 +164,15 @@ function ChangePassword() {
 								</g>
 							</svg>
 						</div>
-						<p
-							className={`text-red-700 px-3 ${
-								passwordErrors.newPassword ? '' : 'invisible'
-							}`}
-						>
-							{passwordErrors.newPassword?.message || 'Placeholder'}
-						</p>
 					</div>
 				</div>
+				<p
+					className={`text-red-700 px-3 max-w-sm ${
+						passwordErrors.newPassword ? '' : 'invisible'
+					}`}
+				>
+					{passwordErrors.newPassword?.message || 'Placeholder'}
+				</p>
 
 				<div className=' px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center'>
 					<button
