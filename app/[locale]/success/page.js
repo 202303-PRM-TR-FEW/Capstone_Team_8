@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import PageLayout from "@/components/PageLayout";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "@/firebase/firebase";
 import ProjectCard from "@/components/ProjectCard";
@@ -31,8 +30,8 @@ function Success() {
     return () => unsubscribe();
   }, []);
   return (
-    <PageLayout>
-      <main className='flex  flex-col   justify-center   h-full overflow-auto   sm:px-4 px-2 py-24  w-full '>
+    <>
+      <main className='flex  flex-col   justify-start   h-screen   sm:px-4 px-2 py-24  w-full '>
         <div className='my-6 flex flex-col justify-center items-center w-full '>
           <h1 className='font-bold text-2xl'>{t("success_stories")}</h1>
         </div>
@@ -44,7 +43,7 @@ function Success() {
           </div>
         </div>
       </main>
-    </PageLayout>
+    </>
   );
 }
 

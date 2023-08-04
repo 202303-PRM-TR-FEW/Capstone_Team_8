@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 import { getAuth } from "@firebase/auth";
-import PageLayout from "@/components/PageLayout";
 import { useSelector, useDispatch } from "react-redux";
 import KickOffProject from "@/components/KickOffProject";
 import WithAuth from "@/components/AuthanticatedRoute";
@@ -63,7 +62,7 @@ function MyProject(props) {
     );
 
   return (
-    <PageLayout>
+    <>
       {kickOffModalStatus && <KickOffProject />}
       <div className='flex  flex-col  w-full overflow-auto h-[100vh] sm:pt-24 pt-12  pb-20 '>
         {filteredData.length < 1 ? (
@@ -115,7 +114,7 @@ function MyProject(props) {
           </>
         )}
       </div>
-    </PageLayout>
+    </>
   );
 }
 

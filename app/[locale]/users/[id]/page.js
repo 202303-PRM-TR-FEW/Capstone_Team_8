@@ -3,10 +3,6 @@ import React, { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { query, collection, onSnapshot } from "firebase/firestore";
 import { db, fetchDocByUserId, auth } from "@/firebase/firebase";
-import PageLayout from "@/components/PageLayout";
-import ProjectCard from "@/components/ProjectCard";
-import Image from "next/legacy/image";
-import Follow from "@/components/Follow";
 import UserProfileTabs from "@/components/UserProfileTabs";
 
 function Users({ params }) {
@@ -70,7 +66,7 @@ function Users({ params }) {
     fetchData();
   }, []);
   return (
-    <PageLayout>
+    <>
       <div className='flex  flex-col  w-full h-full sm:pt-24 pt-12 px-4 pb-20 '>
         <UserProfileTabs
           user={user}
@@ -78,7 +74,7 @@ function Users({ params }) {
           userDonatedProjects={userDonatedProjects}
         ></UserProfileTabs>
       </div>
-    </PageLayout>
+    </>
   );
 }
 
