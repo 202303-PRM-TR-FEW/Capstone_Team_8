@@ -1,7 +1,6 @@
 "use client";
 import React, { useState, useEffect, use } from "react";
 import { fetchDocById, fetchDocByUserId } from "../../../../firebase/firebase";
-import PageLayout from "@/components/PageLayout";
 import FundProject from "@/components/FundProject";
 import moment from "moment";
 import Loading from "@/app/[locale]/loading";
@@ -93,147 +92,142 @@ function ProjectDetail({ params }) {
 
   return (
     <>
-      <PageLayout>
-        {loading && <Loading />}
-        {isOpen && (
-          <FundProject
-            setIsOpen={setIsOpen}
-            projectId={params?.id}
-            totalAmount={totalAmount}
-            projectDetail={projectDetailInfo}
-          />
-        )}
-        <section className='flex  flex-col   justify-center   h-full    md:px-12 px-6 py-24  w-full '>
-          <div className='grid grid-cols-12 gap-6  justify-center items-center w-full pb-16'>
-            <div className='relative sm:h-[40dvh] col-span-12 lg:col-span-4 h-[40svh] w-full'>
-              <Image
-                src={projectDetailInfo?.img}
-                layout='fill'
-                className='rounded-xl drop-shadow-lg'
-                objectFit='cover'
-                alt='Picture of the author'
-              />
-            </div>
+      {loading && <Loading />}
+      {isOpen && (
+        <FundProject
+          setIsOpen={setIsOpen}
+          projectId={params?.id}
+          totalAmount={totalAmount}
+          projectDetail={projectDetailInfo}
+        />
+      )}
+      <section className='flex  flex-col   justify-center   h-full    md:px-12 px-6 py-24  w-full '>
+        <div className='grid grid-cols-12 gap-6  justify-center items-center w-full pb-16'>
+          <div className='relative sm:h-[40dvh] col-span-12 lg:col-span-4 h-[40svh] w-full'>
+            <Image
+              src={projectDetailInfo?.img}
+              layout='fill'
+              className='rounded-xl drop-shadow-lg'
+              objectFit='cover'
+              alt='Picture of the author'
+            />
+          </div>
 
-            <div className='flex flex-col  content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-6'>
-              <div className='p-2  lg:p-6  flex flex-col gap-4 lg:gap-8'>
-                <h1 className='font-bold sm:text-3xl text-xl '>
-                  {projectDetailInfo?.title}
-                </h1>
-                <div className='flex items-center gap-2'>
-                  <Image
-                    width={40}
-                    height={40}
-                    className='rounded-full'
-                    alt='user image'
-                    src={userDetail[0]?.photoURL}
-                  />
-                  <Link
-                    href={{
-                      pathname: `/users/${userDetail[0]?.uid}`,
-                    }}
-                    locale={locale}
-                  >
-                    <p>{userDetail[0]?.displayName} </p>
-                  </Link>
-                  <Follow userDetail={userDetail[0]} />
-                </div>
+          <div className='flex flex-col  content-around lg:col-span-8 col-span-12 gap-2 sm:gap-4 md:gap-6'>
+            <div className='p-2  lg:p-6  flex flex-col gap-4 lg:gap-8'>
+              <h1 className='font-bold sm:text-3xl text-xl '>
+                {projectDetailInfo?.title}
+              </h1>
+              <div className='flex items-center gap-2'>
+                <Image
+                  width={40}
+                  height={40}
+                  className='rounded-full'
+                  alt='user image'
+                  src={userDetail[0]?.photoURL}
+                />
+                <Link
+                  href={{
+                    pathname: `/users/${userDetail[0]?.uid}`,
+                  }}
+                  locale={locale}
+                >
+                  <p>{userDetail[0]?.displayName} </p>
+                </Link>
+                <Follow userDetail={userDetail[0]} />
               </div>
-              <div className='grid grid-cols-12   '>
-                <div className='w-full col-span-12 p-2  lg:p-6  sm:col-span-6 border-solid sm:border-t-2 border-b-2 border-black'>
-                  <h2 className='font-bold'>{t("About the Project")}</h2>
-                  <p className='break-words'>{projectDetailInfo?.about}</p>
-                </div>
+            </div>
+            <div className='grid grid-cols-12   '>
+              <div className='w-full col-span-12 p-2  lg:p-6  sm:col-span-6 border-solid sm:border-t-2 border-b-2 border-black'>
+                <h2 className='font-bold'>{t("About the Project")}</h2>
+                <p className='break-words'>{projectDetailInfo?.about}</p>
+              </div>
 
-                <div className='border-solid sm:border-l-2 border-y-2 p-2  lg:p-6  border-black col-span-12 sm:col-span-6 order-first sm:order-2'>
-                  <div className=' w-full flex flex-col gap-2 text-sm     '>
-                    <div className='flex flex-col self-center justify-self-center'>
-                      <div className='grid grid-cols-12'>
-                        <span className='col-span-11'>{t("Raised")}</span>{" "}
-                        <span className='col-span-1'>{t("Goal")}</span>
-                      </div>
-                      <div className='h-2 w-full bg-gray-200 rounded'>
-                        <div
-                          style={{ width: `${progress}%` }}
-                          className='h-2 bg-[#d4ee26] rounded'
-                        ></div>
-                      </div>
-                      <div className='grid grid-cols-12'>
-                        <span className='col-span-11'>${totalAmount}</span>{" "}
-                        <span className='col-span-1'>
-                          ${projectDetailInfo?.goal}
-                        </span>
-                      </div>
-                      <div>
-                        {dayLeft < 0 ? (
-                          <span>{t("Expired")}</span>
-                        ) : (
-                          <p>
-                            <span>{dayLeft}</span> <span>{t("Days Left")}</span>
-                          </p>
-                        )}
-                      </div>
+              <div className='border-solid sm:border-l-2 border-y-2 p-2  lg:p-6  border-black col-span-12 sm:col-span-6 order-first sm:order-2'>
+                <div className=' w-full flex flex-col gap-2 text-sm     '>
+                  <div className='flex flex-col self-center justify-self-center'>
+                    <div className='grid grid-cols-12'>
+                      <span className='col-span-11'>{t("Raised")}</span>{" "}
+                      <span className='col-span-1'>{t("Goal")}</span>
+                    </div>
+                    <div className='h-2 w-full bg-gray-200 rounded'>
+                      <div
+                        style={{ width: `${progress}%` }}
+                        className='h-2 bg-[#d4ee26] rounded'
+                      ></div>
+                    </div>
+                    <div className='grid grid-cols-12'>
+                      <span className='col-span-11'>${totalAmount}</span>{" "}
+                      <span className='col-span-1'>
+                        ${projectDetailInfo?.goal}
+                      </span>
+                    </div>
+                    <div>
+                      {dayLeft < 0 ? (
+                        <span>{t("Expired")}</span>
+                      ) : (
+                        <p>
+                          <span>{dayLeft}</span> <span>{t("Days Left")}</span>
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
               </div>
-              <div className='flex flex-col sm:flex-row gap-10'>
-                {projectDetailInfo.goal == totalAmount ? (
-                  <button
-                    className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-green-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
-                    disabled
-                  >
-                    {t("This project reached its goal")}
-                  </button>
-                ) : (
-                  <>
-                    {auth.currentUser == null ? (
-                      <button
-                        className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
-                        onClick={handleLogin}
-                      >
-                        {t("In order to donate you need to login!")}
-                      </button>
-                    ) : (
-                      <button
-                        className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
-                        onClick={handleClick}
-                        disabled={
-                          dayLeft < 0 || projectDetailInfo.goal === totalAmount
-                        }
-                      >
-                        {t("Fund This project")}
-                      </button>
-                    )}
-                  </>
-                )}
-                <SocialSharing projectId={params?.id} />
-              </div>
+            </div>
+            <div className='flex flex-col sm:flex-row gap-10'>
+              {projectDetailInfo.goal == totalAmount ? (
+                <button
+                  className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-green-600 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
+                  disabled
+                >
+                  {t("This project reached its goal")}
+                </button>
+              ) : (
+                <>
+                  {auth.currentUser == null ? (
+                    <button
+                      className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
+                      onClick={handleLogin}
+                    >
+                      {t("In order to donate you need to login!")}
+                    </button>
+                  ) : (
+                    <button
+                      className='block py-2 pl-3 pr-4 text-center lg:w-1/2 w-full bg-gray-900 text-white rounded  hover:drop-shadow-xl hover:text-[#d4ee26]'
+                      onClick={handleClick}
+                      disabled={
+                        dayLeft < 0 || projectDetailInfo.goal === totalAmount
+                      }
+                    >
+                      {t("Fund This project")}
+                    </button>
+                  )}
+                </>
+              )}
+              <SocialSharing projectId={params?.id} />
             </div>
           </div>
-          <div className='flex justify-center items-center w-full '>
-            <div className='flex flex-col lg:flex-row w-full gap-6  '>
-              <div className='flex flex-col w-full'>
-                <h1 className='text-2xl'>{t("Comments")}</h1>
-                <Comment projectId={params?.id} />
-                <Comments projectId={params?.id} />
-              </div>
-              <div className='flex flex-col justify-start items-center sm:w-full lg:w-[75vh]  gap-4 '>
-                <h1 className='text-2xl'>{t("Similar Projects")}</h1>
+        </div>
+        <div className='flex justify-center items-center w-full '>
+          <div className='flex flex-col lg:flex-row w-full gap-6  '>
+            <div className='flex flex-col w-full'>
+              <h1 className='text-2xl'>{t("Comments")}</h1>
+              <Comment projectId={params?.id} />
+              <Comments projectId={params?.id} />
+            </div>
+            <div className='flex flex-col justify-start items-center sm:w-full lg:w-[75vh]  gap-4 '>
+              <h1 className='text-2xl'>{t("Similar Projects")}</h1>
 
-                {data.map((project) => {
-                  return (
-                    <ProjectCard
-                      project={project}
-                      key={project.id}
-                    ></ProjectCard>
-                  );
-                })}
-              </div>
+              {data.map((project) => {
+                return (
+                  <ProjectCard project={project} key={project.id}></ProjectCard>
+                );
+              })}
             </div>
           </div>
-        </section>
-      </PageLayout>
+        </div>
+      </section>
     </>
   );
 }

@@ -1,7 +1,5 @@
 "use client";
 import React from "react";
-import PageLayout from "@/components/PageLayout";
-
 import ProjectCard from "@/components/ProjectCard";
 import { useSelector } from "react-redux";
 import { useTranslations } from "next-intl";
@@ -10,7 +8,7 @@ function Search() {
   const data = useSelector((state) => state.searchProject.searchResult);
   const t = useTranslations();
   return (
-    <PageLayout>
+    <>
       <div className='flex flex-col overflow-auto h-[100vh]  pt-24 pb-20   w-full'>
         <h1 className='font-bold text-2xl pl-4 pb-4'>{t("search_results")} </h1>
         {data.length < 1 && (
@@ -29,7 +27,7 @@ function Search() {
           ))}
         </div>
       </div>
-    </PageLayout>
+    </>
   );
 }
 
