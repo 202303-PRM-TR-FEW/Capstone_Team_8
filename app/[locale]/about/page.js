@@ -1,5 +1,6 @@
 import React from "react";
 import { useTranslations } from "next-intl";
+import Image from "next/legacy/image";
 
 function About() {
   const t = useTranslations();
@@ -16,12 +17,15 @@ function About() {
           <h1 className='text-2xl md:text-3xl lg:text-4xl text-center font-bold'>
             {t("mission_title")}
           </h1>
-          <div className='flex justify-center items-center'>
-            <img
+          <div className="flex justify-center items-center">
+          <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+            <Image
               src='https://www.svgrepo.com/show/477511/target-and-arrow.svg'
               alt=' Our Mission Icon'
-              className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+              layout="fill"
+              objectFit="cover"
             />
+          </div>
           </div>
           <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
             {t("mission_content")}
@@ -34,11 +38,14 @@ function About() {
           </h1>
 
           <div className='flex justify-center items-center'>
-            <img
+            <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+            <Image
               src='https://www.svgrepo.com/show/447665/idea-bulb-glow.svg'
               alt='Our Vision Icon'
-              className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+              layout="fill"
+              objectFit="cover"
             />
+            </div>
           </div>
           <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
             {t("vision_content")}
@@ -57,11 +64,14 @@ function About() {
               {t("value_one_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/307123/spotlight-stage-celebrity-famous.svg'
                 alt=' Respect for Individuals Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("value_one_content")}
@@ -72,11 +82,14 @@ function About() {
               {t("value_two_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/307344/happy-crowd-happy-happiness-content.svg'
                 alt=' Service to the Community Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("value_two_content")}
@@ -87,11 +100,14 @@ function About() {
               {t("value_three_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/307244/conversation-confer-consult-speak.svg'
                 alt=' Transparency Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("value_three_content")}
@@ -102,11 +118,14 @@ function About() {
               {t("value_four_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/307382/joy-joyful-enjoy.svg'
                 alt=' Goodness and Enthusiasm Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("value_four_content")}
@@ -125,11 +144,14 @@ function About() {
               {t("why_one_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/307234/compare-and-contrast-difference-compare-different.svg'
                 alt='Diversity and Inclusion Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("why_one_content")}
@@ -139,12 +161,18 @@ function About() {
             <h1 className='text-xl md:text-xl lg:text-3xl text-center italic'>
               {t("why_two_title")}
             </h1>
+
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-16 w-16 md:h-20 md:w-20 lg:h-28 lg:w-28'>
+                <Image
                 src='https://www.svgrepo.com/show/307233/community-people-friends-group.svg'
                 alt='Network of Goodness Icon'
-                className='h-16 w-16 md:h-20 md:w-20 lg:h-28 lg:w-28'
+                layout="fill"
+                objectFit="cover"
               />
+
+              </div>
+              
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("why_two_content")}
@@ -155,11 +183,15 @@ function About() {
               {t("why_three_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/247603/hand-shake-handshake.svg'
                 alt='Transparency and Reliability Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("why_three_content")}
@@ -170,11 +202,14 @@ function About() {
               {t("why_four_title")}
             </h1>
             <div className='flex justify-center items-center'>
-              <img
+              <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+              <Image
                 src='https://www.svgrepo.com/show/247615/analytics.svg'
                 alt='Impact-driven Results Icon'
-                className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+                layout="fill"
+                objectFit="cover"
               />
+              </div>
             </div>
             <p className='p-2 md:p-4 lg:p-6 text-sm md:text-base lg:text-lg text-justify'>
               {t("why_four_content")}
@@ -191,11 +226,14 @@ function About() {
         </div>
 
         <div className='mb-4'>
-          <img
+          <div className='relative h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'>
+          <Image
             src='https://www.svgrepo.com/show/307408/mutual-love-reciprocity-relationship-kindness.svg'
             alt='How Can You Support Icon'
-            className='h-20 w-20 md:h-24 md:w-24 lg:h-32 lg:w-32'
+            layout="fill"
+            objectFit="cover"
           />
+          </div>
         </div>
 
         <div className='text-center px-2 md:px-6 lg:px-20'>
