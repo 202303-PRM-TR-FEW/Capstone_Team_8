@@ -18,11 +18,11 @@ const PageLayout = ({ children }) => {
 	}, [user]);
 
 	return (
-		<div className='flex flex-col w-full h-full min-h-screen relative'>
-			<ScrollToTop />
+		<div className='flex flex-col h-screen justify-between'>
 			<Navbar />
-			{children}
-			<Foooter className='absolute bottom-0 left-0 w-full' />
+			<ScrollToTop />
+			<div className='flex-grow'>{children}</div>
+			<Foooter />
 		</div>
 	);
 };
