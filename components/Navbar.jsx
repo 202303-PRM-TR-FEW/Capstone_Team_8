@@ -1,21 +1,13 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
-
 import { useDispatch, useSelector } from 'react-redux';
 import { logOut, auth } from '../firebase/firebase';
-// import { useRouter } from 'next/navigation';
 import SearchBar from './SearchBar';
 import LocaleSwitcher from './LocaleSwitcher';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next-intl/client';
 import Link from 'next-intl/link';
-
-import {
-	closeAddProject,
-	openAddProject,
-} from '../app/[locale]/features/startproject/kickoff';
-
+import { openAddProject } from '../app/[locale]/features/startproject/kickoff';
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
@@ -44,10 +36,11 @@ const Navbar = () => {
 	};
 	const loginHandler = () => {
 		router.push('/login', { locale: locale });
+		setIsOpen(false);
 	};
 	const dispatch = useDispatch();
 	return (
-		<nav className='w-full z-20 border-gray-200 bg-[#d4ee26] verflow-auto  text-center h-16 align-middle fixed top-0 left-0 '>
+		<nav className='w-full z-20 border-gray-200 bg-[#d4ee26] verflow-auto  text-center  align-middle fixed top-0 left-0 '>
 			<div className='flex flex-wrap items-center justify-between  py-2 lg:py-4 px-2 sm:px-4 md:px-6 lg:px-8 relative align-middle '>
 				<div className='flex flex-row justify-between '>
 					<Link
