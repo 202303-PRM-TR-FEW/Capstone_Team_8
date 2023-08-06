@@ -43,16 +43,7 @@ function KickOffProject() {
 				['Education', 'Culture', 'Animals', 'Children'],
 				t('invalid_category')
 			),
-		img: yup
-			.mixed()
-			.required(t('image_required'))
-			.test(
-				'fileFormat',
-				'Unsupported Format',
-				(value) =>
-					value &&
-					(value[0].type === 'image/jpeg' || value[0].type === 'image/png')
-			),
+		img: yup.mixed().required(t('image_required')),
 	});
 	const {
 		control,
@@ -206,22 +197,25 @@ function KickOffProject() {
 											</p>
 										</div>
 									</div>
-									<div className='mb-4'>
+									<div className='mb-4 w-full'>
 										<label className='block text-gray-700 text-sm font-bold mb-2'>
 											{t('deadline')}
 										</label>
 
-										<div>
+										<div className='w-full'>
 											<Controller
 												control={control}
 												name='endTime'
+												className='w-full'
 												render={({ field }) => (
 													<DatePicker
+														style={{ width: '100%' }}
 														placeholder={t('deadline_placeholder')}
 														className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
 														selected={new Date(moment(field.value))}
 														onChange={(date) => field.onChange(moment(date))}
 														dateFormat='dd/MM/yyyy'
+														minDate={new Date(moment(field.value))}
 													/>
 												)}
 											/>
