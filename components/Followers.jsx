@@ -44,8 +44,6 @@ function Followers() {
           }
         }
       });
-      console.log(data);
-      console.log(followersArr, followingArr);
 
       const followingData = await Promise.all(
         followersArr.map(async (follower) => {

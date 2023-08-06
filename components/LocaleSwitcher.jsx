@@ -9,7 +9,6 @@ function LocaleSwitcher() {
 	const router = useRouter();
 	const dispatch = useDispatch();
 	const [showPopover, setShowPopover] = useState(false);
-	// const [activeLocale, setActiveLocale] = useState(router.locale);
 	const ref = useRef();
 	useEffect(() => {
 		function handleClickOutside(event) {
@@ -27,9 +26,6 @@ function LocaleSwitcher() {
 		dispatch(setLang(locale));
 		router.replace(pathname, { locale });
 		setShowPopover(false);
-		// setTimeout(() => {
-		// 	window.location.reload();
-		// }, 100);
 	};
 
 	return (

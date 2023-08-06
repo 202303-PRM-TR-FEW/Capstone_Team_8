@@ -16,6 +16,7 @@ import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next-intl/client";
 import Link from "next-intl/link";
 import Follow from "@/components/Follow";
+import ScrollToTop from "@/components/ScrollToTop";
 function ProjectDetail({ params }) {
   const router = useRouter();
   const locale = useLocale();
@@ -92,6 +93,7 @@ function ProjectDetail({ params }) {
 
   return (
     <>
+      <ScrollToTop />
       {loading && <Loading />}
       {isOpen && (
         <FundProject

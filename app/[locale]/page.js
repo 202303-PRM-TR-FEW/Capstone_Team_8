@@ -2,11 +2,13 @@
 import React from "react";
 import { useTranslations, useLocale } from "next-intl";
 import Link from "next-intl/link";
+import ScrollToTop from "@/components/ScrollToTop";
 const Welcome = () => {
   const locale = useLocale();
   const t = useTranslations();
   return (
     <>
+      <ScrollToTop />
       <div className=' w-full  bg-[#d4ee26] h-[100vh] lg:px-28  lg:py-56 py-28 '>
         <div className='welcome-desktop w-full  h-full hidden lg:flex justify-end lg:justify-start  items-end lg:items-center  '>
           <div className='lg:justify-self-end'></div>

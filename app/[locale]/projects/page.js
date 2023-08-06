@@ -9,6 +9,7 @@ import ProjectCard from "@/components/ProjectCard";
 import FilterCategories from "@/components/FilterCategories";
 import Tabs from "@/components/Tabs";
 import { useTranslations } from "next-intl";
+import ScrollToTop from "@/components/ScrollToTop";
 function Home() {
   const kickOffModalStatus = useSelector(
     (state) => state.isStartProjectOpen.modalOpen
@@ -48,6 +49,7 @@ function Home() {
   return (
     <>
       {loading && <Loading />}
+      <ScrollToTop />
       {kickOffModalStatus && <KickOffProject />}
       <main className='flex  flex-col   justify-center   h-full overflow-auto   sm:px-4 px-2 py-24  w-full '>
         <Tabs data={data} ongoingProjects={ongoingProjects} />

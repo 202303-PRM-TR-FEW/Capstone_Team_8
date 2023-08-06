@@ -70,7 +70,6 @@ function EditProject({ setIsEditProjectOpen, project }) {
 
   const onSubmit = async (data) => {
     try {
-      console.log(lang);
       await updateProject(
         project.id,
         {
