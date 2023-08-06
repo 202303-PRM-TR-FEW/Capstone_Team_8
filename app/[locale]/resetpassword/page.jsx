@@ -12,7 +12,7 @@ export default function ResetPassword() {
 	const locale = useLocale();
 	const t = useTranslations();
 	const [loading, setLoading] = useState(false);
-
+	
 	const schema = yup.object().shape({
 		email: yup
 			.string()
@@ -23,9 +23,7 @@ export default function ResetPassword() {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
-		reset,
 	} = useForm({ resolver: yupResolver(schema) });
 	const router = useRouter();
 	const auth = getAuth();

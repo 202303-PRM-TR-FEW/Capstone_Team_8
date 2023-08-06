@@ -3,7 +3,6 @@ import { fetchDocByUserId } from "@/firebase/firebase";
 import Image from "next/legacy/image";
 import Link from "next-intl/link";
 import { useLocale } from "next-intl";
-import Follow from "./Follow";
 
 function TopDonors({ data }) {
   const [donators, setDonators] = useState([]);
