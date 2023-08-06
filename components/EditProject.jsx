@@ -41,9 +41,16 @@ function EditProject({ setIsEditProjectOpen, project }) {
 			.required(t('about_required'))
 			.min(20, t('about_min_length'))
 			.max(100, t('about_max_length')),
-		goal: yup.number().required(t('goal_required')),
+		goal: yup
+			.number()
+			.transform((value, originalValue) => {
+				return originalValue === '' ? null : value;
+			})
+			.required(t('goal_required')),
 		endTime: yup.date().required(t('deadline_required')).nullable(),
-		img: yup.mixed().required(t('image_required')),
+		img: yup.mixed().test('required', t('image_required'), (value) => {
+			return value && value.length;
+		}),
 	});
 	const {
 		control,

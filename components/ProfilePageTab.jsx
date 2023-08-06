@@ -3,11 +3,13 @@ import ProfileInfo from './ProfileInfo';
 import ChangePassword from './ChangePassword';
 import ChangeProfileImg from './ChangeProfileImg';
 import { useTranslations } from 'next-intl';
-function ProfilePageTab() {
+
+function ProfilePageTab({ setLoading }) {
 	const [activeTab, setActiveTab] = useState('Profile Info');
 	const handleTabClick = (tabId) => {
 		setActiveTab(tabId);
 	};
+
 	const t = useTranslations();
 	return (
 		<>
@@ -83,7 +85,7 @@ function ProfilePageTab() {
 					role='tabpanel'
 					aria-labelledby='Profile Info-tab'
 				>
-					<ProfileInfo />
+					<ProfileInfo setLoading={setLoading} />
 				</div>
 				<div
 					className={`p-4 rounded-lg bg-gray-50  ${
@@ -93,7 +95,7 @@ function ProfilePageTab() {
 					role='tabpanel'
 					aria-labelledby='Change Password-tab'
 				>
-					<ChangePassword />
+					<ChangePassword setLoading={setLoading} />
 				</div>
 				<div
 					className={`p-4 rounded-lg bg-gray-50 ${
@@ -103,7 +105,7 @@ function ProfilePageTab() {
 					role='tabpanel'
 					aria-labelledby='Change Profile Picture-tab'
 				>
-					<ChangeProfileImg />
+					<ChangeProfileImg setLoading={setLoading} />
 				</div>
 			</div>
 		</>

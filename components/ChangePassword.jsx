@@ -5,7 +5,7 @@ import * as yup from 'yup';
 import { updateUserPassword } from '@/firebase/firebase';
 import { useTranslations } from 'next-intl';
 
-function ChangePassword() {
+function ChangePassword({ setLoading }) {
 	const t = useTranslations();
 	const [showPassword, setShowPassword] = useState(false);
 	const [showRepeatPassword, setShowRepeatPassword] = useState(false);
@@ -31,7 +31,11 @@ function ChangePassword() {
 		resolver: yupResolver(passwordSchema),
 	});
 	const onSubmitPassword = async (data) => {
-		await updateUserPassword(data.currentPassword, data.newPassword);
+		await updateUserPassword(
+			data.currentPassword,
+			data.newPassword,
+			setLoading
+		);
 
 		reset();
 	};
@@ -50,12 +54,12 @@ function ChangePassword() {
 		}
 	};
 	return (
-		<div>
+		<div className='flex justify-center w-full'>
 			<form
-				className='flex flex-col justify-center items-center'
+				className='flex flex-col justify-center items-center max-w-lg w-full'
 				onSubmit={passwordSubmit(onSubmitPassword)}
 			>
-				<div className='mb-4 '>
+				<div className='mb-4 w-full '>
 					<label className='block text-gray-700 text-sm font-bold mb-2'>
 						{t('current_password')}
 					</label>
@@ -65,7 +69,7 @@ function ChangePassword() {
 							type={showPassword ? 'text' : 'password'}
 							placeholder={t('current_password')}
 							{...passwordRegister('currentPassword')}
-							className='shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
 						/>
 						<div
 							className='absolute top-2 right-3 cursor-pointer'
@@ -114,7 +118,7 @@ function ChangePassword() {
 						{passwordErrors.currentPassword?.message || 'Placeholder'}
 					</p>
 				</div>
-				<div className='mb-4'>
+				<div className='mb-4 w-full'>
 					<label className='block text-gray-700 text-sm font-bold mb-2'>
 						{t('new_password')}
 					</label>
@@ -124,7 +128,7 @@ function ChangePassword() {
 							type={showRepeatPassword ? 'text' : 'password'}
 							placeholder={t('new_password')}
 							{...passwordRegister('newPassword')}
-							className='shadow appearance-none border rounded  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+							className='shadow appearance-none border rounded w-full  py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
 						/>
 						<div
 							className='absolute top-2 right-3 cursor-pointer'
@@ -165,14 +169,14 @@ function ChangePassword() {
 							</svg>
 						</div>
 					</div>
+					<p
+						className={`text-red-700 px-3 max-w-sm ${
+							passwordErrors.newPassword ? '' : 'invisible'
+						}`}
+					>
+						{passwordErrors.newPassword?.message || 'Placeholder'}
+					</p>
 				</div>
-				<p
-					className={`text-red-700 px-3 max-w-sm ${
-						passwordErrors.newPassword ? '' : 'invisible'
-					}`}
-				>
-					{passwordErrors.newPassword?.message || 'Placeholder'}
-				</p>
 
 				<div className=' px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse flex justify-center'>
 					<button
