@@ -16,20 +16,16 @@ function ProgressBar({ project }) {
 			</div>
 
 			<div className='grid grid-cols-12'>
-				<span className='sm:col-span-10 col-span-9 justify-self-start'>
-					{t('Raised')}
-				</span>{' '}
-				<span className='sm:col-span-2 col-span-3 justify-self-end'>
-					{t('Goal')}
-				</span>
+				<span className=' col-span-6 justify-self-start'>{t('Raised')}</span>{' '}
+				<span className='col-span-6 justify-self-end'>{t('Goal')}</span>
 			</div>
 
 			<div className='grid grid-cols-12'>
-				<span className='sm:col-span-10 col-span-9 justify-self-start'>
+				<span className=' col-span-6 justify-self-start'>
 					<span className='font-bold  text-base sm:text-lg '>$ </span>
 					{project?.totalDonations}
 				</span>{' '}
-				<span className='sm:col-span-2 col-span-3 justify-self-end'>
+				<span className=' col-span-6 justify-self-end'>
 					<span className='font-bold  text-base sm:text-lg '>$ </span>
 					{project?.goal}
 				</span>
