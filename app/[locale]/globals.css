@@ -3,89 +3,102 @@
 @tailwind utilities;
 
 .welcome-desktop {
-	background-image: url(../../public/welcome_desktop.png);
-	background-position: center center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	border-radius: 8px;
-	border: 0px;
+  background-image: url(../../public/welcome_desktop.png);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  border: 0px;
 }
 
 .welcome-tablet {
-	background-image: url(../../public/welcome_tablet.png);
-	background-position: center center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	border-radius: 8px;
-	border: 0px;
+  background-image: url(../../public/welcome_tablet.png);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  border: 0px;
 }
 
 .welcome-mobile {
-	background-image: url(../../public/welcome_mobile.png);
-	background-position: center center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	border-radius: 8px;
-	border: 0px;
+  background-image: url(../../public/welcome_mobile.png);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  border: 0px;
 }
 .loader {
-	width: 150px; /* control the size */
-	aspect-ratio: 1;
-	display: grid;
-	mask: conic-gradient(from 22deg, #0003, #000);
-	animation: load 1s steps(8) infinite;
+  width: 150px; /* control the size */
+  aspect-ratio: 1;
+  display: grid;
+  mask: conic-gradient(from 22deg, #0003, #000);
+  animation: load 1s steps(8) infinite;
 }
 .loader,
 .loader:before {
-	--_g: linear-gradient(#d4ee26 0 0) 50%; /* update the color here */
-	background: var(--_g) / 34% 8% space no-repeat,
-		var(--_g) / 8% 34% no-repeat space;
+  --_g: linear-gradient(#d4ee26 0 0) 50%; /* update the color here */
+  background: var(--_g) / 34% 8% space no-repeat,
+    var(--_g) / 8% 34% no-repeat space;
 }
 .loader:before {
-	content: '';
-	transform: rotate(45deg);
+  content: "";
+  transform: rotate(45deg);
 }
 @keyframes load {
-	to {
-		transform: rotate(1turn);
-	}
+  to {
+    transform: rotate(1turn);
+  }
 }
 
 .thankyou {
-	background-image: url('../../public/thankyou.png');
-	background-position: center center;
-	background-size: contain;
-	background-repeat: no-repeat;
-	border-radius: 8px;
-	border: 0px;
-	height: 100%;
+  background-image: url("../../public/thankyou.png");
+  background-position: center center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border-radius: 8px;
+  border: 0px;
+  height: 100%;
 }
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 #noData {
-	background-image: url('../../public/5928294_3009287.jpg');
-	background-position: center center;
-	background-size: cover;
-	background-repeat: no-repeat;
+  background-image: url("../../public/5928294_3009287.jpg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .st0 {
-	fill: #b22234;
+  fill: #b22234;
 }
 .st1 {
-	fill: #ffffff;
+  fill: #ffffff;
 }
 .st2 {
-	fill: #3c3b6e;
+  fill: #3c3b6e;
 }
 .react-datepicker-wrapper {
-	width: 100%;
+  width: 100%;
 }
 .react-datepicker__input-container {
-	width: 100%;
+  width: 100%;
 }
 .react-datepicker__input-container input {
-	width: 100%;
+  width: 100%;
+}
+input[type="file"]::file-selector-button {
+  border: 2px solid gray;
+  box-shadow: #000;
+  border-radius: 5%;
+  padding: 5px;
+  background-color: #a29bfe;
+}
+
+input[type="file"]::file-selector-button:hover {
+  background-color: #81ecec;
+  border: 2px solid #00cec9;
+  cursor: pointer;
 }
