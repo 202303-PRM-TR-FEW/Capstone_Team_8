@@ -6,7 +6,6 @@ import { Suspense } from 'react';
 import { useLocale, NextIntlClientProvider, useMessages } from 'next-intl';
 import { notFound } from 'next/navigation';
 import PageLayout from '@/components/PageLayout';
-import ScrollToTop from '@/components/ScrollToTop';
 
 const poppins = Poppins({
 	subsets: ['latin'],

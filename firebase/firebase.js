@@ -1,49 +1,49 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { enqueueSnackbar } from "notistack";
-import { createTranslator } from "next-intl";
-import messagesEN from "../messages/en.json";
-import messagesTR from "../messages/tr.json";
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from 'firebase/firestore';
+import { getStorage } from 'firebase/storage';
+import { enqueueSnackbar } from 'notistack';
+import { createTranslator } from 'next-intl';
+import messagesEN from '../messages/en.json';
+import messagesTR from '../messages/tr.json';
 
 import {
-  query,
-  collection,
-  onSnapshot,
-  addDoc,
-  doc,
-  getDoc,
-  updateDoc,
-  arrayUnion,
-  deleteDoc,
-  where,
-  getDocs,
-  deleteField,
-  arrayRemove,
-} from "firebase/firestore";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+	query,
+	collection,
+	onSnapshot,
+	addDoc,
+	doc,
+	getDoc,
+	updateDoc,
+	arrayUnion,
+	deleteDoc,
+	where,
+	getDocs,
+	deleteField,
+	arrayRemove,
+} from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import {
-  getAuth,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
-  updateProfile,
-  updatePassword,
-} from "firebase/auth";
-import store from "../app/[locale]/store";
-import { FieldValue } from "firebase/firestore";
+	getAuth,
+	signInWithEmailAndPassword,
+	createUserWithEmailAndPassword,
+	onAuthStateChanged,
+	signOut,
+	updateProfile,
+	updatePassword,
+} from 'firebase/auth';
+import store from '../app/[locale]/store';
+import { FieldValue } from 'firebase/firestore';
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+	apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+	authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -52,334 +52,369 @@ export const storage = getStorage(app);
 export const auth = getAuth();
 export { FieldValue };
 const messages = {
-  en: messagesEN,
-  tr: messagesTR,
+	en: messagesEN,
+	tr: messagesTR,
 };
 
-let localeLang = localStorage.getItem("i18nextLng") || "en";
+let localeLang = localStorage.getItem('i18nextLng') || 'en';
 // let translator = createTranslator({
 // 	locale: localeLang,
 // 	messages: messages[localeLang],
 // });
 export const translate = (key) => {
-  let localeLang = localStorage.getItem("i18nextLng") || "en";
-  let translator = createTranslator({
-    locale: localeLang,
-    messages: messages[localeLang],
-  });
-  return translator(key);
+	let localeLang = localStorage.getItem('i18nextLng') || 'en';
+	let translator = createTranslator({
+		locale: localeLang,
+		messages: messages[localeLang],
+	});
+	return translator(key);
 };
 
 export const fetchAllData = () => {
-  const q = query(collection(db, "app"));
-  onSnapshot(q, (querySnapshot) => {
-    let dataArr = [];
-    querySnapshot.forEach((doc) => {
-      dataArr.push({ ...doc.data(), id: doc.id });
-    });
-    return dataArr;
-  });
+	const q = query(collection(db, 'app'));
+	onSnapshot(q, (querySnapshot) => {
+		let dataArr = [];
+		querySnapshot.forEach((doc) => {
+			dataArr.push({ ...doc.data(), id: doc.id });
+		});
+		return dataArr;
+	});
 };
 
-export const createProject = async (data) => {
-  try {
-    const result = await addDoc(collection(db, "app"), data);
+export const createProject = async (data, callback) => {
+	callback(true);
+	try {
+		const result = await addDoc(collection(db, 'app'), data);
 
-    enqueueSnackbar(translate("create_project_success"), {
-      variant: "success",
-    });
+		enqueueSnackbar(translate('create_project_success'), {
+			variant: 'success',
+		});
 
-    return result;
-  } catch (e) {
-    enqueueSnackbar(translate("create_project_error"), { variant: "error" });
-    console.log(e);
-  }
+		return result;
+	} catch (e) {
+		enqueueSnackbar(translate('create_project_error'), { variant: 'error' });
+		console.log(e);
+		callback(false);
+	}
 };
 export const createComment = async (data) => {
-  try {
-    const result = await addDoc(collection(db, "comments"), data);
-    enqueueSnackbar(translate("create_comment_success"), {
-      variant: "success",
-    });
-    return result;
-  } catch (e) {
-    enqueueSnackbar(translate("create_comment_error"), {
-      variant: "error",
-    });
-    console.log(e);
-  }
+	try {
+		const result = await addDoc(collection(db, 'comments'), data);
+		enqueueSnackbar(translate('create_comment_success'), {
+			variant: 'success',
+		});
+		return result;
+	} catch (e) {
+		enqueueSnackbar(translate('create_comment_error'), {
+			variant: 'error',
+		});
+		console.log(e);
+	}
 };
 
 export const createSubs = async (data) => {
-  try {
-    const result = await addDoc(collection(db, "newsletter"), data);
-    enqueueSnackbar(translate("create_subs_success"), {
-      variant: "success",
-    });
+	try {
+		const result = await addDoc(collection(db, 'newsletter'), data);
+		enqueueSnackbar(translate('create_subs_success'), {
+			variant: 'success',
+		});
 
-    return result;
-  } catch (e) {
-    enqueueSnackbar(translate("create_subs_error"), { variant: "error" });
-    console.log(e);
-  }
+		return result;
+	} catch (e) {
+		enqueueSnackbar(translate('create_subs_error'), { variant: 'error' });
+		console.log(e);
+	}
 };
-export const login = async (email, password) => {
-  try {
-    const { user } = await signInWithEmailAndPassword(auth, email, password);
+export const login = async (email, password, callback) => {
+	callback(true);
+	try {
+		const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-    enqueueSnackbar(translate("login_success"), { variant: "success" });
+		enqueueSnackbar(translate('login_success'), { variant: 'success' });
 
-    return user;
-  } catch (e) {
-    enqueueSnackbar(translate("login_error"), { variant: "error" });
-
-    console.log(e);
-  }
+		return user;
+	} catch (e) {
+		enqueueSnackbar(translate('login_error'), { variant: 'error' });
+		callback(false);
+		console.log(e);
+	}
 };
 
-export const logOut = async () => {
-  try {
-    await signOut(auth);
-    enqueueSnackbar(translate("logout_success"), { variant: "success" });
-  } catch (e) {
-    enqueueSnackbar(translate("logout_error"), { variant: "error" });
-    console.log(e);
-  }
+export const logOut = async (callback) => {
+	callback(true);
+	try {
+		await signOut(auth);
+		enqueueSnackbar(translate('logout_success'), { variant: 'success' });
+	} catch (e) {
+		enqueueSnackbar(translate('logout_error'), { variant: 'error' });
+		console.log(e);
+	} finally {
+		callback(false);
+	}
 };
-export const register = async (email, password, userName, imageUrl) => {
-  try {
-    if (userName.length < 1) {
-      enqueueSnackbar(translate("enter_username"), { variant: "error" });
-      return;
-    }
+export const register = async (
+	email,
+	password,
+	userName,
+	imageUrl,
+	callback
+) => {
+	callback(true);
+	try {
+		if (userName.length < 1) {
+			enqueueSnackbar(translate('enter_username'), { variant: 'error' });
+			return;
+		}
 
-    if (imageUrl.length < 1) {
-      enqueueSnackbar(translate("upload_image_error"), { variant: "error" });
-      return;
-    }
-    await createUserWithEmailAndPassword(auth, email, password).then(
-      async (res) => {
-        try {
-          await updateProfile(auth.currentUser, {
-            displayName: userName,
-            photoURL: imageUrl,
-          });
-        } catch (error) {
-          console.log(error);
-          enqueueSnackbar(translate("register_error"), { variant: "error" });
-        }
-        await addDoc(collection(db, "users"), {
-          uid: auth.currentUser.uid,
-          displayName: userName,
-          photoURL: imageUrl,
-        });
+		if (imageUrl.length < 1) {
+			enqueueSnackbar(translate('upload_image_error'), { variant: 'error' });
+			return;
+		}
+		await createUserWithEmailAndPassword(auth, email, password).then(
+			async (res) => {
+				try {
+					await updateProfile(auth.currentUser, {
+						displayName: userName,
+						photoURL: imageUrl,
+					});
+				} catch (error) {
+					callback(false);
+					console.log(error);
+					enqueueSnackbar(translate('register_error'), { variant: 'error' });
+				}
+				await addDoc(collection(db, 'users'), {
+					uid: auth.currentUser.uid,
+					displayName: userName,
+					photoURL: imageUrl,
+				});
 
-        enqueueSnackbar(translate("register_success"), {
-          variant: "success",
-        });
-      }
-    );
-  } catch (e) {
-    enqueueSnackbar(translate("register_error"), { variant: "error" });
-    console.log(e);
-  }
+				enqueueSnackbar(translate('register_success'), {
+					variant: 'success',
+				});
+			}
+		);
+		return auth.currentUser;
+	} catch (e) {
+		enqueueSnackbar(translate('register_error'), { variant: 'error' });
+		console.log(e);
+		callback(false);
+	}
 };
 
 export const userLoginStatus = onAuthStateChanged(auth, (user) => {
-  return user;
+	return user;
 });
 
 export const uploadImage = async (imageFile) => {
-  const storageRef = ref(storage, "bucket/" + imageFile.name);
-  return uploadBytes(storageRef, imageFile).then((snapshot) => {
-    return getDownloadURL(snapshot.ref);
-  });
+	const storageRef = ref(storage, 'bucket/' + imageFile.name);
+	return uploadBytes(storageRef, imageFile).then((snapshot) => {
+		return getDownloadURL(snapshot.ref);
+	});
 };
 export const handleUpload = async (e, callback) => {
-  e.preventDefault();
-  const file = e.target.files[0];
+	e.preventDefault();
+	const file = e.target.files[0];
 
-  try {
-    const downloadURL = await uploadImage(file);
-    callback(downloadURL);
-  } catch (error) {
-    enqueueSnackbar(translate("upload_error"), { variant: "error" });
-    console.error("Error uploading file:", error);
-  }
+	try {
+		const downloadURL = await uploadImage(file);
+		callback(downloadURL);
+	} catch (error) {
+		enqueueSnackbar(translate('upload_error'), { variant: 'error' });
+		console.error('Error uploading file:', error);
+	}
 };
 
 export const fetchDocById = async (id) => {
-  const docRef = doc(db, "app", id);
-  const docSnap = await getDoc(docRef);
+	const docRef = doc(db, 'app', id);
+	const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
-    return docSnap.data();
-  } else {
-    console.log("No such document!");
-  }
+	if (docSnap.exists()) {
+		return docSnap.data();
+	} else {
+		console.log('No such document!');
+	}
 };
 
 export const fetchDocByUserId = async (userId) => {
-  let dataArr = [];
-  const usersCollection = collection(db, "users");
-  const q = query(usersCollection, where("uid", "==", userId));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    dataArr.push({ ...doc.data(), id: doc.id });
-  });
-  return dataArr;
+	let dataArr = [];
+	const usersCollection = collection(db, 'users');
+	const q = query(usersCollection, where('uid', '==', userId));
+	const querySnapshot = await getDocs(q);
+	querySnapshot.forEach((doc) => {
+		dataArr.push({ ...doc.data(), id: doc.id });
+	});
+	return dataArr;
 };
 
 export const handleEdit = async (project, data) => {
-  try {
-    const payload = {
-      time: Date.now(),
-      donation: data.donation,
-      user: {
-        uid: auth.currentUser.uid,
-      },
-    };
-    await updateDoc(doc(db, "app", project), {
-      donations: arrayUnion(payload),
-    });
-    enqueueSnackbar(translate("donate_success"), { variant: "success" });
-  } catch (e) {
-    enqueueSnackbar(translate("donate_error"), { variant: "error" });
-    console.log(e);
-  }
+	try {
+		const payload = {
+			time: Date.now(),
+			donation: data.donation,
+			user: {
+				uid: auth.currentUser.uid,
+			},
+		};
+		await updateDoc(doc(db, 'app', project), {
+			donations: arrayUnion(payload),
+		});
+		enqueueSnackbar(translate('donate_success'), { variant: 'success' });
+	} catch (e) {
+		enqueueSnackbar(translate('donate_error'), { variant: 'error' });
+		console.log(e);
+	}
 };
 export const handleDelete = async (id) => {
-  try {
-    await deleteDoc(doc(db, "app", id));
-    enqueueSnackbar(translate("delete_project_success"), {
-      variant: "success",
-    });
-  } catch (e) {
-    enqueueSnackbar(translate("delete_project_error"), { variant: "error" });
-    console.log(e);
-  }
+	try {
+		await deleteDoc(doc(db, 'app', id));
+		enqueueSnackbar(translate('delete_project_success'), {
+			variant: 'success',
+		});
+	} catch (e) {
+		enqueueSnackbar(translate('delete_project_error'), { variant: 'error' });
+		console.log(e);
+	}
 };
 
 export const handleCommentDelete = async (id) => {
-  try {
-    await deleteDoc(doc(db, "comments", id));
-    enqueueSnackbar(translate("delete_comment_success"), {
-      variant: "success",
-    });
-  } catch (e) {
-    enqueueSnackbar(translate("delete_comment_error"), { variant: "error" });
-    console.log(e);
-  }
+	try {
+		await deleteDoc(doc(db, 'comments', id));
+		enqueueSnackbar(translate('delete_comment_success'), {
+			variant: 'success',
+		});
+	} catch (e) {
+		enqueueSnackbar(translate('delete_comment_error'), { variant: 'error' });
+		console.log(e);
+	}
 };
 
-export const updateUserPassword = async (currentPassword, newPassword) => {
-  const userEmail = auth.currentUser.email;
-  try {
-    const { user } = await signInWithEmailAndPassword(
-      auth,
-      userEmail,
-      currentPassword
-    );
+export const updateUserPassword = async (
+	currentPassword,
+	newPassword,
+	callback
+) => {
+	const userEmail = auth.currentUser.email;
+	callback(true);
+	try {
+		const { user } = await signInWithEmailAndPassword(
+			auth,
+			userEmail,
+			currentPassword
+		);
 
-    if (user) {
-      updatePassword(user, newPassword)
-        .then(() => {
-          // Update successful.
-          enqueueSnackbar(translate("password_change_success"), {
-            variant: "success",
-          });
-        })
-        .catch((error) => {
-          enqueueSnackbar(translate("password_change_error"), {
-            variant: "error",
-          });
-        });
-    }
-  } catch (error) {
-    enqueueSnackbar(translate("password_change_error"), {
-      variant: "error",
-    });
-    console.log(error);
-  }
+		if (user) {
+			updatePassword(user, newPassword)
+				.then(() => {
+					// Update successful.
+					enqueueSnackbar(translate('password_change_success'), {
+						variant: 'success',
+					});
+					callback(false);
+				})
+				.catch((error) => {
+					enqueueSnackbar(translate('password_change_error'), {
+						variant: 'error',
+					});
+				})
+				.finally(() => {
+					callback(false);
+				});
+		}
+	} catch (error) {
+		enqueueSnackbar(translate('password_change_error'), {
+			variant: 'error',
+		});
+		callback(false);
+		console.log(error);
+	}
 };
 
-export const updateUserProfilePicture = (newImage) => {
-  const user = auth.currentUser;
-  if (newImage.length < 1) {
-    enqueueSnackbar(translate("upload_image"), { variant: "error" });
-    return;
-  }
-  updateProfile(user, {
-    photoURL: newImage,
-  }).then(async () => {
-    // Update successful.
+export const updateUserProfilePicture = async (newImage, callback) => {
+	const user = auth.currentUser;
+	if (newImage.length < 1) {
+		enqueueSnackbar(translate('upload_image'), { variant: 'error' });
+		return;
+	}
+	callback(true);
+	await updateProfile(user, {
+		photoURL: newImage,
+	})
+		.then(async () => {
+			// Update successful.
 
-    const usersCollection = collection(db, "users");
-    const q = query(usersCollection, where("uid", "==", user.uid));
-    const querySnapshot = await getDocs(q);
+			const usersCollection = collection(db, 'users');
+			const q = query(usersCollection, where('uid', '==', user.uid));
+			const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      updateDoc(doc.ref, { photoURL: newImage });
-    });
-    enqueueSnackbar(translate("image_change_success"), { variant: "success" });
-  });
+			querySnapshot.forEach((doc) => {
+				updateDoc(doc.ref, { photoURL: newImage });
+			});
+			callback(false);
+			enqueueSnackbar(translate('image_change_success'), {
+				variant: 'success',
+			});
+		})
+		.catch((error) => {
+			callback(false);
+			enqueueSnackbar(translate('image_change_error'), { variant: 'error' });
+		});
 };
 
 export const updateFollow = async (data) => {
-  try {
-    const user = auth.currentUser;
-    const payload = data;
+	try {
+		const user = auth.currentUser;
+		const payload = data;
 
-    const usersCollection = collection(db, "users");
-    const q = query(usersCollection, where("uid", "==", user.uid));
-    const querySnapshot = await getDocs(q);
+		const usersCollection = collection(db, 'users');
+		const q = query(usersCollection, where('uid', '==', user.uid));
+		const querySnapshot = await getDocs(q);
 
-    querySnapshot.forEach((doc) => {
-      updateDoc(doc.ref, { followed: arrayUnion(payload) });
-    });
-    enqueueSnackbar(translate("follow_success"), { variant: "success" });
-  } catch (e) {
-    enqueueSnackbar(translate("follow_error"), { variant: "error" });
-    console.log(e);
-  }
+		querySnapshot.forEach((doc) => {
+			updateDoc(doc.ref, { followed: arrayUnion(payload) });
+		});
+		enqueueSnackbar(translate('follow_success'), { variant: 'success' });
+	} catch (e) {
+		enqueueSnackbar(translate('follow_error'), { variant: 'error' });
+		console.log(e);
+	}
 };
 
 export const updateUserDisplayName = (displayName) => {
-  const user = auth.currentUser;
-  if (displayName.length < 1) {
-    alert("Please upload an image!");
-    return;
-  }
+	const user = auth.currentUser;
+	if (displayName.length < 1) {
+		alert('Please upload an image!');
+		return;
+	}
 
-  updateProfile(user, {
-    displayName: displayName,
-  })
-    .then(async () => {
-      // Update successful.
-      alert("Successfully changed!");
-      const usersCollection = collection(db, "users");
-      const q = query(usersCollection, where("uid", "==", user.uid));
-      const querySnapshot = await getDocs(q);
+	updateProfile(user, {
+		displayName: displayName,
+	})
+		.then(async () => {
+			// Update successful.
+			alert('Successfully changed!');
+			const usersCollection = collection(db, 'users');
+			const q = query(usersCollection, where('uid', '==', user.uid));
+			const querySnapshot = await getDocs(q);
 
-      querySnapshot.forEach((doc) => {
-        updateDoc(doc.ref, { displayName: displayName });
-      });
-    })
-    .catch((error) => {
-      alert(error.message);
-    });
+			querySnapshot.forEach((doc) => {
+				updateDoc(doc.ref, { displayName: displayName });
+			});
+		})
+		.catch((error) => {
+			alert(error.message);
+		});
 };
 
 export const updateProject = async (id, data) => {
-  try {
-    await updateDoc(doc(db, "app", id), data);
-    enqueueSnackbar(translate("update_project_success"), {
-      variant: "success",
-    });
-  } catch (e) {
-    enqueueSnackbar(translate("update_project_error"), { variant: "error" });
-    console.log(e);
-  }
+	try {
+		await updateDoc(doc(db, 'app', id), data);
+		enqueueSnackbar(translate('update_project_success'), {
+			variant: 'success',
+		});
+	} catch (e) {
+		enqueueSnackbar(translate('update_project_error'), { variant: 'error' });
+		console.log(e);
+	}
 };
 
 export default app;

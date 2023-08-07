@@ -7,12 +7,13 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { enqueueSnackbar } from 'notistack';
 import { useTranslations, useLocale } from 'next-intl';
 import { useRouter } from 'next-intl/client';
+import Loading from '@/app/[locale]/loading';
 
 export default function ResetPassword() {
 	const locale = useLocale();
 	const t = useTranslations();
 	const [loading, setLoading] = useState(false);
-	
+
 	const schema = yup.object().shape({
 		email: yup
 			.string()
@@ -35,23 +36,27 @@ export default function ResetPassword() {
 					variant: 'success',
 				});
 				router.push('/login', { locale: locale });
-				setLoading(false);
 			})
 			.catch((error) => {
-				setLoading(false);
+				enqueueSnackbar(error.message, {
+					variant: 'error',
+				}).finally(() => {
+					setLoading(false);
+				});
 			});
 	};
 
 	return (
 		<>
+			{loading && <Loading />}
 			<div className='flex w-full pt-24 h-full  flex-col justify-center items-center px-2'>
 				{' '}
 				<form
 					onSubmit={handleSubmit(onSubmit)}
-					className='flex  flex-col   justify-center    h-full overflow-auto   sm:px-4 px-2 pb-2 pt-12  w-full max-w-[600px]'
+					className='flex  flex-col   justify-center  gap-2  h-full overflow-auto   sm:px-4 px-2 pb-2 pt-12  w-full max-w-[600px]'
 				>
 					<div>
-						<h1 className='text-center text-2xl font-bold tracking-tight text-gray-900'>
+						<h1 className='text-center text-3xl mb-4 font-bold tracking-tight text-gray-900'>
 							{t('reset_password')}
 						</h1>
 					</div>
@@ -73,7 +78,7 @@ export default function ResetPassword() {
 					<div className=' w-full'>
 						<button
 							type='submit'
-							className='group relative flex w-full justify-center rounded-md border border-transparent  bg-blue-600 py-2 px-4 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+							className='group relative flex w-full justify-center rounded-md border border-transparent  bg-blue-600 py-2 px-4 text-sm sm:text-base md:text-md lg:text-lg font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
 						>
 							{t('reset')}
 						</button>
