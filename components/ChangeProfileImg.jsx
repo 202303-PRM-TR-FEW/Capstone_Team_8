@@ -70,12 +70,19 @@ function ChangeProfileImg({ setLoading }) {
 						</div>
 						<div className='flex flex-col justify-center items-center'>
 							<input
+								id='file-input'
 								type='file'
 								{...imageRegister('img')}
 								accept='image/png, image/jpeg, image/jpg'
 								onChange={handleFileUpload}
 								className='shadow appearance-none border rounded py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
 							/>
+							<label
+                      htmlFor='file-input'
+                      className='rounded-md border border-transparent shadow-sm  bg-zinc-500 p-2 text-white hover:bg-zinc-600 cursor-pointer '
+                    >
+                      {t("select_image")}
+                    </label>
 							<p
 								className={`text-red-700 px-3 ${
 									imageErrors.img ? '' : 'invisible'
