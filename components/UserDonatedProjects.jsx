@@ -31,7 +31,7 @@ function UserDonatedProjects({ user, userDonatedProjects }) {
           </div>
         </div>
         {userDonatedProjects?.length > 0 ? (
-          <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-4 lg:justify-start justify-center items-center '>
+          <div className='flex flex-col  lg:flex-row  lg:flex-wrap  w-full gap-2 lg:justify-start justify-center items-center '>
             {userDonatedProjects?.map((project) => {
               return (
                 <ProjectCard project={project} key={project.id}></ProjectCard>
