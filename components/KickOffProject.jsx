@@ -257,7 +257,6 @@ function KickOffProject() {
                       <div>
                         <select
                           {...register("category")}
-                          placeholder='Enter the category of your project'
                           className=' appearance-none border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
                         >
                           <option value='Select a category'>
@@ -280,25 +279,32 @@ function KickOffProject() {
                     </div>
                   </div>
                 </div>
-                <div className='mb-4'>
+                <div className=' mb-4 border-b-2 border-black  w-full  text-black leading-tight focus:outline-none focus:shadow-outline'>
                   <label
                     id='img_form'
-                    className='block text-gray-700 text-sm font-bold mb-2'
+                    className='block text-gray-700 text-sm font-bold  w-full'
                   >
-                    <p>{t("upload_picture")}</p>
-                    <p className='opacity-80 text-blue-400'>
+                    <p className='pb-2'>{t("upload_picture")}</p>
+                    <p className='opacity-80 text-blue-400 pb-2'>
                       {t("upload_picture_note")}
                     </p>
                   </label>
 
-                  <div>
+                  <div className='w-full flex flex-col justify-center items-center'>
                     <input
                       type='file'
+                      id='file-input'
                       {...register("img")}
                       accept='image/png, image/jpeg, image/jpg'
                       onChange={handleFileUpload}
-                      className=' border-b-2 border-black  w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline'
+                      className=' border-b-2 border-black  w-full  text-black leading-tight focus:outline-none focus:shadow-outline'
                     />
+                    <label
+                      htmlFor='file-input'
+                      className='rounded-md border border-transparent shadow-sm  bg-zinc-500 p-2 text-white hover:bg-zinc-600 cursor-pointer '
+                    >
+                      {t("select_image")}
+                    </label>
                     {imageUrl !== "" ? (
                       ""
                     ) : (
@@ -312,8 +318,8 @@ function KickOffProject() {
                     )}
                     {imageUrl !== "" && (
                       <>
-                        <p>{t("image_upload_file")}</p>
-                        <div className=' relative w-full h-48     '>
+                        <p className='py-2'>{t("image_upload_file")}</p>
+                        <div className=' relative w-full h-48 '>
                           <Image
                             src={imageUrl || "/images/placeholder.png"}
                             layout='fill'

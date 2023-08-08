@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useTranslations, useLocale } from "next-intl";
 import { useRouter } from "next-intl/client";
 import Loading from "../loading";
+import Image from "next/legacy/image";
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
@@ -90,7 +91,7 @@ export default function Register() {
               </div>
               <div className='mt-8 space-y-6' method=''>
                 <input type='hidden' name='remember' value='true' />
-                <div className=' space-y-4 rounded-md shadow-sm'>
+                <div className=' '>
                   <div>
                     <label htmlFor='email-address'>{t("user_name")}</label>
                     <input
@@ -229,28 +230,47 @@ export default function Register() {
                       {errors.confirmPassword?.message || "Placeholder"}
                     </p>
                   </div>
-                  <div>
-                    <label htmlFor='password'>{t("upload_picture")} </label>
+                  <p>{t("upload_picture")}</p>
+                  <div className=' flex flex-col justify-center items-center text-center w-full  rounded-md border border-gray-300  text-gray-900 sm:text-sm'>
                     <input
                       {...register("img")}
+                      id='file-input'
                       onChange={handleFileUpload}
                       type='file'
                       accept='image/png, image/jpeg, image/jpg'
-                      className='relative block w-full appearance-none rounded-none rounded-b-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:z-10 focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm'
                     />
-
-                    {image !== "" ? (
-                      ""
-                    ) : (
-                      <p
-                        className={`text-red-700 px-3 ${
-                          errors.img ? "" : "invisible"
-                        }`}
-                      >
-                        {errors.img?.message || "Placeholder"}
-                      </p>
-                    )}
+                    <label
+                      htmlFor='file-input'
+                      className='w-full rounded-md border border-transparent shadow-sm  bg-zinc-500 p-2 text-white hover:bg-zinc-600 cursor-pointer '
+                    >
+                      {t("select_image")}
+                    </label>
                   </div>
+                  {image !== "" ? (
+                    ""
+                  ) : (
+                    <p
+                      className={`text-red-700 border border-transparent  px-3 ${
+                        errors.img ? "" : "invisible"
+                      }`}
+                    >
+                      {errors.img?.message || "Placeholder"}
+                    </p>
+                  )}
+                  {image !== "" && (
+                    <>
+                      <p className='py-2'>{t("image_upload_file")}</p>
+                      <div className=' relative h-[20svh] sm:h-[25vh]  lg:h-[30svh] w-full '>
+                        <Image
+                          src={image || "/images/placeholder.png"}
+                          layout='fill'
+                          loading='lazy'
+                          className='rounded '
+                          alt='profile-picture'
+                        />
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <div>
