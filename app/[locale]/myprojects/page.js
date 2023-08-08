@@ -96,15 +96,19 @@ function MyProject(props) {
           </div>
         ) : (
           <>
-            <div className='flex flex-col sm:justify-start sm:items-start justify-center items-center gap-4 p-6'>
+            <div className='flex flex-col md:justify-start md:items-start justify-center items-center sm:gap-4 sm:p-6 p-2'>
               <div>
-                <h1 className='font-bold text-3xl'>{t("your_projects")}</h1>
+                <h1 className='font-bold sm:text-3xl text-lg py-2'>
+                  {t("your_projects")}
+                </h1>
               </div>
               <div>
-                <p>{t("your_projects_desc")}</p>
+                <p className='font-bold sm:text-lg text-sm'>
+                  {t("your_projects_desc")}
+                </p>
               </div>
             </div>
-            <div className='flex flex-wrap justify-start items-start w-full px-2 gap-4'>
+            <div className='flex flex-wrap md:justify-start md:items-start justify-center items-center w-full px-2 gap-2'>
               {filteredData.map((project) => {
                 return (
                   <div key={project.id} className=' flex justify-center  '>
