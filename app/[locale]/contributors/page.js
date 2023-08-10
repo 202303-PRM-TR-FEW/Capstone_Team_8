@@ -17,7 +17,7 @@ const contributorsData = [
     id: 2,
     name: "Cenk Erdönmez",
     image: "/1685543987007.jpg",
-    linkedin: "https://www.linkedin.com/in/cenk-erd%C3%B6nmez-b3a41324b/",
+    linkedin: "https://www.linkedin.com/in/cenkerdonmez/",
     github: "https://github.com/CenkErdonmez",
   },
   {
