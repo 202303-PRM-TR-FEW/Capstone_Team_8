@@ -5,7 +5,7 @@ import { logOut, auth } from '../firebase/firebase';
 import SearchBar from './SearchBar';
 import LocaleSwitcher from './LocaleSwitcher';
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter } from 'next-intl/client';
+import { useRouter, usePathname } from 'next-intl/client';
 import Link from 'next-intl/link';
 import { openAddProject } from '../app/[locale]/features/startproject/kickoff';
 import Loading from '@/app/[locale]/loading';
@@ -13,6 +13,7 @@ const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isSearchBarOpen, setIsSeachBarOpen] = useState(false);
 	const locale = useLocale();
+	const pathname = usePathname();
 	const [loading, setLoading] = useState(false);
 	const [user, setUser] = useState(null);
 	const t = useTranslations();
@@ -25,8 +26,8 @@ const Navbar = () => {
 			}
 		});
 	}, [auth]);
-
 	const router = useRouter();
+
 	const kickOffModalStatus = useSelector(
 		(state) => state.isStartProjectOpen.modalOpen
 	);
@@ -70,7 +71,9 @@ const Navbar = () => {
 						<ul className='flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 '>
 							<li>
 								<Link
-									className='block py-2 pl-3 pr-4 text-black bg-blue-700 rounded md:bg-transparent hover:text-gray-700 hover:drop-shadow-xl  '
+									className={`${
+										pathname == '/projects' ? 'underline' : ''
+									} block py-2 pl-3 pr-4 text-black bg-blue-700 rounded md:bg-transparent hover:text-gray-700 hover:drop-shadow-xl `}
 									href='/projects'
 									locale={locale}
 								>
@@ -84,7 +87,9 @@ const Navbar = () => {
 								) : (
 									<li>
 										<Link
-											className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
+											className={`${
+												pathname == '/myprojects' ? 'underline' : ''
+											} block py-2 pl-3 pr-4 text-black bg-blue-700 rounded md:bg-transparent hover:text-gray-700 hover:drop-shadow-xl `}
 											href='/myprojects'
 											locale={locale}
 										>
@@ -97,7 +102,9 @@ const Navbar = () => {
 								) : (
 									<li>
 										<Link
-											className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent hover:text-gray-700 hover:drop-shadow-xl '
+											className={`${
+												pathname == '/profile' ? 'underline' : ''
+											} block py-2 pl-3 pr-4 text-black bg-blue-700 rounded md:bg-transparent hover:text-gray-700 hover:drop-shadow-xl `}
 											href='/profile'
 											locale={locale}
 										>

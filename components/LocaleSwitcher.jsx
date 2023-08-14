@@ -31,7 +31,7 @@ function LocaleSwitcher() {
 	return (
 		<div ref={ref} className='flex items-center justify-center relative'>
 			<svg
-				className='w-6 h-6'
+				className='w-6 h-6 hover:scale-105'
 				id='Layer_1'
 				data-name='Layer 1'
 				viewBox='0 0 512 512'
