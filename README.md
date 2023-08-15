@@ -28,7 +28,7 @@
   <br/>
   <p>
     On this page you can see Project of The Week, Most Successfull Project, Top Donors. <br/>
-    See the projects that are going and can filter them by their categories.
+    See the projects that are on going and can filter them by their categories.
   </p>
   <img src="https://github.com/202303-PRM-TR-FEW/Capstone_Team_8/assets/113177005/c0c80d65-2c33-429c-807a-43ee45803c02"/>
 </p>
