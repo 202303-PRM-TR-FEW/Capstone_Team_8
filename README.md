@@ -3,7 +3,7 @@
   <img alt="Version" src="https://img.shields.io/badge/version-0.1.0-blue.svg?cacheSeconds=2592000" />
 </p>
 
-> A crowdfunding app where you can start a new campain or support a existing one
+> A multilangual crowdfunding app where you can login via firebase authentication, create new projects or fund the ones other people started. Also you can comment on the projects to show your thoughts and follow users and see their profiles where it shows their projects or the projects they support
 
 <h2 align="left" >Screens</h2>
 
@@ -68,6 +68,7 @@
 
 
 ## Dependancies 
+- Next/i18n <br/>
 -React Hook Forms <br/>
 -Redux <br/>
 -Firebase <br/>
