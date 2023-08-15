@@ -67,8 +67,8 @@
 </p>
 
 
-## Dependancies 
-- Next/i18n <br/>
+## Dependencies
+-Next/i18n <br/>
 -React Hook Forms <br/>
 -Redux <br/>
 -Firebase <br/>
